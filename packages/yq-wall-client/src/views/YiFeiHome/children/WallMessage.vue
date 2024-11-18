@@ -397,82 +397,74 @@ const clickSwitch = (e: string) => {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .wall-message {
   min-height: 800px;
   padding-top: 52px;
-
-  .title {
-    padding-top: 48px;
-    padding-bottom: 8px;
-    font-size: 56px;
-    color: $gray-1;
-    text-align: center;
-    font-weight: 600;
-  }
-  .individual {
-    color: $gray-2;
-    text-align: center;
-  }
-
-  .label {
-    display: flex;
-    justify-content: center;
-    margin-top: 40px;
-    .item {
-      padding: 0 15px;
-      line-height: 28px;
-      margin: 6px;
-      color: $gray-2;
-      cursor: pointer;
-      transition: all .2s;
-      &.selected {
-        color: $gray-1;
-        font-weight: 600;
-        border: 1px solid $gray-1;
-        border-radius: 14px;
-      }
-    }
-  }
-
-  .card {
-    display: flex;
-    flex-wrap: wrap;
-    padding-top: 28px;
-    margin: auto;
-
-    .card-item {
-      margin: 6px;
-    }
-
-    .cardSelected {
-      border: 1px solid $primary-color;
-    }
-  }
-
-  .add {
-    width: 56px;
-    height: 56px;
-    background-color: $gray-1;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.08);
-    border-radius: 28px;
-    position: fixed;
-    right: 30px;
-    bottom: v-bind(addBtnBottom);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: $gray-10;
-    transition: all .3s;
-  }
-
-  .photo {
-    column-count: 5;
-    column-gap: 4px;
-
-    counter-reset: count;
-    width: 88%;
-    margin: 0 auto;
-  }
+}
+.wall-message .title {
+  padding-top: 48px;
+  padding-bottom: 8px;
+  font-size: 56px;
+  color: #202020;
+  text-align: center;
+  font-weight: 600;
+}
+.wall-message .individual {
+  color: #5B5B5B;
+  text-align: center;
+}
+.wall-message .label {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+.wall-message .label .item {
+  padding: 0 15px;
+  line-height: 28px;
+  margin: 6px;
+  color: #5B5B5B;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.wall-message .label .item.selected {
+  color: #202020;
+  font-weight: 600;
+  border: 1px solid #202020;
+  border-radius: 14px;
+}
+.wall-message .card {
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 28px;
+  margin: auto;
+}
+.wall-message .card .card-item {
+  margin: 6px;
+}
+.wall-message .card .cardSelected {
+  border: 1px solid #3B73F0;
+}
+.wall-message .add {
+  width: 56px;
+  height: 56px;
+  background-color: #202020;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.08);
+  border-radius: 28px;
+  position: fixed;
+  right: 30px;
+  bottom: v-bind(addBtnBottom);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  transition: all 0.3s;
+}
+.wall-message .photo {
+  column-count: 5;
+  column-gap: 4px;
+  counter-reset: count;
+  width: 88%;
+  margin: 0 auto;
 }
 </style>

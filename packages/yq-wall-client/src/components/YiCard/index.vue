@@ -58,45 +58,43 @@ const itemClick = () => {
   flex-direction: column;
   justify-content: space-between;
   cursor: pointer;
-
-  .header {
-    display: flex;
-    justify-content: space-between;
-    padding-bottom: 16px;
-    span {
-      font-size: $size-12;
-      color: $gray-3;
-    }
-  }
-  .message {
-    height: 140px;
-    font-family: XiaoKeNaiNao;
-    font-size: 14px;
-    color: $gray-1;
-  }
-  .footer {
-    display: flex;
-    justify-content: space-between;
-
-    .footer-left {
-      display: flex;
-      .item {
-        display: flex;
-        align-items: center;
-        padding-right: 8px;
-      }
-      .value {
-        font-size: $size-12;
-        color: $gray-3;
-        padding-left: 4px;
-      }
-    }
-    .name {
-      font-family: XiaoKeNaiNao;
-      font-size: 16px;
-      color: $gray-1;
-      font-weight: 700;
-    }
-  }
+}
+.yi-card .header {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 16px;
+}
+.yi-card .header span {
+  font-size: 12px;
+  color: #949494;
+}
+.yi-card .message {
+  height: 140px;
+  font-family: XiaoKeNaiNao;
+  font-size: 14px;
+  color: #202020;
+}
+.yi-card .footer {
+  display: flex;
+  justify-content: space-between;
+}
+.yi-card .footer .footer-left {
+  display: flex;
+}
+.yi-card .footer .footer-left .item {
+  display: flex;
+  align-items: center;
+  padding-right: 8px;
+}
+.yi-card .footer .footer-left .value {
+  font-size: 12px;
+  color: #949494;
+  padding-left: 4px;
+}
+.yi-card .footer .name {
+  font-family: XiaoKeNaiNao;
+  font-size: 16px;
+  color: #202020;
+  font-weight: 700;
 }
 </style>

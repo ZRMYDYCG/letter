@@ -103,93 +103,86 @@ const props = defineProps({
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 @font-face {
   font-family: XiaoKeNaiNao;
   src: url("@/assets/fonts/xknn.ttf");
 }
-
 .card-detail {
   padding: 0 20px;
-  .top {
-    padding: 10px;
-    .revoke {
-      color: $primary-color;
-      padding-right: 30px;
-      cursor: pointer;
-    }
-    .report {
-      color: $warning-color;
-      cursor: pointer;
-    }
-  }
-
-  .form {
-    margin-top: 20px;
-    .message {
-      background: none;
-      border: 1px solid rgba(148, 148, 148, 1);
-      resize: none;
-      width: 100%;
-      padding: 8px;
-      font-size: 16px;
-      font-family: XiaoKeNaiNao;
-    }
-    .send {
-      display: flex;
-      margin-top: 10px;
-      justify-content: space-between;
-      .inp {
-        width: 200px;
-        padding: 8px;
-        background: none;
-        font-family: XiaoKeNaiNao;
-        font-weight: 600;
-        font-size: 16px;
-        border: 1px solid rgba(148, 148, 148, 1);
-      }
-    }
-  }
-
-  .title {
-    margin-top: 20px;
-    padding-bottom: 30px;
-    color: $gray-1;
-    font-size: 16px;
-    font-weight: 600;
-    font-family: XiaoKeNaiNao;
-  }
-
-  .comment {
-    .item {
-      display: flex;
-      padding-bottom: 30px;
-
-      .user-head {
-        flex: none;
-        width: 28px;
-        height: 28px;
-        border-radius: 14px;
-      }
-      .detail {
-        padding-left: 8px;
-        .detail-top {
-          display: flex;
-          align-items: center;
-          .name {
-            font-weight: 600;
-          }
-          .time {
-            font-size: 12px;
-            padding-left: 4px;
-            color: $gray-3;
-          }
-        }
-        .detail-main {
-          padding-top: 4px;
-        }
-      }
-    }
-  }
+}
+.card-detail .top {
+  padding: 10px;
+}
+.card-detail .top .revoke {
+  color: #3B73F0;
+  padding-right: 30px;
+  cursor: pointer;
+}
+.card-detail .top .report {
+  color: #F67770;
+  cursor: pointer;
+}
+.card-detail .form {
+  margin-top: 20px;
+}
+.card-detail .form .message {
+  background: none;
+  border: 1px solid #949494;
+  resize: none;
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  font-family: XiaoKeNaiNao;
+}
+.card-detail .form .send {
+  display: flex;
+  margin-top: 10px;
+  justify-content: space-between;
+}
+.card-detail .form .send .inp {
+  width: 200px;
+  padding: 8px;
+  background: none;
+  font-family: XiaoKeNaiNao;
+  font-weight: 600;
+  font-size: 16px;
+  border: 1px solid #949494;
+}
+.card-detail .title {
+  margin-top: 20px;
+  padding-bottom: 30px;
+  color: #202020;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: XiaoKeNaiNao;
+}
+.card-detail .comment .item {
+  display: flex;
+  padding-bottom: 30px;
+}
+.card-detail .comment .item .user-head {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 14px;
+}
+.card-detail .comment .item .detail {
+  padding-left: 8px;
+}
+.card-detail .comment .item .detail .detail-top {
+  display: flex;
+  align-items: center;
+}
+.card-detail .comment .item .detail .detail-top .name {
+  font-weight: 600;
+}
+.card-detail .comment .item .detail .detail-top .time {
+  font-size: 12px;
+  padding-left: 4px;
+  color: #949494;
+}
+.card-detail .comment .item .detail .detail-main {
+  padding-top: 4px;
 }
 </style>

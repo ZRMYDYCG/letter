@@ -1,0 +1,10 @@
+/*Custom CSS*/
+@import url('./commons/index.css');
+@import url('./reset/index.css');
+@import url('./variable/index.css');
+
+/*Tailwind CSS*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+

@@ -110,156 +110,146 @@ const handleInsertWallApi = async () => {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 @font-face {
   font-family: XiaoKeNaiNao;
   src: url("@/assets/fonts/xknn.ttf");
 }
 .new-card {
   padding: 0 20px;
-  .color-list {
-    display: flex;
-    padding-bottom: 12px;
-    align-items: center;
-
-    .item {
-      width: 24px;
-      height: 24px;
-      margin-right: 8px;
-      cursor: pointer;
-    }
-    .selected {
-      border: 1px solid rgba(59, 115, 240, 1);
-    }
-  }
-  .add-photo {
-    padding-bottom: 20px;
-    position: relative;
-
-    #file {
-      position: absolute;
-      z-index: 10;
-      top: -10px;
-      height: 74px;
-      width: 64px;
-      opacity: 0;
-      cursor: pointer;
-    }
-
-    .add-bt {
-      width: 64px;
-      height: 64px;
-      border: 1px solid $gray-3;
-      border-radius: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-  }
-
-  .photo-div {
-    max-height: 200px;
-    width: 100%;
-    background: #f0f0f0;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-
-    img {
-      width: 100%;
-    }
-  }
-
-  .change-bt {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-    background: rgba(0,0,0,0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .card-main {
-    height: 240px;
-    width: 100%;
-    padding: 12px;
-
-    .message {
-      background: none;
-      border: none;
-      resize: none;
-      height: 172px;
-      width: 100%;
-      padding: 8px;
-      font-size: 16px;
-      font-family: XiaoKeNaiNao;
-    }
-    .name {
-      width: 100%;
-      padding: 8px;
-      background: none;
-      border: 1px solid $gray-10;
-      font-family: XiaoKeNaiNao;
-      font-weight: 600;
-      font-size: 16px;
-    }
-  }
-  .labels {
-    margin-top: 20px;
-    .title {
-      color: $gray-1;
-      font-size: 16px;
-      font-weight: 600;
-      font-family: XiaoKeNaiNao;
-    }
-    .list {
-      display: flex;
-      flex-wrap: wrap;
-      .item {
-        padding: 2px 10px;
-        border-radius: 20px;
-        margin: 16px 4px 0 0;
-        cursor: pointer;
-        color: $gray-2;
-        transition: all .3s;
-      }
-      .labelSelected {
-        background: #EBEBEB;
-        font-weight: 600;
-        color: $gray-1;
-      }
-    }
-  }
-
-  .state {
-    margin-top: 20px;
-    .title {
-      color: $gray-1;
-      font-size: 16px;
-      font-weight: 600;
-      font-family: XiaoKeNaiNao;
-    }
-    .detail {
-      margin-top: 10px;
-      font-size: 12px;
-      color: $gray-3;
-      line-height: 18px;
-    }
-  }
-
-  .footer {
-    padding: 20px 0;
-    display: flex;
-    width: 100%;
-    .confirm {
-      margin-left: 15px;
-      flex: 2;
-    }
-  }
+}
+.new-card .color-list {
+  display: flex;
+  padding-bottom: 12px;
+  align-items: center;
+}
+.new-card .color-list .item {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  cursor: pointer;
+}
+.new-card .color-list .selected {
+  border: 1px solid #3b73f0;
+}
+.new-card .add-photo {
+  padding-bottom: 20px;
+  position: relative;
+}
+.new-card .add-photo #file {
+  position: absolute;
+  z-index: 10;
+  top: -10px;
+  height: 74px;
+  width: 64px;
+  opacity: 0;
+  cursor: pointer;
+}
+.new-card .add-photo .add-bt {
+  width: 64px;
+  height: 64px;
+  border: 1px solid #949494;
+  border-radius: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.new-card .photo-div {
+  max-height: 200px;
+  width: 100%;
+  background: #f0f0f0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+.new-card .photo-div img {
+  width: 100%;
+}
+.new-card .change-bt {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.new-card .card-main {
+  height: 240px;
+  width: 100%;
+  padding: 12px;
+}
+.new-card .card-main .message {
+  background: none;
+  border: none;
+  resize: none;
+  height: 172px;
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  font-family: XiaoKeNaiNao;
+}
+.new-card .card-main .name {
+  width: 100%;
+  padding: 8px;
+  background: none;
+  border: 1px solid #ffffff;
+  font-family: XiaoKeNaiNao;
+  font-weight: 600;
+  font-size: 16px;
+}
+.new-card .labels {
+  margin-top: 20px;
+}
+.new-card .labels .title {
+  color: #202020;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: XiaoKeNaiNao;
+}
+.new-card .labels .list {
+  display: flex;
+  flex-wrap: wrap;
+}
+.new-card .labels .list .item {
+  padding: 2px 10px;
+  border-radius: 20px;
+  margin: 16px 4px 0 0;
+  cursor: pointer;
+  color: #5B5B5B;
+  transition: all 0.3s;
+}
+.new-card .labels .list .labelSelected {
+  background: #EBEBEB;
+  font-weight: 600;
+  color: #202020;
+}
+.new-card .state {
+  margin-top: 20px;
+}
+.new-card .state .title {
+  color: #202020;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: XiaoKeNaiNao;
+}
+.new-card .state .detail {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #949494;
+  line-height: 18px;
+}
+.new-card .footer {
+  padding: 20px 0;
+  display: flex;
+  width: 100%;
+}
+.new-card .footer .confirm {
+  margin-left: 15px;
+  flex: 2;
 }
 </style>

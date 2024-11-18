@@ -3,9 +3,9 @@
 layout: home
 
 hero:
-  name: "2024级软件实验室"
-  text: "@2024 软件实验室"
-  tagline: My great project tagline
+  name: "YQ-留言墙"
+  text: "欢迎大家来到我们的留言墙"
+  tagline: "一个记录生活点滴的地方"
   actions:
     - theme: brand
       text: Markdown Examples

@@ -4,7 +4,7 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
 // 全局样式导入
-import '@/styles/index.scss'
+import '@/styles/index.css'
 // pinia
 const pinia = createPinia()
 

@@ -17,11 +17,10 @@ const props = defineProps({
     </button>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .yi-button {
   cursor: pointer;
 }
-// size
 .max {
   min-width: 100px;
   height: 48px;
@@ -43,23 +42,22 @@ const props = defineProps({
   padding: 0 20px;
   line-height: 32px;
 }
-// type
 .primary {
-  background-color: $gray-1;
-  color: $gray-10;
+  background-color: #202020;
+  color: #ffffff;
 }
 .secondary {
-  background-color: $gray-10;
-  color: $gray-1;
-  border: 1px solid $gray-1;
+  background-color:#ffffff;
+  color: #202020;
+  border: 1px solid #202020;
 }
 .c-primary {
-  background-color: $primary-color;
-  color: $gray-10;
+  background-color: #3B73F0;
+  color: #ffffff;
   font-weight: 600;
 }
 .c-secondary {
-  background-color: $gray-10;
-  color: $gray-1;
+  background-color: #ffffff;
+  color: #202020;
 }
 </style>

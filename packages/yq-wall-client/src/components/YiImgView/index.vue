@@ -40,51 +40,52 @@ const clickSwitch = (row: string) => {
   width: 100%;
   height: 100%;
   padding-right: 360px;
-  .cover {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-    height: 100%;
-    width: 100%;
-  }
-  .view-photo {
-    position: absolute;
-    top: 80px;
-    width: 100%;
-    padding: 82px 454px 0 96px;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow-y: auto;
-    img {
-      width: 100%;
-    }
-  }
-  .switch {
-    background-color: $gray-3;
-    color: $gray-10;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    cursor: pointer;
-    opacity: 0.5;
-    transition: all .3s;
-    &:hover {
-      opacity: 1;
-    }
-  }
-  .sw-left {
-    position: fixed;
-    top: 50%;
-    left: 20px;
-  }
-  .sw-right {
-    position: fixed;
-    top: 50%;
-    right: 390px;
-  }
 }
+.yi-img-view .cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  height: 100%;
+  width: 100%;
+}
+.yi-img-view .view-photo {
+  position: absolute;
+  top: 80px;
+  width: 100%;
+  padding: 82px 454px 0 96px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+}
+.yi-img-view .view-photo img {
+  width: 100%;
+}
+.yi-img-view .switch {
+  background-color: #949494;
+  color: #ffffff;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: all 0.3s;
+}
+.yi-img-view .switch:hover {
+  opacity: 1;
+}
+.yi-img-view .sw-left {
+  position: fixed;
+  top: 50%;
+  left: 20px;
+}
+.yi-img-view .sw-right {
+  position: fixed;
+  top: 50%;
+  right: 390px;
+}
+
 </style>

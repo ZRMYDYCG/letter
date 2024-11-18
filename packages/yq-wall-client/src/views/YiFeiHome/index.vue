@@ -13,12 +13,11 @@ import YiFooter from '@/components/YiFooter/index.vue'
 </template>
 
 <style scoped>
-.YiFeiHome {
-  .bg-video {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
-  }
+.YiFeiHome .bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
 }
+
 </style>

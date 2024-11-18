@@ -41,87 +41,75 @@
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .yi-footer {
   width: 100%;
   height: 200px;
-  background-color: $gray-1;
+  background-color: #202020;
   padding: 20px;
   margin-top: 40px;
-
-  .yi-footer-inner {
-    width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-
-    p {
-      color: rgba(255, 255, 255, 0.5);
-    }
-  }
-
-  .footer-left {
-    .logo {
-      display: flex;
-      margin-bottom: 24px;
-      .logo-img {
-        width: 36px;
-      }
-      .logo-name {
-        font-size: 20px;
-        color: $gray-10;
-        font-weight: 600;
-        padding-left: 10px;
-      }
-    }
-    .top-p {
-      font-size: $size-12;
-      padding-bottom: 4px;
-      width: 400px;
-    }
-
-    .state {
-      font-size: $size-12;
-      padding-top: 26px;
-      span {
-        padding-right: 20px;
-      }
-    }
-  }
-  .footer-link {
-    .title {
-      font-size: $size-20;
-      padding-bottom: 12px;
-    }
-    .link {
-      padding-left: 20px;
-      flex: 1;
-    }
-    .line-inner {
-      a {
-        color: rgba(255, 255, 255, 0.5);
-        padding-right: 20px;
-      }
-    }
-  }
-
-  .footer-right {
-    .title {
-      font-size: $size-20;
-      padding-bottom: 12px;
-    }
-    .right-inner {
-      display: flex;
-      img {
-        width: 160px;
-        height: 110px;
-        padding-right: 40px;
-      }
-      .ds-title {
-        font-size: $size-12;
-        padding-top: 8px;
-      }
-    }
-  }
 }
+.yi-footer .yi-footer-inner {
+  width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+.yi-footer .yi-footer-inner p {
+  color: rgba(255, 255, 255, 0.5);
+}
+.yi-footer .footer-left .logo {
+  display: flex;
+  margin-bottom: 24px;
+}
+.yi-footer .footer-left .logo .logo-img {
+  width: 36px;
+}
+.yi-footer .footer-left .logo .logo-name {
+  font-size: 20px;
+  color: #ffffff;
+  font-weight: 600;
+  padding-left: 10px;
+}
+.yi-footer .footer-left .top-p {
+  font-size: 12px;
+  padding-bottom: 4px;
+  width: 400px;
+}
+.yi-footer .footer-left .state {
+  font-size: 12px;
+  padding-top: 26px;
+}
+.yi-footer .footer-left .state span {
+  padding-right: 20px;
+}
+.yi-footer .footer-link .title {
+  font-size: 20px;
+  padding-bottom: 12px;
+}
+.yi-footer .footer-link .link {
+  padding-left: 20px;
+  flex: 1;
+}
+.yi-footer .footer-link .line-inner a {
+  color: rgba(255, 255, 255, 0.5);
+  padding-right: 20px;
+}
+.yi-footer .footer-right .title {
+  font-size: 20px;
+  padding-bottom: 12px;
+}
+.yi-footer .footer-right .right-inner {
+  display: flex;
+}
+.yi-footer .footer-right .right-inner img {
+  width: 160px;
+  height: 110px;
+  padding-right: 40px;
+}
+.yi-footer .footer-right .right-inner .ds-title {
+  font-size: 12px;
+  padding-top: 8px;
+}
+
 </style>

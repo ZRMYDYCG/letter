@@ -30,13 +30,13 @@ const changeWall = (id: string) => {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .YiHeader {
   width: 100%;
   height: 52px;
-  background-color: rgba(255, 255, 255, 0.80);
-  box-shadow: 0 0 4px 0 rgba(0,0,0, 0.1);
-  backdrop-filter: blur(10px); // 背景模糊
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
   position: fixed;
   top: 0;
   left: 0;
@@ -45,38 +45,34 @@ const changeWall = (id: string) => {
   align-items: center;
   justify-content: space-between;
   padding: 0 30px;
-  .logo {
-    display: flex;
-    align-items: center;
-    width: 200px;
-    .logo-img {
-      width: 40px;
-      height: 40px;
-    }
-
-    .logo-name {
-      font-size: $size-20;
-      color: $gray-1;
-      font-weight: 600;
-      padding-left: $padding-10;
-    }
-  }
-
-  .menu {
-    .menu-message {
-      margin-right: 24px;
-    }
-  }
-
-  .user {
-    width: 200px;
-    .user-head {
-      float: right;
-      border-radius: 50%;
-      height: 36px;
-      width: 36px;
-      background-image: linear-gradient(180deg, #7BE7FF 2%, #1E85E2 100%);
-    }
-  }
 }
+.YiHeader .logo {
+  display: flex;
+  align-items: center;
+  width: 200px;
+}
+.YiHeader .logo .logo-img {
+  width: 40px;
+  height: 40px;
+}
+.YiHeader .logo .logo-name {
+  font-size: 20px;
+  color: #202020;
+  font-weight: 600;
+  padding-left: 10px;
+}
+.YiHeader .menu .menu-message {
+  margin-right: 24px;
+}
+.YiHeader .user {
+  width: 200px;
+}
+.YiHeader .user .user-head {
+  float: right;
+  border-radius: 50%;
+  height: 36px;
+  width: 36px;
+  background-image: linear-gradient(180deg, #7BE7FF 2%, #1E85E2 100%);
+}
+
 </style>
