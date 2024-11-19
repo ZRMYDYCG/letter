@@ -1,5 +1,5 @@
 {
-  "name": "@yq/yq-wall-client",
+  "name": "@yq/yq-wall-spa",
   "version": "0.0.0",
   "private": true,
   "type": "module",
