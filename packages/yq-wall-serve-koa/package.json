@@ -14,12 +14,14 @@
   "author": "一勺",
   "devDependencies": {
     "@types/koa": "^2.15.0",
+    "@types/mongoose": "^5.11.97",
     "@types/node": "^20.12.5",
     "npm-run-all": "^4.1.5",
     "ts-node-dev": "^2.0.0",
     "typescript": "~5.4.0"
   },
   "dependencies": {
-    "koa": "^2.15.3"
+    "koa": "^2.15.3",
+    "mongoose": "^8.8.2"
   }
 }
