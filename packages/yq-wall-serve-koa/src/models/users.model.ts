@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
     },
     nickname: {
         type: String,
-        required: true
+        default: ""
     },
     avatar: {
         type: String,
