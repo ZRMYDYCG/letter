@@ -14,6 +14,9 @@
   "author": "一勺",
   "devDependencies": {
     "@types/koa": "^2.15.0",
+    "@types/koa-bodyparser": "^4.3.12",
+    "@types/koa-router": "^7.4.8",
+    "@types/koa2-cors": "^2.0.5",
     "@types/mongoose": "^5.11.97",
     "@types/node": "^20.12.5",
     "npm-run-all": "^4.1.5",
@@ -22,6 +25,9 @@
   },
   "dependencies": {
     "koa": "^2.15.3",
+    "koa-bodyparser": "^4.4.1",
+    "koa-router": "^12.0.1",
+    "koa2-cors": "^2.0.6",
     "mongoose": "^8.8.2"
   }
 }
