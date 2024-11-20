@@ -4,3 +4,9 @@ export interface IUser {
     nickname: string
     avatar: string
 }
+
+export interface IUserQueryResult {
+    users?: IUser[]
+    total?: number
+    user?: IUser
+}

@@ -1,8 +1,4 @@
 import Router from 'koa-router'
-import type { Context } from 'koa'
-import userModel from '../models/users.model'
-import type { IUser } from '../types'
-import UsersModel from "../models/users.model";
 import UserController from "../controller/user.controller";
 
 const userRouter = new Router({

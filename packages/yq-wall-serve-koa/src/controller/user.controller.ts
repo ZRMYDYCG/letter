@@ -1,78 +1,74 @@
 import type { Context } from 'koa'
-import userModel from '../models/users.model'
+import userService from '../service/user.service'
 import type { IUser } from '../types'
 
 class UserController {
     // 获取用户列表或单个用户
     async getUser(ctx: Context) {
-        const { page = 1, pageSize = 10, id } = ctx.query
+        const { page = 1, pageSize = 10, id } = ctx.query as { page?: string; pageSize?: string; id?: string }
 
         try {
+            const result = await userService.getUser(Number(page), Number(pageSize), id)
+
             if (id) {
-                // 查询单个用户
-                const user = await userModel.findById(id)
-                if (user) {
-                    ctx.body = {
-                        code: 200,
-                        message: '查询用户成功',
-                        data: user
-                    };
-                } else {
+                // 当查询单个用户时
+                if (!result.user) {
                     ctx.body = {
                         code: 404,
                         message: '用户不存在',
                         data: null
                     }
+                } else {
+                    ctx.body = {
+                        code: 200,
+                        message: '查询用户成功',
+                        data: result.user, // 直接返回单个用户
+                        meta: null
+                    }
                 }
             } else {
-                // 查询用户列表，支持分页
-                const skip = (Number(page) - 1) * Number(pageSize)
-                const users = await userModel.find().skip(skip).limit(Number(pageSize))
-                const total = await userModel.countDocuments()
-
+                // 当查询用户列表时
                 ctx.body = {
                     code: 200,
-                    message: '查询用户列表成功',
-                    data: users,
+                    message: '查询用户成功',
+                    data: result.users, // 返回用户列表
                     meta: {
                         pageSize: Number(pageSize),
                         page: Number(page),
-                        total: total
+                        total: result.total // 返回总数
                     }
                 };
             }
         } catch (err) {
-            // perf: 日志记录异常
             ctx.body = {
                 code: 400,
                 error: err.message
-            };
+            }
         }
     }
 
     // 新增用户
     async createUser(ctx: Context) {
-        const { username, password, nickname, avatar } = ctx.request.body as IUser;
+        const { username, password, nickname, avatar } = ctx.request.body as IUser
 
         try {
-            const res = await userModel.create({
+            const res = await userService.createUser({
                 username,
                 password,
                 nickname,
                 avatar
-            });
+            })
 
             ctx.body = {
                 code: res ? 200 : 500,
                 message: res ? '新增用户成功' : '新增用户失败',
                 data: res || null
-            };
+            }
         } catch (err) {
-            // perf: 日志记录异常
             ctx.body = {
                 code: 400,
                 error: err.message
-            };
+            }
         }
     }
 
@@ -82,24 +78,23 @@ class UserController {
         const { username, password, nickname, avatar } = ctx.request.body as IUser
 
         try {
-            const res = await userModel.updateOne({ _id: params.id }, {
+            const res = await userService.updateUser(params.id, {
                 username,
                 password,
                 nickname,
                 avatar
-            });
+            })
 
             ctx.body = {
                 code: 200,
                 message: '更新用户成功',
                 data: res
-            };
+            }
         } catch (err) {
-            // perf: 日志记录异常
             ctx.body = {
                 code: 400,
                 error: err.message
-            };
+            }
         }
     }
 
@@ -108,18 +103,17 @@ class UserController {
         const params = ctx.params as { id: string }
 
         try {
-            const res = await userModel.deleteOne({ _id: params.id })
+            const res = await userService.deleteUser(params.id)
             ctx.body = {
                 code: 200,
                 message: '删除用户成功',
                 data: res
-            };
+            }
         } catch (err) {
-            // perf: 日志记录异常
             ctx.body = {
                 code: 400,
                 error: err.message
-            };
+            }
         }
     }
 }
