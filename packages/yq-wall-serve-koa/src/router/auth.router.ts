@@ -16,4 +16,9 @@ authRouter.post('/login', authController.login)
 authRouter.post('/register', authController.register)
 
 
+/**
+ * @desc 验证用户登录
+ * */
+authRouter.post('/verify', authController.verify)
+
 export default authRouter

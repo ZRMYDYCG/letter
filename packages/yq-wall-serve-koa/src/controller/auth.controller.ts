@@ -1,6 +1,7 @@
 import type { Context } from 'koa'
 import authService from '../service/auth.service'
-import userModel from "../models/users.model";
+import userModel from "../models/users.model"
+import jwt from "jsonwebtoken"
 
 class authController {
     async login(ctx: Context) {
@@ -48,6 +49,22 @@ class authController {
             }
         })
 
+    }
+
+    /**
+     * @desc 验证用户登录
+     * */
+    async verify(ctx: Context) {
+        let token = ctx.header.authorization
+        token = token.replace('Bearer ', '')
+        console.log(token)
+        try {
+          let result = jwt.verify(token, 'yq-message-wall-server-jwt')
+
+            console.log(result)
+        } catch (error) {
+            console.log(error)
+        }
     }
 }
 
