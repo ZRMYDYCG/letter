@@ -2,6 +2,7 @@ import type { Context } from 'koa'
 import authService from '../service/auth.service'
 import userModel from "../models/users.model"
 import jwt from "jsonwebtoken"
+import type { IUser } from "../types"
 
 class authController {
     async login(ctx: Context) {
@@ -58,12 +59,38 @@ class authController {
         let token = ctx.header.authorization
         token = token.replace('Bearer ', '')
         console.log(token)
-        try {
-          let result = jwt.verify(token, 'yq-message-wall-server-jwt')
 
-            console.log(result)
+        try {
+            const result = jwt.verify(token, 'yq-message-wall-server-jwt') as any
+
+
+            await userModel.findOne({ id: result.res.id }).then(res => {
+                if(res) {
+                    ctx.body = {
+                        code: 200,
+                        message: '用户认证成功',
+                        data: res,
+                    }
+                    } else {
+                    ctx.body = {
+                        code: 500,
+                        message: '用户认证出现异常',
+                    }
+                }
+            }).catch((error) => {
+                ctx.body = {
+                    code: 500,
+                    message: '用户认证出现异常',
+                    data: error,
+                }
+            })
+
         } catch (error) {
-            console.log(error)
+            ctx.body = {
+                code: 500,
+                message: '用户认证出现异常',
+                data: error,
+            }
         }
     }
 }
