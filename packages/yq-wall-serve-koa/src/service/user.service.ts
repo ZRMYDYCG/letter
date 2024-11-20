@@ -7,17 +7,17 @@ class UserService {
         try {
             if (id) {
                 // 查询单个用户
-                const user = await userModel.findById(id);
-                return { user }; // 返回单个用户
+                const user = await userModel.findById(id)
+                return { user } // 返回单个用户
             } else {
                 // 查询用户列表，支持分页
-                const skip = (page - 1) * pageSize;
-                const users = await userModel.find().skip(skip).limit(pageSize);
-                const total = await userModel.countDocuments();
-                return { users, total }; // 返回用户列表和总数
+                const skip = (page - 1) * pageSize
+                const users = await userModel.find().skip(skip).limit(pageSize)
+                const total = await userModel.countDocuments()
+                return { users, total } // 返回用户列表和总数
             }
         } catch (err) {
-            throw new Error(err.message);
+            throw new Error(err.message)
         }
     }
 

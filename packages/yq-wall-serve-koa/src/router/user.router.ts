@@ -13,7 +13,7 @@ userRouter.get('/', UserController.getUser)
 /**
  * @desc 新增用户
  * */
-userRouter.post('/')
+userRouter.post('/', UserController.createUser)
 
 /**
  * @desc 更新用户
