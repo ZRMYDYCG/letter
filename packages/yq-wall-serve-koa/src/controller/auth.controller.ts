@@ -2,7 +2,6 @@ import type { Context } from 'koa'
 import authService from '../service/auth.service'
 import userModel from "../models/users.model"
 import jwt from "jsonwebtoken"
-import type { IUser } from "../types"
 
 class authController {
     async login(ctx: Context) {
