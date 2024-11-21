@@ -140,6 +140,9 @@ importers:
       koa-bodyparser:
         specifier: ^4.4.1
         version: 4.4.1
+      koa-jwt:
+        specifier: ^4.0.4
+        version: 4.0.4
       koa-router:
         specifier: ^12.0.1
         version: 12.0.1
@@ -159,6 +162,9 @@ importers:
       '@types/koa-bodyparser':
         specifier: ^4.3.12
         version: 4.3.12
+      '@types/koa-jwt':
+        specifier: ^3.3.0
+        version: 3.3.0
       '@types/koa-router':
         specifier: ^7.4.8
         version: 7.4.8
@@ -927,6 +933,10 @@ packages:
   '@types/koa-compose@3.2.8':
     resolution: {integrity: sha512-4Olc63RY+MKvxMwVknCUDhRQX1pFQoBZ/lXcRLP69PQkEpze/0cr8LNqJQe5NFb/b19DWi2a5bTi2VAlQzhJuA==}
 
+  '@types/koa-jwt@3.3.0':
+    resolution: {integrity: sha512-XSVz27M0HaJ0EcB5/PoaUlXpM2JClnF3kH/VmuDk2tr3frYqPkoBmxwZz+vHXykNO22Q6JA3Tcmgo4e8Z8Qhsg==}
+    deprecated: This is a stub types definition for koa-jwt (https://github.com/koajs/jwt). koa-jwt provides its own type definitions, so you don't need @types/koa-jwt installed!
+
   '@types/koa-multer@1.0.4':
     resolution: {integrity: sha512-Aty7k5W/bVgvCtyc7iwzjP1QXp1CPsQE3klmIEVBphK2bthjJjUpgkvFNChckA8DPxaatzFmnotWZnXLAAnLog==}
 
@@ -1173,6 +1183,10 @@ packages:
     resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
     engines: {node: '>= 6.0.0'}
 
+  aggregate-error@3.1.0:
+    resolution: {integrity: sha512-4I7Td01quW/RpocfNayFdFVk1qSuoh0E7JrbRJ16nH01HhKFQ88INq9Sd+nd72zqRySlr9BmDA8xlEJ6vJMrYA==}
+    engines: {node: '>=8'}
+
   algoliasearch@5.14.2:
     resolution: {integrity: sha512-aYjI4WLamMxbhdJ2QAA99VbDCJOGzMOdT2agh57bi40n86ufkhZSIAf6mkocr7NmtBLtwCnSHvD5NJ+Ky5elWw==}
     engines: {node: '>= 14.0.0'}
@@ -1341,6 +1355,10 @@ packages:
   chownr@2.0.0:
     resolution: {integrity: sha512-bIomtDF5KGpdogkLd9VspvFzk9KfpyyGlS8YFVZl7TGPBHL5snIOnxeshwVgPteQ9b4Eydl+pVbIyE1DcvCWgQ==}
     engines: {node: '>=10'}
+
+  clean-stack@2.2.0:
+    resolution: {integrity: sha512-4diC9HaTE+KRAMWhDhrGOECgWZxoevMc5TlkObMqNSsVU62PYzXZ/SMTjzyGAFF1YusgxGcSWTEXBhp0CPwQ1A==}
+    engines: {node: '>=6'}
 
   co-body@6.2.0:
     resolution: {integrity: sha512-Kbpv2Yd1NdL1V/V4cwLVxraHDV6K8ayohr2rmH0J87Er8+zJjcTa6dAn9QMPC9CRgU8+aNajKbSf1TzDB1yKPA==}
@@ -1817,6 +1835,10 @@ packages:
   immutable@5.0.2:
     resolution: {integrity: sha512-1NU7hWZDkV7hJ4PJ9dur9gTNQ4ePNPN4k9/0YhwjzykTi/+3Q5pF93YU5QoVj8BuOnhLgaY8gs0U2pj4kSYVcw==}
 
+  indent-string@4.0.0:
+    resolution: {integrity: sha512-EdDDZu4A2OyIK7Lr/2zG+w5jmbuk1DVBnEwREQvBzspBJkCEbRa8GxU1lghYcaGJCnRWibjDXlq779X1/y5xwg==}
+    engines: {node: '>=8'}
+
   inflation@2.1.0:
     resolution: {integrity: sha512-t54PPJHG1Pp7VQvxyVCJ9mBbjG3Hqryges9bXoOO6GExCPa+//i/d5GSuFtpx3ALLd7lgIAur6zrIlBQyJuMlQ==}
     engines: {node: '>= 0.8.0'}
@@ -1996,6 +2018,10 @@ packages:
     resolution: {integrity: sha512-asOvN6bFlSnxewce2e/DK3p4tltyfC4VM7ZwuTuepI7dEQVcvpyFuBcEARu1+Hxg8DIwytce2n7jrZtRlPrARA==}
     engines: {node: '>= 10'}
 
+  koa-jwt@4.0.4:
+    resolution: {integrity: sha512-Tid9BQfpVtUG/8YZV38a+hDKll0pfVhfl7A/2cNaYThS1cxMFXylZzfARqHQqvNhHy9qM+qkxd4/z6EaIV4SAQ==}
+    engines: {node: '>= 8'}
+
   koa-multer@1.0.2:
     resolution: {integrity: sha512-0kFzN4atVd+9oiG+4fYxQ9S2T3dPhKNvmhITIY606Qn9wLEmfhW0DhSpOzRYhddN//4rh/TCK95TMtflmFa5lA==}
     engines: {node: '>= 4'}
@@ -2016,6 +2042,9 @@ packages:
   koa-static@5.0.0:
     resolution: {integrity: sha512-UqyYyH5YEXaJrf9S8E23GoJFQZXkBVJ9zYYMPGz919MSX1KuvAcycIuS0ci150HCoPf4XQVhQ84Qf8xRPWxFaQ==}
     engines: {node: '>= 7.6.0'}
+
+  koa-unless@1.0.7:
+    resolution: {integrity: sha512-NKiz+nk4KxSJFskiJMuJvxeA41Lcnx3d8Zy+8QETgifm4ab4aOeGD3RgR6bIz0FGNWwo3Fz0DtnK77mEIqHWxA==}
 
   koa2-cors@2.0.6:
     resolution: {integrity: sha512-JRCcSM4lamM+8kvKGDKlesYk2ASrmSTczDtGUnIadqMgnHU4Ct5Gw7Bxt3w3m6d6dy3WN0PU4oMP43HbddDEWg==}
@@ -2355,6 +2384,18 @@ packages:
 
   only@0.0.2:
     resolution: {integrity: sha512-Fvw+Jemq5fjjyWz6CpKx6w9s7xxqo3+JCyM0WXWeCSOboZ8ABkyvP8ID4CZuChA/wxSx+XSJmdOm8rGVyJ1hdQ==}
+
+  p-any@2.1.0:
+    resolution: {integrity: sha512-JAERcaMBLYKMq+voYw36+x5Dgh47+/o7yuv2oQYuSSUml4YeqJEFznBrY2UeEkoSHqBua6hz518n/PsowTYLLg==}
+    engines: {node: '>=8'}
+
+  p-cancelable@2.1.1:
+    resolution: {integrity: sha512-BZOr3nRQHOntUjTrH8+Lh54smKHoHyur8We1V8DSMVrl5A2malOOwuJRnKRDjSnkoeBh4at6BwEnb5I7Jl31wg==}
+    engines: {node: '>=8'}
+
+  p-some@4.1.0:
+    resolution: {integrity: sha512-MF/HIbq6GeBqTrTIl5OJubzkGU+qfFhAFi0gnTAK6rgEIJIknEiABHOTtQu4e6JiXjIwuMPMUFQzyHh5QjCl1g==}
+    engines: {node: '>=8'}
 
   package-json-from-dist@1.0.1:
     resolution: {integrity: sha512-UEZIS3/by4OC8vL3P2dTXRETpebLI2NiI5vIrjaD/5UtrkFX/tNbwjTSRAGC/+7CAo2pIcBaRgWmcBBHcsaCIw==}
@@ -2930,6 +2971,10 @@ packages:
   tsscmp@1.0.6:
     resolution: {integrity: sha512-LxhtAkPDTkVCMQjt2h6eBVY28KCjikZqZfMcC15YBeNjkgUpdCfBu5HoiOTDu86v6smE8yOjyEktJ8hlbANHQA==}
     engines: {node: '>=0.6.x'}
+
+  type-fest@0.3.1:
+    resolution: {integrity: sha512-cUGJnCdr4STbePCgqNFbpVNCepa+kAVohJs1sLhxzdH+gnEoOd8VhbYa7pD3zZYGiURWM2xzEII3fQcRizDkYQ==}
+    engines: {node: '>=6'}
 
   type-is@1.6.18:
     resolution: {integrity: sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g==}
@@ -3864,6 +3909,10 @@ snapshots:
     dependencies:
       '@types/koa': 2.15.0
 
+  '@types/koa-jwt@3.3.0':
+    dependencies:
+      koa-jwt: 4.0.4
+
   '@types/koa-multer@1.0.4':
     dependencies:
       '@types/koa': 2.15.0
@@ -4179,6 +4228,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  aggregate-error@3.1.0:
+    dependencies:
+      clean-stack: 2.2.0
+      indent-string: 4.0.0
+
   algoliasearch@5.14.2:
     dependencies:
       '@algolia/client-abtesting': 5.14.2
@@ -4370,6 +4424,8 @@ snapshots:
     optional: true
 
   chownr@2.0.0: {}
+
+  clean-stack@2.2.0: {}
 
   co-body@6.2.0:
     dependencies:
@@ -4919,6 +4975,8 @@ snapshots:
   immutable@5.0.2:
     optional: true
 
+  indent-string@4.0.0: {}
+
   inflation@2.1.0: {}
 
   inflection@1.13.4: {}
@@ -5088,6 +5146,12 @@ snapshots:
       co: 4.6.0
       koa-compose: 4.1.0
 
+  koa-jwt@4.0.4:
+    dependencies:
+      jsonwebtoken: 9.0.2
+      koa-unless: 1.0.7
+      p-any: 2.1.0
+
   koa-multer@1.0.2:
     dependencies:
       multer: 1.3.0
@@ -5122,6 +5186,8 @@ snapshots:
       koa-send: 5.0.1
     transitivePeerDependencies:
       - supports-color
+
+  koa-unless@1.0.7: {}
 
   koa2-cors@2.0.6: {}
 
@@ -5469,6 +5535,19 @@ snapshots:
       regex-recursion: 4.2.1
 
   only@0.0.2: {}
+
+  p-any@2.1.0:
+    dependencies:
+      p-cancelable: 2.1.1
+      p-some: 4.1.0
+      type-fest: 0.3.1
+
+  p-cancelable@2.1.1: {}
+
+  p-some@4.1.0:
+    dependencies:
+      aggregate-error: 3.1.0
+      p-cancelable: 2.1.1
 
   package-json-from-dist@1.0.1: {}
 
@@ -6081,6 +6160,8 @@ snapshots:
       strip-json-comments: 2.0.1
 
   tsscmp@1.0.6: {}
+
+  type-fest@0.3.1: {}
 
   type-is@1.6.18:
     dependencies:
