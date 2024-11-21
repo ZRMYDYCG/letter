@@ -28,6 +28,6 @@ userRouter.delete('/:id', UserController.deleteUser)
 /**
  * @desc 修改密码
  * */
-userRouter.put('/changePassword', UserController.updatePassword)
+userRouter.post('/change-password', UserController.updatePassword)
 
 export default userRouter

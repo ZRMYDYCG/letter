@@ -120,22 +120,7 @@ class UserController {
 
     // 修改用户密码
     async updatePassword(ctx: Context) {
-        const { username, password, newPassword } = ctx.request.body as { username: string; password: string; newPassword: string }
-
-        const user = await userModel.findOne({ username })
-        if (!user) {
-            ctx.body = {
-                code: 400,
-                error: '用户不存在'
-            }
-        }
-        if (user.password!== newPassword) {
-            ctx.body = {
-                code: 400,
-                error: '原密码错误'
-            }
-        }
-
+        const { username, newPassword } = ctx.request.body as { username: string; newPassword: string }
         try {
             const res = await userModel.updateOne({ username }, { password: newPassword })
 
@@ -153,10 +138,7 @@ class UserController {
             }
 
         } catch (err) {
-            ctx.body = {
-                code: 500,
-                error: err.message
-            }
+            console.log(err)
         }
     }
 }
