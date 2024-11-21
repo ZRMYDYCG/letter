@@ -6,7 +6,7 @@ import fs from 'fs/promises'
 const storage = multer.diskStorage({
     // 文件保存路径
     destination: async (req, file, cb) => {
-        const uploadPath = path.join(__dirname, '../public/uploads');
+        const uploadPath = path.join(__dirname, '../public/uploads')
 
         try {
             await fs.access(uploadPath); // 检查目录是否存在
@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
             await fs.mkdir(uploadPath, { recursive: true })
         }
 
-        cb(null, uploadPath);
+        cb(null, uploadPath)
     },
     // 修改文件名称
     filename: (req, file, cb) => {
