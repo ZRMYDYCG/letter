@@ -25,4 +25,9 @@ userRouter.put('/:id', UserController.updateUser)
  * */
 userRouter.delete('/:id', UserController.deleteUser)
 
+/**
+ * @desc 修改密码
+ * */
+userRouter.put('/changePassword', UserController.updatePassword)
+
 export default userRouter

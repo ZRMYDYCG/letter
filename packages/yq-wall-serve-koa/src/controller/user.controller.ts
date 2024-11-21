@@ -1,6 +1,7 @@
 import type { Context } from 'koa'
 import userService from '../service/user.service'
 import type { IUser } from '../types'
+import userModel from "../models/users.model";
 
 class UserController {
     // 获取用户列表或单个用户
@@ -112,6 +113,48 @@ class UserController {
         } catch (err) {
             ctx.body = {
                 code: 400,
+                error: err.message
+            }
+        }
+    }
+
+    // 修改用户密码
+    async updatePassword(ctx: Context) {
+        const { username, password, newPassword } = ctx.request.body as { username: string; password: string; newPassword: string }
+
+        const user = await userModel.findOne({ username })
+        if (!user) {
+            ctx.body = {
+                code: 400,
+                error: '用户不存在'
+            }
+        }
+        if (user.password!== newPassword) {
+            ctx.body = {
+                code: 400,
+                error: '原密码错误'
+            }
+        }
+
+        try {
+            const res = await userModel.updateOne({ username }, { password: newPassword })
+
+            if(res) {
+                ctx.body = {
+                    code: 200,
+                    message: '修改密码成功',
+                    data: res
+                }
+            } else {
+                ctx.body = {
+                    code: 500,
+                    error: '修改密码失败'
+                }
+            }
+
+        } catch (err) {
+            ctx.body = {
+                code: 500,
                 error: err.message
             }
         }
