@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "2024级软件实验室",
+  title: "YQ-Message-Wall-Docs",
   description: "@2024 软件实验室",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
