@@ -1,11 +1,11 @@
 ---
-# https://vitepress.dev/reference/default-theme-home-page
 layout: home
 
 hero:
   name: "YQ-留言墙"
   text: "欢迎大家来到留言墙"
   tagline: "记录某一瞬间的共情"
+  image: '/logo.svg'
   actions:
     - theme: brand
       text: 微信小程序端
@@ -57,4 +57,3 @@ features:
     link: https://juejin.cn/post/7327893130572824611
     linkText: 查看详情
 ---
-

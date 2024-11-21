@@ -6,6 +6,7 @@ export default defineConfig({
   description: "@2024 软件实验室",
   themeConfig: {
     logo: '/logo.svg',
+
     nav: [
       { text: '首页', link: '/' },
       { text: '迭代日志', link: '/version' }
@@ -24,8 +25,17 @@ export default defineConfig({
       ]
     },
 
+    search: {
+      provider: 'local'
+    },
+
     socialLinks: [
       { icon: 'github', link: 'https://github.com/ZRMYDYCG/YQ-Message-Wall' }
-    ]
+    ],
+
+    footer: {
+      message: 'Released under the MIT License.',
+      copyright: 'Copyright © @yq-message-wall 2024'
+    }
   }
 })

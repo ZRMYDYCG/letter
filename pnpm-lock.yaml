@@ -10,9 +10,14 @@ importers:
 
   docs:
     devDependencies:
+      busuanzi.pure.js:
+        specifier: ^1.0.3
+        version: 1.0.3
       vitepress:
         specifier: ^1.5.0
         version: 1.5.0(@algolia/client-search@5.14.2)(@types/node@22.9.0)(axios@1.7.7)(postcss@8.4.49)(sass@1.81.0)(search-insights@2.17.3)(typescript@5.6.3)
+
+  packages/yq-wall-app: {}
 
   packages/yq-wall-client:
     dependencies:
@@ -1311,6 +1316,9 @@ packages:
   busboy@0.2.14:
     resolution: {integrity: sha512-InWFDomvlkEj+xWLBfU3AvnbVYqeTWmQopiW0tWWEy5yehYm2YkGEc59sUmw/4ty5Zj/b0WHGs1LgecuBSBGrg==}
     engines: {node: '>=0.8.0'}
+
+  busuanzi.pure.js@1.0.3:
+    resolution: {integrity: sha512-tPULdyx+8NNb9geZYDpktKmHAYx9f2LEOBaHyWCaM7iPEMIa/43KgYAUluuU7YG9UFSOFpj4dO7Nj2Vlu3V9Rg==}
 
   bytes@3.1.2:
     resolution: {integrity: sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==}
@@ -4374,6 +4382,8 @@ snapshots:
     dependencies:
       dicer: 0.2.5
       readable-stream: 1.1.14
+
+  busuanzi.pure.js@1.0.3: {}
 
   bytes@3.1.2: {}
 
