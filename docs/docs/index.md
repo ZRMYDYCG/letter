@@ -14,7 +14,16 @@ hero:
       text: 安卓端下载
       link: 
     - theme: brand
+      text: IOS 端下载
+      link: 
+    - theme: brand
       text: PC 网页端
+      link: 
+    - theme: brand
+      text: 后台控制端
+      link: 
+    - theme: brand
+      text: 关注公众号
       link: 
 features:
   - title: 什么是浏览器插件？
