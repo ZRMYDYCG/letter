@@ -9,6 +9,347 @@ import CardDetail from './components/CardDetail/index.vue'
 import PhotoCard from '@/components/PhotoCard/index.vue'
 import YiImgView from '@/components/YiImgView/index.vue'
 
+const messageList = ref([
+  {
+    // 创建时间
+    moment: new Date(),
+    // 留言 id
+    id: 1,
+    // 用户 id
+    userId: 1,
+    // 内容
+    message: "日子就是这么的庸常，却有细碎的事物，如太阳碎碎的光芒，洒落其上。",
+    // 标签
+    label: 0,
+    // 用户昵称
+    name: "一勺",
+    // 点赞数
+    like: 12,
+    // 评论数
+    comment: 4,
+    // 背景色
+    imgUrl: 0,
+    // 是否撤回
+    revoke: 0,
+    // 是否举报
+    report: 0,
+    // 类型: 留言 、 照片
+    type: 0
+  },
+  {
+    // 创建时间
+    moment: new Date(),
+    // 留言 id
+    id: 2,
+    // 用户 id
+    userId: 1,
+    // 内容
+    message: "日子就是这么的庸常，却有细碎的事物，如太阳碎碎的光芒，洒落其上。",
+    // 标签
+    label: 0,
+    // 用户昵称
+    name: "一勺",
+    // 点赞数
+    like: 12,
+    // 评论数
+    comment: 4,
+    // 背景色
+    imgUrl: 4,
+    // 是否撤回
+    revoke: 0,
+    // 是否举报
+    report: 0,
+    // 类型: 留言 、 照片
+    type: 0
+  },
+  {
+    // 创建时间
+    moment: new Date(),
+    // 留言 id
+    id: 3,
+    // 用户 id
+    userId: 1,
+    // 内容
+    message: "日子就是这么的庸常，却有细碎的事物，如太阳碎碎的光芒，洒落其上。",
+    // 标签
+    label: 0,
+    // 用户昵称
+    name: "一勺",
+    // 点赞数
+    like: 12,
+    // 评论数
+    comment: 4,
+    // 背景色
+    imgUrl: 4,
+    // 是否撤回
+    revoke: 0,
+    // 是否举报
+    report: 0,
+    // 类型: 留言 、 照片
+    type: 0
+  },
+  {
+    // 创建时间
+    moment: new Date(),
+    // 留言 id
+    id: 4,
+    // 用户 id
+    userId: 1,
+    // 内容
+    message: "日子就是这么的庸常，却有细碎的事物，如太阳碎碎的光芒，洒落其上。",
+    // 标签
+    label: 0,
+    // 用户昵称
+    name: "一勺",
+    // 点赞数
+    like: 12,
+    // 评论数
+    comment: 4,
+    // 背景色
+    imgUrl: 4,
+    // 是否撤回
+    revoke: 0,
+    // 是否举报
+    report: 0,
+    // 类型: 留言 、 照片
+    type: 0
+  },
+  {
+    // 创建时间
+    moment: new Date(),
+    // 留言 id
+    id: 5,
+    // 用户 id
+    userId: 1,
+    // 内容
+    message: "日子就是这么的庸常，却有细碎的事物，如太阳碎碎的光芒，洒落其上。",
+    // 标签
+    label: 0,
+    // 用户昵称
+    name: "一勺",
+    // 点赞数
+    like: 12,
+    // 评论数
+    comment: 4,
+    // 背景色
+    imgUrl: 4,
+    // 是否撤回
+    revoke: 0,
+    // 是否举报
+    report: 0,
+    // 类型: 留言 、 照片
+    type: 0
+  },
+  {
+    // 创建时间
+    moment: new Date(),
+    // 留言 id
+    id: 6,
+    // 用户 id
+    userId: 1,
+    // 内容
+    message: "日子就是这么的庸常，却有细碎的事物，如太阳碎碎的光芒，洒落其上。",
+    // 标签
+    label: 0,
+    // 用户昵称
+    name: "一勺",
+    // 点赞数
+    like: 12,
+    // 评论数
+    comment: 4,
+    // 背景色
+    imgUrl: 0,
+    // 是否撤回
+    revoke: 0,
+    // 是否举报
+    report: 0,
+    // 类型: 留言 、 照片
+    type: 0
+  },
+  {
+    // 创建时间
+    moment: new Date(),
+    // 留言 id
+    id: 7,
+    // 用户 id
+    userId: 1,
+    // 内容
+    message: "日子就是这么的庸常，却有细碎的事物，如太阳碎碎的光芒，洒落其上。",
+    // 标签
+    label: 0,
+    // 用户昵称
+    name: "一勺",
+    // 点赞数
+    like: 12,
+    // 评论数
+    comment: 4,
+    // 背景色
+    imgUrl: 0,
+    // 是否撤回
+    revoke: 0,
+    // 是否举报
+    report: 0,
+    // 类型: 留言 、 照片
+    type: 0
+  },
+  {
+    // 创建时间
+    moment: new Date(),
+    // 留言 id
+    id: 8,
+    // 用户 id
+    userId: 1,
+    // 内容
+    message: "日子就是这么的庸常，却有细碎的事物，如太阳碎碎的光芒，洒落其上。",
+    // 标签
+    label: 0,
+    // 用户昵称
+    name: "一勺",
+    // 点赞数
+    like: 12,
+    // 评论数
+    comment: 4,
+    // 背景色
+    imgUrl: 0,
+    // 是否撤回
+    revoke: 0,
+    // 是否举报
+    report: 0,
+    // 类型: 留言 、 照片
+    type: 0
+  },
+  {
+    // 创建时间
+    moment: new Date(),
+    // 留言 id
+    id: 9,
+    // 用户 id
+    userId: 1,
+    // 内容
+    message: "日子就是这么的庸常，却有细碎的事物，如太阳碎碎的光芒，洒落其上。",
+    // 标签
+    label: 0,
+    // 用户昵称
+    name: "一勺",
+    // 点赞数
+    like: 12,
+    // 评论数
+    comment: 4,
+    // 背景色
+    imgUrl: 0,
+    // 是否撤回
+    revoke: 0,
+    // 是否举报
+    report: 0,
+    // 类型: 留言 、 照片
+    type: 0
+  },
+  {
+    // 创建时间
+    moment: new Date(),
+    // 留言 id
+    id: 10,
+    // 用户 id
+    userId: 1,
+    // 内容
+    message: "日子就是这么的庸常，却有细碎的事物，如太阳碎碎的光芒，洒落其上。",
+    // 标签
+    label: 0,
+    // 用户昵称
+    name: "一勺",
+    // 点赞数
+    like: 12,
+    // 评论数
+    comment: 4,
+    // 背景色
+    imgUrl: 0,
+    // 是否撤回
+    revoke: 0,
+    // 是否举报
+    report: 0,
+    // 类型: 留言 、 照片
+    type: 0
+  },
+  {
+    // 创建时间
+    moment: new Date(),
+    // 留言 id
+    id: 11,
+    // 用户 id
+    userId: 1,
+    // 内容
+    message: "日子就是这么的庸常，却有细碎的事物，如太阳碎碎的光芒，洒落其上。",
+    // 标签
+    label: 0,
+    // 用户昵称
+    name: "一勺",
+    // 点赞数
+    like: 12,
+    // 评论数
+    comment: 4,
+    // 背景色
+    imgUrl: 3,
+    // 是否撤回
+    revoke: 0,
+    // 是否举报
+    report: 0,
+    // 类型: 留言 、 照片
+    type: 0
+  },
+  {
+    // 创建时间
+    moment: new Date(),
+    // 留言 id
+    id: 12,
+    // 用户 id
+    userId: 1,
+    // 内容
+    message: "日子就是这么的庸常，却有细碎的事物，如太阳碎碎的光芒，洒落其上。",
+    // 标签
+    label: 0,
+    // 用户昵称
+    name: "一勺",
+    // 点赞数
+    like: 12,
+    // 评论数
+    comment: 4,
+    // 背景色
+    imgUrl: 1,
+    // 是否撤回
+    revoke: 0,
+    // 是否举报
+    report: 0,
+    // 类型: 留言 、 照片
+    type: 0
+  },
+  {
+    // 创建时间
+    moment: new Date(),
+    // 留言 id
+    id: 13,
+    // 用户 id
+    userId: 1,
+    // 内容
+    message: "日子就是这么的庸常，却有细碎的事物，如太阳碎碎的光芒，洒落其上。",
+    // 标签
+    label: 0,
+    // 用户昵称
+    name: "一勺",
+    // 点赞数
+    like: 12,
+    // 评论数
+    comment: 4,
+    // 背景色
+    imgUrl: 2,
+    // 是否撤回
+    revoke: 0,
+    // 是否举报
+    report: 0,
+    // 类型: 留言 、 照片
+    type: 0
+  }
+])
+
 // 留言墙与照片墙的切换 id
 const route = useRoute()
 const id = computed(() => {
@@ -20,11 +361,6 @@ const isLabelSelected = ref(-1)
 const changeLabelItem = (index: number) =>  {
   isLabelSelected.value = index
 }
-
-let cardData = ref([])
-onMounted(() => {
-
-})
 
 // 卡片宽度
 let noteWidth = ref(0)
@@ -99,7 +435,7 @@ const clickDetail = (index: number) => {
     isModal.value = true
     cardSelected.value = index
     currentIndex.value = index
-    detailData.value = cardData.value[currentIndex.value]
+    detailData.value = messageList.value[currentIndex.value]
   }
 }
 
@@ -377,7 +713,7 @@ const clickSwitch = (e: string) => {
       </template>
     </ul>
     <div class="card" :style="{ width: noteWidth + 'px' }" v-show="id === '0'">
-      <template v-for="(item, index) in cardData" :key="index">
+      <template v-for="(item, index) in messageList" :key="index">
         <yi-card @click="clickDetail(index)" :class="{ cardSelected: index === cardSelected }" @item-click="itemClick" class="card-item" :note="item" width="288px"></yi-card>
       </template>
     </div>
