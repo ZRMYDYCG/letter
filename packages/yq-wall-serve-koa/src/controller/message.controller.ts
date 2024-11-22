@@ -22,10 +22,10 @@ class messageController {
         }
     }
     /**
-     * @desc 获取留言列表或单个留言详情
+     * @desc 获取留言列表或单个留言详情或某用户的留言列表或某用户的某标签的留言列表
      * */
     async getMessage(ctx: Context) {
-        const { page = 1, pageSize = 10, messageId, userId } = ctx.query as { page?: string; pageSize?: string; messageId?: string; userId?: string }
+        const { page = 1, pageSize = 10, messageId, userId, tag } = ctx.query as { page?: string; pageSize?: string; messageId?: string; userId?: string; tag?: string }
 
         try {
             if (messageId) {
@@ -51,10 +51,14 @@ class messageController {
                 const query: any = {}
 
                 if (userId) {
-                    query.userId = userId
+                    query.userId = userId // 根据用户ID过滤
                 }
 
-                const messages = await messageModel.find(query).skip(skip).limit(Number(pageSize));
+                if (tag) {
+                    query.tag = tag // 根据标签过滤
+                }
+
+                const messages = await messageModel.find(query).skip(skip).limit(Number(pageSize))
                 const total = await messageModel.countDocuments(query) // 根据条件统计总数
 
                 ctx.body = {
