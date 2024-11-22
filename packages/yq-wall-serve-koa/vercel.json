@@ -1,11 +1,5 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "./index.js",
-      "use": "@vercel/node"
-    }
-  ],
   "name": "yq-message-wall-serve-koa",
   "routes": [
     { "src": "/(.*)", "dest": "/" }
