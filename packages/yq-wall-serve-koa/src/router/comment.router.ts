@@ -7,5 +7,6 @@ const commentRouter = new Router({
 
 commentRouter.post('/', commentController.createComment)
 
+commentRouter.get('/', commentController.getCommentsByMessageId)
 
 export default commentRouter
