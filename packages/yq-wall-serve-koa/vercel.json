@@ -2,6 +2,6 @@
   "version": 2,
   "name": "yq-message-wall-serve-koa",
   "routes": [
-    { "src": "/(.*)", "dest": "/src/index.js" }
+    { "src": "/(.*)", "dest": "/index.js" }
   ]
 }
