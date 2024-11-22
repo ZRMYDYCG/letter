@@ -1,5 +1,5 @@
 {
-  "name": "yq-wall-serve-koa",
+  "name": "yq-message-wall-serve-koa",
   "routes": [
     { "src": "/(.*)", "dest": "/index.js" }
   ]
