@@ -13,4 +13,5 @@ router.use(uploadRouter.routes())
 router.use(messageRouter.routes())
 
 
+// @ts-ignore
 export default router

@@ -25,7 +25,7 @@ class messageController {
      * @desc 获取留言列表或单个留言详情
      * */
     async getMessage(ctx: Context) {
-        const { page = 1, pageSize = 10, messageId } = ctx.query as { page?: string; pageSize?: string; messageId?: string }
+        const { page = 1, pageSize = 10, messageId, userId } = ctx.query as { page?: string; pageSize?: string; messageId?: string; userId?: string }
 
         try {
             if (messageId) {
@@ -48,8 +48,14 @@ class messageController {
             } else {
                 // 当查询留言列表时
                 const skip = (Number(page) - 1) * Number(pageSize)
-                const messages = await messageModel.find().skip(skip).limit(Number(pageSize))
-                const total = await messageModel.countDocuments()
+                const query: any = {}
+
+                if (userId) {
+                    query.userId = userId
+                }
+
+                const messages = await messageModel.find(query).skip(skip).limit(Number(pageSize));
+                const total = await messageModel.countDocuments(query) // 根据条件统计总数
 
                 ctx.body = {
                     code: 200,
@@ -60,7 +66,7 @@ class messageController {
                         page: Number(page),
                         total: total // 返回总数
                     }
-                };
+                }
             }
         } catch (err) {
             ctx.body = {
@@ -69,7 +75,6 @@ class messageController {
             }
         }
     }
-
     /**
      * @desc 删除留言
      * */
