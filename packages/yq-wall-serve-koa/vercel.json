@@ -1,0 +1,6 @@
+{
+  "name": "yq-wall-serve-koa",
+  "routes": [
+    { "src": "/(.*)", "dest": "/index.js" }
+  ]
+}
