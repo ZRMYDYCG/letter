@@ -6,7 +6,7 @@
       "use": "@vercel/node"
     }
   ],
-  "name": "yq-message-wall-serve-9iy5u1kkc-yis-projects-4ce86843.vercel.app",
+  "name": "yq-message-wall-serve-koa",
   "routes": [
     { "src": "/(.*)", "dest": "/" }
   ]
