@@ -8,6 +8,6 @@
   ],
   "name": "yq-message-wall-serve-9iy5u1kkc-yis-projects-4ce86843.vercel.app",
   "routes": [
-    { "src": "/(.*)", "dest": "/index.js" }
+    { "src": "/(.*)", "dest": "/" }
   ]
 }
