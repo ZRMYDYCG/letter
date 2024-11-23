@@ -98,7 +98,7 @@ class messageController {
     * */
     async likeMessage(ctx: Context) {
         const { messageId } = ctx.request.body as { messageId: string }
-        const userId = ctx.state.user._id // 获取当前用户ID
+        const userId = ctx.state.user.res._id // 获取当前用户ID
 
         try {
             const message = await messageModel.findById(messageId)
@@ -143,7 +143,7 @@ class messageController {
     * */
     async unlikeMessage(ctx: Context) {
         const { messageId } = ctx.request.body as { messageId: string }
-        const userId = ctx.state.user._id // 获取当前用户ID
+        const userId = ctx.state.user.res._id // 获取当前用户ID
 
         try {
             const message = await messageModel.findById(messageId)
