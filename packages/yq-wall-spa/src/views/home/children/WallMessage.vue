@@ -2,12 +2,12 @@
 import { ref, onMounted, computed, watch, reactive } from 'vue'
 import { useRoute } from "vue-router"
 import { wallType, label } from '@/utils/data'
-import YiCard from '@/components/YiCard/index.vue'
-import YiModal from '@/components/YiModal/index.vue'
+import YiCard from '@/components/yq-card/index.vue'
+import YiModal from '@/components/yq-modal/index.vue'
 import NewCard from './components/NewCard/index.vue'
 import CardDetail from './components/CardDetail/index.vue'
-import PhotoCard from '@/components/PhotoCard/index.vue'
-import YiImgView from '@/components/YiImgView/index.vue'
+import PhotoCard from '@/components/yq-photo-card/index.vue'
+import YiImgView from '@/components/yq-img-view/index.vue'
 
 const messageList = ref([
   {
@@ -709,7 +709,7 @@ const clickSwitch = (e: string) => {
     <ul class="label">
       <li class="item" @click="isLabelSelected = -1" :class="{ selected: isLabelSelected === -1 }">全部</li>
       <template v-for="(item, index) in label[id]" :key="index">
-        <li class="item" :class="{ selected: isLabelSelected === index }" @click="changeLabelItem(index)">{{ item }}</li>
+        <li class="item" :class="{ selected: isLabelSelected === index }" @click="changeLabelItem(Number(index))">{{ item }}</li>
       </template>
     </ul>
     <div class="card" :style="{ width: noteWidth + 'px' }" v-show="id === '0'">

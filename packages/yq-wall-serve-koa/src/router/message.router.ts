@@ -2,7 +2,7 @@ import Router from 'koa-router'
 import messageController from '../controller/message.controller'
 
 const messageRouter = new Router({
-    prefix: '/message',
+    prefix: '/yq-message',
 })
 
 messageRouter.post('/', messageController.createMessage)

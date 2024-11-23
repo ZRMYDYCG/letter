@@ -562,8 +562,8 @@ var Mark = class {
     );
   }
   /**
-   * Logs a message if log is enabled
-   * @param {string} msg - The message to log
+   * Logs a yq-message if log is enabled
+   * @param {string} msg - The yq-message to log
    * @param {string} [level="debug"] - The log level, e.g. <code>warn</code>
    * <code>error</code>, <code>debug</code>
    * @access protected

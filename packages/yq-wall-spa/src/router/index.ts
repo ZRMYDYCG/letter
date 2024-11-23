@@ -7,11 +7,11 @@ const router = createRouter({
       path: '/',
       name: 'Home',
       redirect: '/wall?id=0',
-      component: import('@/views/YiFeiHome/index.vue'),
+      component: import('@/views/home/index.vue'),
       children: [
         {
           path: '/wall',
-          component: import('@/views/YiFeiHome/children/WallMessage.vue')
+          component: import('@/views/home/children/WallMessage.vue')
         }
       ]
     }

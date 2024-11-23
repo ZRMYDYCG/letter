@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute,useRouter } from "vue-router"
-import YiButton from '@/components/YiButton/index.vue'
+import YiButton from '@/components/yq-button/index.vue'
 
 const route = useRoute()
 const router = useRouter()

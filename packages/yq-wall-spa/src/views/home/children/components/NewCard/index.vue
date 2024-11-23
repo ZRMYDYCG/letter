@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { cardColorOptions, cardColor, label } from '@/utils/data'
-import YiButton from '@/components/YiButton/index.vue'
+import YiButton from '@/components/yq-button/index.vue'
 import { insertWall } from '@/api/Home'
 const props = defineProps({
   id: {

@@ -29,7 +29,7 @@ const changeModal = () => {
   </transition>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 @font-face {
   font-family: XiaoKeNaiNao;
   src: url("@/assets/fonts/xknn.ttf");
@@ -102,5 +102,4 @@ const changeModal = () => {
   border-radius: 4px;
   background-color: rgba(0, 0, 0, 0);
 }
-
 </style>
