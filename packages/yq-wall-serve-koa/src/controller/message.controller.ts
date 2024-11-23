@@ -188,4 +188,5 @@ class messageController {
      * */
 }
 
+// @ts-ignore
 export default new messageController()
