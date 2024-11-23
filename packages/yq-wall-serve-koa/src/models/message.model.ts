@@ -17,6 +17,8 @@ const messageSchema = new mongoose.Schema({
     tag: { type: String, required: true },
     /*点赞数*/
     like: { type: Number, default: 0 },
+    /*点赞用户列表*/
+    likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
     /*评论数*/
     comment: { type: Number, default: 0 },
     /*留言发布时间*/

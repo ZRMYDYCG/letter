@@ -93,6 +93,96 @@ class messageController {
             data: message
         }
     }
+    /*
+    * @desc 点赞留言
+    * */
+    async likeMessage(ctx: Context) {
+        const { messageId } = ctx.request.body as { messageId: string }
+        const userId = ctx.state.user._id // 获取当前用户ID
+
+        try {
+            const message = await messageModel.findById(messageId)
+            if (!message) {
+                ctx.body = {
+                    code: 404,
+                    message: '留言不存在',
+                    data: null
+                }
+                return
+            }
+
+            // 检查用户是否已点赞
+            if (message.likedBy.includes(userId)) {
+                ctx.body = {
+                    code: 400,
+                    message: '您已经点赞过此留言',
+                    data: null
+                }
+                return
+            }
+
+            // 更新留言的点赞数和点赞用户列表
+            message.like += 1
+            message.likedBy.push(userId)
+            await message.save()
+
+            ctx.body = {
+                code: 200,
+                message: '点赞成功',
+                data: message
+            }
+        } catch (err) {
+            ctx.body = {
+                code: 400,
+                error: err.message
+            }
+        }
+    }
+    /*
+    * @desc 取消点赞
+    * */
+    async unlikeMessage(ctx: Context) {
+        const { messageId } = ctx.request.body as { messageId: string }
+        const userId = ctx.state.user._id // 获取当前用户ID
+
+        try {
+            const message = await messageModel.findById(messageId)
+            if (!message) {
+                ctx.body = {
+                    code: 404,
+                    message: '留言不存在',
+                    data: null
+                }
+                return
+            }
+
+            // 检查用户是否已点赞
+            if (!message.likedBy.includes(userId)) {
+                ctx.body = {
+                    code: 400,
+                    message: '您尚未点赞此留言',
+                    data: null
+                }
+                return
+            }
+
+            // 更新留言的点赞数和点赞用户列表
+            message.like -= 1
+            message.likedBy = message.likedBy.filter(id => id.toString() !== userId)
+            await message.save()
+
+            ctx.body = {
+                code: 200,
+                message: '取消点赞成功',
+                data: message
+            }
+        } catch (err) {
+            ctx.body = {
+                code: 400,
+                error: err.message
+            }
+        }
+    }
     /**
      * @desc 举报留言
      * */

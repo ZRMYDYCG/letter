@@ -9,7 +9,7 @@ import { corsHandler } from './config/cors'
  *
  * 提取 Token：当请求到达时，koa-jwt 会查找请求头中的 Authorization 字段，通常格式为 Bearer <token>。它会提取出 <token> 部分。
  *
- * 验证 Token：提取出 token 后，koa-jwt 会使用你提供的密钥（'yq-message-wall-server-jwt'）来验证这个 token 的有效性。
+ * 验证 Token：提取出 token 后，koa-jwt 会使用你提供的密钥（'yq-yq-message-wall-server-jwt'）来验证这个 token 的有效性。
  *
  * 处理结果：
  *
@@ -27,7 +27,7 @@ app.use(bodyParser())
 app.use(cors(corsHandler))
 
 app.use(koajwt({
-    secret: 'yq-message-wall-server-jwt'
+    secret: 'yq-yq-message-wall-server-jwt'
 }).unless({
     path: [/^\/auth\/login/, /^\/auth\/register/],
 }))

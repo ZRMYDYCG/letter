@@ -60,7 +60,7 @@ class authController {
         console.log(token)
 
         try {
-            const result = jwt.verify(token, 'yq-message-wall-server-jwt') as any
+            const result = jwt.verify(token, 'yq-yq-message-wall-server-jwt') as any
 
 
             await userModel.findOne({ id: result.res.id }).then(res => {

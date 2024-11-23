@@ -35,7 +35,7 @@ export default defineConfig({
 
     footer: {
       message: 'Released under the MIT License.',
-      copyright: 'Copyright © @yq-message-wall 2024'
+      copyright: 'Copyright © @yq-yq-message-wall 2024'
     }
   }
 })
