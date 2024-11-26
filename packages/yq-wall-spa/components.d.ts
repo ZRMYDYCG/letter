@@ -12,10 +12,8 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     YqButton: typeof import('./src/components/yq-button/index.vue')['default']
-    YqCard: typeof import('./src/views/home/children/components/message-text-card/index.vue')['default']
     YqImgView: typeof import('./src/components/yq-img-view/index.vue')['default']
     YqMessage: typeof import('./src/components/yq-message/index.vue')['default']
     YqModal: typeof import('./src/components/yq-modal/index.vue')['default']
-    YqPhotoCard: typeof import('./src/views/home/children/components/message-photo-card/index.vue')['default']
   }
 }
