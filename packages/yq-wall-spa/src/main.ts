@@ -2,9 +2,8 @@ import App from './App.vue'
 import router from './router'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import './styles/index.css'
 
-// 全局样式导入
-import '@/styles/index.css'
 // pinia
 const pinia = createPinia()
 

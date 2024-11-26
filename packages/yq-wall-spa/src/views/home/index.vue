@@ -4,20 +4,12 @@ import YiFooter from '@/components/Footer/index.vue'
 </script>
 
 <template>
-  <div class="YiFeiHome">
+  <div class="yq-home">
     <yi-header></yi-header>
-    <video src="@/assets/images/daytime.mp4" :autoplay="true" :muted="true" :loop="true" class="bg-video"></video>
     <router-view></router-view>
     <yi-footer></yi-footer>
   </div>
+  <video src="@/assets/images/daytime.mp4" :autoplay="true" :muted="true" :loop="true" class="fixed top-0 left-0 z-[-1]"></video>
 </template>
 
-<style scoped>
-.YiFeiHome .bg-video {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: -1;
-}
-
-</style>
+<style scoped></style>

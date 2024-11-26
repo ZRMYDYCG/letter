@@ -36,5 +36,5 @@ app.use(router.routes())
 app.use(router.allowedMethods())
 
 app.listen(5174, () => {
-    console.log("Server is running on http://localhost:5174");
+    console.log("Server is running on http://localhost:5174")
 })

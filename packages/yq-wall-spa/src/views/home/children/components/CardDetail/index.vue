@@ -72,6 +72,7 @@ const props = defineProps({
 <template>
   <div class="card-detail">
     <div class="top">
+      <span class="text-3xl text-rose-500">你好</span>
       <span class="revoke">联系墙主撕掉该便签</span>
       <span class="report">举报</span>
     </div>

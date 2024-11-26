@@ -14,6 +14,11 @@ const router = createRouter({
           component: import('@/views/home/children/WallMessage.vue')
         }
       ]
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: import('@/views/login/index.vue')
     }
   ]
 })
