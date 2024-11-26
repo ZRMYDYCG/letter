@@ -1,22 +1,12 @@
 <script setup lang="ts">
-import { label, cardColor } from '@/utils/data'
-import { dataOne } from '@/utils/formatTime'
-const props = defineProps({
-  width: {
-    type: String,
-    default: '100%'
-  },
-  background: {
-    type: String,
-    default: 'rgba(252, 175, 162, 0.3)'
-  },
-  note: {
-    type: Object,
-    default: () => {}
-  }
-})
-const emits = defineEmits(['item-click'])
+interface IProps {
+  width: string
+  height: string
+  note: any
+}
 
+const props = defineProps<IProps>()
+const emits = defineEmits(['item-click'])
 
 const itemClick = () => {
   emits('item-click')
@@ -24,12 +14,12 @@ const itemClick = () => {
 </script>
 
 <template>
-  <div class="yi-card" @click="itemClick" :style="{ width: props.width, background: cardColor[note.imgUrl] }">
+  <div class="yi-card" @click="itemClick" :style="{ width: width, background: `${note.color}` }">
     <div class="header">
-      <span class="time">{{ dataOne(note.moment) }}</span>
-      <span class="label">{{ label[note.type][note.label] }}</span>
+      <span class="time">{{ note.createdAt }}</span>
+      <span class="label">{{ note.tag }}</span>
     </div>
-    <p class="message">{{ note.message }}</p>
+    <p class="message">{{ note.content }}</p>
     <div class="footer">
       <div class="footer-left">
         <div class="item">
@@ -41,7 +31,7 @@ const itemClick = () => {
           <span class="value">{{ note.comment }}</span>
         </div>
       </div>
-      <div class="name">{{ note.name }}</div>
+      <div class="name">{{ note.nickName }}</div>
     </div>
   </div>
 </template>

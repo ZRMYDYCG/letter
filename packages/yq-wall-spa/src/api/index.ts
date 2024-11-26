@@ -38,7 +38,7 @@ class RequestHttp {
         return {
           ...config,
           headers: {
-            'Authorization': 'Bearer Token' + authStore.token,
+            'Authorization': 'Bearer ' + authStore.token,
           }
         } as any
       },

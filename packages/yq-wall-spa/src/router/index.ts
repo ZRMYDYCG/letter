@@ -11,7 +11,7 @@ const router = createRouter({
       children: [
         {
           path: '/wall',
-          component: import('@/views/home/children/WallMessage.vue')
+          component: import('@/views/home/children/wall-message.vue')
         }
       ]
     },

@@ -4,7 +4,7 @@
 interface Result {
     code: number
     msg: string
-  }
+}
   
 /**
  * @description: 请求响应参数,包含data

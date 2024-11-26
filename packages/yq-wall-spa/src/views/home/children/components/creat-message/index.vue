@@ -1,29 +1,32 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { cardColorOptions, cardColor, label } from '@/utils/data'
+import { addMessage } from '@/api/modules'
 import YiButton from '@/components/yq-button/index.vue'
-const props = defineProps({
-  id: {
-    type: Number,
-    default: 0
-  }
+
+interface IProps {
+  id: number
+}
+
+const props = withDefaults(defineProps<IProps>(), {
+  id: 0
 })
 
-// 颜色选择
 let colorSelected = ref(0)
-const changeColor = (index: number) => {
+let labelSelected = ref(0)
+let url = ref('')
+let content = ref('')
+let name = ref('')
+
+function changeColor(index: number) {
   colorSelected.value = index
 }
 
-// 标签选择
-let labelSelected = ref(0)
-
-const changeLabel = (index: number) => {
+function changeLabel(index: number) {
   labelSelected.value = index
 }
 
-let url = ref('')
-const getObjectUrl = (file: any) => {
+function  getObjectUrl(file: any) {
   let res = null
   if(window.createObjectURL != undefined) {
     res = window.createObjectURL(file)
@@ -34,23 +37,21 @@ const getObjectUrl = (file: any) => {
   }
   return res
 }
-const showPhoto = () => {
+
+function showPhoto() {
   url.value = getObjectUrl(document.getElementById("file").files[0])
 }
 
 // 发布留言
-let message = ref('')
-let name = ref('')
-const handleInsertWallApi = async () => {
-  const res = await insertWall({
-    type: Number(props.id),
-    message: message.value,
-    name: name.value,
-    userId: 1,
-    moment: new Date(),
-    label: labelSelected.value,
-    color: colorSelected.value,
-    imgUrl: ''
+const handleAddMessage = async () => {
+  const res = await addMessage({
+    type: 'text',
+    userId: '673da8c21c64dc836eee1ead',
+    nickName: '一乐',
+    color: 'red',
+    image: "",
+    tag: '成长',
+    content: "你一定要好好长大",
   })
   console.log(res)
 }
@@ -78,7 +79,7 @@ const handleInsertWallApi = async () => {
     </div>
     <!--  卡片  -->
     <div class="card-main" v-if="id === 0" :style="{ background: cardColor[colorSelected] }">
-      <textarea class="message" placeholder="留言..." maxlength="96" v-model="message"></textarea>
+      <textarea class="message" placeholder="留言..." maxlength="96" v-model="content"></textarea>
       <input class="name" type="text" placeholder="签名" v-model="name" />
     </div>
     <div class="labels">
@@ -90,7 +91,7 @@ const handleInsertWallApi = async () => {
     <div class="state">
       <p class="title">免责声明</p>
       <p class="detail">
-        一小池勺是采用一刻时光的UI设计，为了将该产品添加更多的元素。请不要利用此平台服务制作、上传、下载、复制、发布、传播或者转载如下内容：<br />
+        本平台是采用一刻时光的UI设计，为了将该产品添加更多的元素。请不要利用此平台服务制作、上传、下载、复制、发布、传播或者转载如下内容：<br />
         1、反对宪法所确定的基本原则的；<br />
         2、危害国家安全，泄露国家秘密，颠覆国家政权，破坏国家 统一的；<br />
         3、损害国家荣誉和利益的；<br />
@@ -104,7 +105,7 @@ const handleInsertWallApi = async () => {
     </div>
     <div class="footer">
       <yi-button size="max" type="secondary">丢弃</yi-button>
-      <yi-button size="max" type="primary" class="confirm" @click="handleInsertWallApi">确定</yi-button>
+      <yi-button size="max" type="primary" class="confirm" @click="handleAddMessage">确定</yi-button>
     </div>
   </div>
 </template>

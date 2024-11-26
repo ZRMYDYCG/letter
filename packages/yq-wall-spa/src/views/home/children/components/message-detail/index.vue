@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import YiCard from '@/components/yq-card/index.vue'
+import YiCard from '@/views/home/children/components/message-text-card/index.vue'
 import YiButton from '@/components/yq-button/index.vue'
 import { portrait } from '@/utils/data'
+
 const commentList = [
   {
     moment: "2024.06.05",
