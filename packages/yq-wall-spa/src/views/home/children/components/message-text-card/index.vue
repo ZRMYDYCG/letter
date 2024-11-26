@@ -1,8 +1,8 @@
 <script setup lang="ts">
 interface IProps {
-  width: string
-  height: string
-  note: any
+  width?: string
+  height?: string
+  note?: any
 }
 
 const props = defineProps<IProps>()

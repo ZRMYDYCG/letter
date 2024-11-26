@@ -3,12 +3,12 @@ import { ref, onMounted, computed, watch, reactive } from 'vue'
 import { useRoute } from "vue-router"
 import { wallType, label } from '@/utils/data'
 import { getMessages } from '@/api/modules'
-import YiCard from '@/views/home/children/components/message-text-card/index.vue'
-import YiModal from '@/components/yq-modal/index.vue'
-import NewCard from './components/creat-message/index.vue'
-import CardDetail from './components/message-detail/index.vue'
-import PhotoCard from '@/views/home/children/components/message-photo-card/index.vue'
-import YiImgView from '@/components/yq-img-view/index.vue'
+import MessageTextCard from '@/views/home/children/components/message-text-card/index.vue'
+import YqModal from '@/components/yq-modal/index.vue'
+import CreatMessage from './components/creat-message/index.vue'
+import MessageDetail from './components/message-detail/index.vue'
+import MessagePhotoCard from '@/views/home/children/components/message-photo-card/index.vue'
+import YqImgView from '@/components/yq-img-view/index.vue'
 
 const messageList = ref([])
 
@@ -382,22 +382,22 @@ onMounted(() => {
     </ul>
     <div class="card" :style="{ width: noteWidth + 'px' }" v-show="id === '0'">
       <template v-for="(item, index) in messageList" :key="index">
-        <yi-card @click="clickDetail(index)" :class="{ cardSelected: index === cardSelected }" @item-click="itemClick" class="card-item" :note="item" width="288px"></yi-card>
+        <message-text-card @click="clickDetail(index)" :class="{ cardSelected: index === cardSelected }" @item-click="itemClick" class="card-item" :note="item" width="288px"></message-text-card>
       </template>
     </div>
     <div class="photo" v-show="id === '1'">
       <template v-for="(item, index) in photoList" :key="index">
-        <photo-card @click="photoSelect(index)" :photo="item"></photo-card>
+        <message-photo-card @click="photoSelect(index)" :photo="item"></message-photo-card>
       </template>
     </div>
     <div class="add" @click="addCardItem" v-show="!isModal">
       <span>添加</span>
     </div>
-    <yi-modal @change-modal="changeModal" :title="title" :isModal="isModal">
-      <new-card :id="Number(id)" v-if="title === '写留言'"></new-card>
-      <card-detail v-if="title === '详情'" :item="detailData"></card-detail>
-    </yi-modal>
-    <yi-img-view @click-switch="clickSwitch" :img-url="photoList[currentImgIndex]?.imgUrl" v-show="isImgModal"></yi-img-view>
+    <yq-modal @change-modal="changeModal" :title="title" :isModal="isModal">
+      <creat-message :id="Number(id)" v-if="title === '写留言'"></creat-message>
+      <message-detail v-if="title === '详情'" :item="detailData"></message-detail>
+    </yq-modal>
+    <yq-img-view @click-switch="clickSwitch" :img-url="photoList[currentImgIndex]?.imgUrl" v-show="isImgModal"></yq-img-view>
   </div>
 </template>
 
