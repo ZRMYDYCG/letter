@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, watch, reactive } from 'vue'
+import { ref, onMounted, computed, reactive } from 'vue'
 import { useRoute } from "vue-router"
 import { wallType, label } from '@/utils/data'
 import { getMessages } from '@/api/modules'
@@ -10,97 +10,19 @@ import MessageDetail from './components/message-detail/index.vue'
 import MessagePhotoCard from '@/views/home/children/components/message-photo-card/index.vue'
 import YqImgView from '@/components/yq-img-view/index.vue'
 
-const messageList = ref([])
-
-// 留言墙与照片墙的切换 id
 const route = useRoute()
-const id = computed(() => {
-  return route.query.id
-})
 
-// 留言墙标签是否被选中
-const isLabelSelected = ref(-1)
-const changeLabelItem = (index: number) =>  {
-  isLabelSelected.value = index
-}
-
-// 卡片宽度
-let noteWidth = ref(0)
-
-const getNoteWidth = () => {
-  let screenWidth = document.body.clientWidth
-  // 300 = 288 + 左右 margin 6px  => 当前屏幕宽度下可以放置卡片的数量 (screenWidth - 120) / 300  ((screenWidth - 120) / 300) * 300 => 卡片总宽度
-  noteWidth.value = Math.floor((screenWidth - 120) / 300) * 300
-}
-
-onMounted(() => {
-  getNoteWidth()
-  // 监听屏幕的变化
-  window.addEventListener('resize', () => {
-    getNoteWidth()
-  })
-})
-
-// 添加留言按钮
-let addBtnBottom = ref('30px')
-
-const scrollBottom = () => {
-  // 滚动条距离顶部的高度
-  let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
-  // 屏幕高度
-  let clientHeight = document.documentElement.clientHeight
-  // 内容高度
-  let scrollHeight = document.documentElement.scrollHeight
-
-  if(scrollTop + clientHeight+230 >= scrollHeight) {
-    addBtnBottom.value = (scrollTop + clientHeight + 230 - scrollHeight) + 'px'
-  } else {
-    addBtnBottom.value = '30px'
-  }
-}
-
-onMounted(() => {
-  window.addEventListener('scroll', () => {
-    scrollBottom()
-  })
-})
-
-// 关闭窗口
-let title = ref('')
-let isModal = ref(false)
-const changeModal = () => {
-  isModal.value = !isModal.value
-  cardSelected.value = -1
-  currentIndex.value = -1
-  isImgModal.value = false
-}
-
-const itemClick = (e:any) => {
-  console.log(e)
-}
-
-const addCardItem = () => {
-  title.value = '写留言'
-  isModal.value = !isModal.value
-}
-
-// 点击查看详情
+const isLoading = ref(false)
 let cardSelected = ref(-1)
 let currentIndex = ref(-1)
 let detailData = ref({})
-const clickDetail = (index: number) => {
-  title.value = '详情'
-  if(cardSelected.value === index) {
-    cardSelected.value = -1
-    isModal.value = !isModal.value
-  } else {
-    isModal.value = true
-    cardSelected.value = index
-    currentIndex.value = index
-    detailData.value = messageList.value[currentIndex.value]
-  }
-}
-
+let title = ref('')
+let isModal = ref(false)
+let noteWidth = ref(0)
+let addBtnBottom = ref('30px')
+const isLabelSelected = ref(-1)
+const messageList = ref([])
+const messageContainer = ref(null)
 const photoList = ref([
   {
     // 创建时间
@@ -339,6 +261,98 @@ const photoList = ref([
 ])
 const isImgModal = ref(false)
 let currentImgIndex = ref(-1)
+const totalMessage = ref(0)
+
+const messageParams = reactive({
+  userId: '673da8c21c64dc836eee1ead',
+  page: 1,
+  pageSize: 10,
+  tag: '',
+})
+
+// 留言墙与照片墙的切换 id
+const id = computed(() => {
+  return route.query.id
+})
+
+const changeLabelItem = (index: number) =>  {
+  isLabelSelected.value = index
+}
+
+const getNoteWidth = () => {
+  let screenWidth = document.body.clientWidth
+  // 300 = 288 + 左右 margin 6px  => 当前屏幕宽度下可以放置卡片的数量 (screenWidth - 120) / 300  ((screenWidth - 120) / 300) * 300 => 卡片总宽度
+  noteWidth.value = Math.floor((screenWidth - 120) / 300) * 300
+}
+
+onMounted(() => {
+  getNoteWidth()
+  // 监听屏幕的变化
+  window.addEventListener('resize', () => {
+    getNoteWidth()
+  })
+})
+
+const scrollBottom = () => {
+  // 滚动条距离顶部的高度
+  let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+  // 屏幕高度
+  let clientHeight = document.documentElement.clientHeight
+  // 内容高度
+  let scrollHeight = document.documentElement.scrollHeight
+
+  if(scrollTop + clientHeight + 230 >= scrollHeight) {
+    // 按钮移动
+    addBtnBottom.value = (scrollTop + clientHeight + 230 - scrollHeight) + 'px'
+    // 分页加载更多
+    isLoading.value = true
+    messageParams.page++
+    handleGetMessages().finally(() => {
+      if(messageParams.page * messageParams.pageSize >= totalMessage.value) {
+        isLoading.value = false
+      }
+    })
+  } else {
+    addBtnBottom.value = '30px'
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', () => {
+    scrollBottom()
+  })
+})
+
+const changeModal = () => {
+  isModal.value = !isModal.value
+  cardSelected.value = -1
+  currentIndex.value = -1
+  isImgModal.value = false
+}
+
+const itemClick = (e:any) => {
+  console.log(e)
+}
+
+const addCardItem = () => {
+  title.value = '写留言'
+  isModal.value = !isModal.value
+}
+
+// 点击查看详情
+const clickDetail = (index: number) => {
+  title.value = '详情'
+  if(cardSelected.value === index) {
+    cardSelected.value = -1
+    isModal.value = !isModal.value
+  } else {
+    isModal.value = true
+    cardSelected.value = index
+    currentIndex.value = index
+    detailData.value = messageList.value[currentIndex.value]
+  }
+}
+
 const photoSelect = (id: number) => {
   title.value = '详情'
   isImgModal.value = !isImgModal.value
@@ -358,15 +372,19 @@ const clickSwitch = (e: string) => {
   } else {
     return
   }
-
   currentImgIndex.value = currentIndex
   detailData.value = photoList.value[currentIndex]
-};
+}
+
+async function handleGetMessages() {
+  getMessages(messageParams).then((res: any) => {
+    messageList.value.push(...res.data)
+    totalMessage.value = res.meta.total
+  })
+}
 
 onMounted(() => {
-  getMessages({ userId: '673da8c21c64dc836eee1ead' }).then(res => {
-    messageList.value = res.data
-  })
+  handleGetMessages()
 })
 </script>
 
@@ -384,6 +402,7 @@ onMounted(() => {
       <template v-for="(item, index) in messageList" :key="index">
         <message-text-card @click="clickDetail(index)" :class="{ cardSelected: index === cardSelected }" @item-click="itemClick" class="card-item" :note="item" width="288px"></message-text-card>
       </template>
+      <div v-if="isLoading" class="w-full flex justify-center py-4">正在加载...</div>
     </div>
     <div class="photo" v-show="id === '1'">
       <template v-for="(item, index) in photoList" :key="index">
