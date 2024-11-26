@@ -11,16 +11,21 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
-import { login } from '../../api/modules/index'
+import { login } from '@/api/modules/index.ts'
+import useAuthStore from '@/stores/modules/auth.ts'
+import { useRouter } from 'vue-router'
+
+const authStore = useAuthStore()
+const router = useRouter()
 
 const username = ref('')
 const password = ref('')
 
 const handleLogin = () => {
-    console.log(username.value, password.value)
-
-    login({username: username.value, password: password.value}).then((res) => {
-        console.log(res)
+    login({ username: username.value, password: password.value }).then((res: any) => {
+      authStore.token = res.data.token
+      localStorage.setItem('token', authStore.token)
+      router.push('/')
     })
 }
 </script>

@@ -2,6 +2,7 @@ import axios from 'axios'
 import type { AxiosInstance, AxiosError, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig }  from 'axios'
 import { ElMessage } from 'element-plus'
 import type { ResultData } from './interface'
+import  useAuthStore from '../stores/modules/auth'
 
 const URL: string = 'http://localhost:5174'
 
@@ -24,6 +25,7 @@ class RequestHttp {
   // 定义成员变量并指定类型
   service: AxiosInstance
   public constructor(config: AxiosRequestConfig) {
+    const authStore = useAuthStore()
     // 实例化axios
     this.service = axios.create(config)
     /**
@@ -35,7 +37,10 @@ class RequestHttp {
       (config: InternalAxiosRequestConfig) => {
         return {
           ...config,
-        }
+          headers: {
+            'Authorization': 'Bearer Token' + authStore.token,
+          }
+        } as any
       },
       (error: AxiosError) => {
         // 请求报错
