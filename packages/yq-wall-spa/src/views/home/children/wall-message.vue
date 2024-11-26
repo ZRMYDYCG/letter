@@ -22,7 +22,6 @@ let noteWidth = ref(0)
 let addBtnBottom = ref('30px')
 const isLabelSelected = ref(-1)
 const messageList = ref([])
-const messageContainer = ref(null)
 const photoList = ref([
   {
     // 创建时间
@@ -305,13 +304,17 @@ const scrollBottom = () => {
     // 按钮移动
     addBtnBottom.value = (scrollTop + clientHeight + 230 - scrollHeight) + 'px'
     // 分页加载更多
-    isLoading.value = true
     messageParams.page++
-    handleGetMessages().finally(() => {
-      if(messageParams.page * messageParams.pageSize >= totalMessage.value) {
+    isLoading.value = true
+    if(messageParams.page * messageParams.pageSize < totalMessage.value) {
+      handleGetMessages().finally(() => {
+        if(messageParams.page * messageParams.pageSize >= totalMessage.value) {
+            isLoading.value = false
+        }
+      })
+    } else {
         isLoading.value = false
-      }
-    })
+    }
   } else {
     addBtnBottom.value = '30px'
   }
