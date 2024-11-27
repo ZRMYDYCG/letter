@@ -59,7 +59,7 @@ class messageController {
                     query.tag = tag // 根据标签过滤
                 }
 
-                const messages = await messageModel.find(query).skip(skip).limit(Number(pageSize))
+                const messages = await messageModel.find(query).sort({ createdAt: -1 }).skip(skip).limit(Number(pageSize))
                 const total = await messageModel.countDocuments(query) // 根据条件统计总数
 
                 ctx.body = {

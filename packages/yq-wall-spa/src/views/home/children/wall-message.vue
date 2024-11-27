@@ -12,6 +12,7 @@ import YqImgView from '@/components/yq-img-view/index.vue'
 
 const route = useRoute()
 
+const wall = ref<HTMLElement>()
 let noteWidth = ref(0)
 const isLoading = ref(false)
 let cardSelected = ref(-1)
@@ -303,9 +304,9 @@ const scrollBottom = async () => {
     addBtnBottom.value = (scrollTop + clientHeight + 230 - scrollHeight) + 'px'
     // 分页加载更多
     if(messageParams.page * messageParams.pageSize < totalMessage.value) {
-      await handleGetMessages()
       messageParams.page++
       isLoading.value = true
+      await handleGetMessages()
     } else {
         isLoading.value = false
     }
@@ -379,6 +380,28 @@ async function handleGetMessages() {
   })
 }
 
+/**
+ * @deprecated 处理新增留言成功
+ * */
+function handleAddSuccess(val: boolean) {
+  if(!val) return
+  isModal.value = !isModal.value
+  getMessages({
+    userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
+    page: 1,
+    pageSize: 1,
+    tag: ''
+  }).then((res: any) => {
+    messageList.value.unshift(res.data[0])
+    wall.value.scrollIntoView({ behavior: 'smooth', block: 'start' })
+
+    // 激活该条发送成功的留言
+    setTimeout(() => {
+      clickDetail(0)
+    }, 300)
+  })
+}
+
 onMounted(() => {
   handleGetMessages()
   window.addEventListener('scroll', () => {
@@ -403,7 +426,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="wall-message">
+  <div class="wall-message" ref="wall">
     <p class="title">{{ wallType[id].name }}</p>
     <p class="individual">{{ wallType[id].individual }}</p>
     <ul class="label">
@@ -430,7 +453,7 @@ onBeforeUnmount(() => {
       <span>添加</span>
     </div>
     <yq-modal @change-modal="changeModal" :title="title" :isModal="isModal">
-      <creat-message :id="Number(id)" v-if="title === '写留言'"></creat-message>
+      <creat-message :id="Number(id)" v-if="title === '写留言'" @add-success="handleAddSuccess"></creat-message>
       <message-detail v-if="title === '详情'" :item="detailData"></message-detail>
     </yq-modal>
     <yq-img-view @click-switch="clickSwitch" :img-url="photoList[currentImgIndex]?.imgUrl" v-show="isImgModal"></yq-img-view>

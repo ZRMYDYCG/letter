@@ -8,6 +8,7 @@ interface IProps {
   id: number
 }
 
+const emits = defineEmits(['add-success'])
 const props = withDefaults(defineProps<IProps>(), {
   id: 0
 })
@@ -55,7 +56,9 @@ const handleAddMessage = async () => {
       tag: tagSelected.value,
       color: colorSelected.value,
     }).then((res) => {
-      console.log(res)
+      if(res.code === 200) {
+        emits('add-success', true)
+      }
     })
   }
 }
