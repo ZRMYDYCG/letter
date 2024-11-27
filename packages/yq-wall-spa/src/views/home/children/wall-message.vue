@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, reactive, onBeforeUnmount } from 'vue'
+import { ref, onMounted, computed, reactive, onBeforeUnmount, nextTick } from 'vue'
 import { useRoute } from "vue-router"
 import { wallType, label } from '@/config'
 import { getMessages } from '@/api/modules'
@@ -18,6 +18,7 @@ const isLoading = ref(false)
 let cardSelected = ref(-1)
 let currentIndex = ref(-1)
 let detailData = ref({})
+const messageDetailRef = ref<InstanceType<typeof MessageDetail> | null>(null)
 let title = ref('')
 let isModal = ref(false)
 let addBtnBottom = ref('30px')
@@ -325,10 +326,6 @@ const changeModal = () => {
   isImgModal.value = false
 }
 
-const itemClick = (e:any) => {
-  console.log(e)
-}
-
 const addCardItem = () => {
   title.value = '写留言'
   isModal.value = !isModal.value
@@ -347,6 +344,14 @@ const clickDetail = (index: number) => {
     cardSelected.value = index
     currentIndex.value = index
     detailData.value = messageList.value[currentIndex.value]
+
+    nextTick(() => {
+      try {
+        messageDetailRef.value?.handleGetMessageComments()
+      } catch (error) {
+        console.log(error)
+      }
+    })
   }
 }
 
@@ -443,7 +448,7 @@ onBeforeUnmount(() => {
     </ul>
     <div class="card" :style="{ width: noteWidth + 'px' }" v-if="id === '0' && messageList.length > 0">
       <template v-for="(item, index) in messageList" :key="index">
-        <message-text-card @click="clickDetail(index)" :class="{ cardSelected: index === cardSelected }" @item-click="itemClick" class="card-item" :note="item" width="288px"></message-text-card>
+        <message-text-card @click.native="clickDetail(index)" :class="{ cardSelected: index === cardSelected }" class="card-item" :note="item" width="288px"></message-text-card>
       </template>
       <div v-if="isLoading" class="w-full flex justify-center py-4">正在加载...</div>
     </div>
@@ -460,7 +465,7 @@ onBeforeUnmount(() => {
     </div>
     <yq-modal @change-modal="changeModal" :title="title" :isModal="isModal">
       <creat-message :id="Number(id)" v-if="title === '写留言'" @add-success="handleAddSuccess"></creat-message>
-      <message-detail v-if="title === '详情'" :item="detailData"></message-detail>
+      <message-detail ref="messageDetailRef" v-if="title === '详情'" :item="detailData"></message-detail>
     </yq-modal>
     <yq-img-view @click-switch="clickSwitch" :img-url="photoList[currentImgIndex]?.imgUrl" v-show="isImgModal"></yq-img-view>
   </div>

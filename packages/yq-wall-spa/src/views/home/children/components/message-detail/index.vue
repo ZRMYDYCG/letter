@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, defineExpose } from 'vue'
 import { portrait } from '@/config'
 import { getMessageComments, addMessageComment } from '@/api/modules/index.ts'
 import YiCard from '@/views/home/children/components/message-text-card/index.vue'
@@ -37,8 +37,8 @@ function handleGetMessageComments() {
   })
 }
 
-onMounted(() => {
-  handleGetMessageComments()
+defineExpose({
+  handleGetMessageComments,
 })
 </script>
 
