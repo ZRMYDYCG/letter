@@ -1,4 +1,13 @@
-// 墙的性质
+/**
+ * @description 墙的类型
+ * [0]留言墙
+ * [1]照片墙
+ * [2]视频墙
+ * [3]音频墙
+ * [4]链接墙
+ * [5]问答墙
+ * [6]公告墙
+ * */
 export const wallType = [
     {
         name: '留言墙',
@@ -10,13 +19,24 @@ export const wallType = [
     }
 ]
 
-// 分类标签
+/**
+ * @description 墙的标签
+ * [0][] 文本墙
+ * [1][] 图片墙
+ * [2][] 视频墙
+ * [3][] 音频墙
+ * [4][] 链接墙
+ * [5][] 问答墙
+ * [6][] 公告墙
+ * */
 export const label = [
     ['留言', '目标', '理想', '过去', '将来', '爱情', '亲情', '友情', '秘密', '信条', '无题'],
     ['我', 'ta', '喜欢的', '有意义的', '值得纪念的', '母校', '生活', '天空', '我在的城市', '大海']
 ]
 
-// 卡片背景色
+/**
+ * @description 文本墙留言信息的颜色
+ * */
 export const cardColor = [
     'rgba(252, 175, 162, 0.30)',
     'rgba(255, 227, 148, 0.30)',
@@ -26,6 +46,9 @@ export const cardColor = [
     'rgba(212, 212, 212, 0.30)'
 ]
 
+/**
+ * @description 文本墙留言信息的颜色选项
+ * */
 export const cardColorOptions = [
     'rgba(252, 175, 162, 1)',
     'rgba(255, 227, 148, 1)',
@@ -35,6 +58,9 @@ export const cardColorOptions = [
     'rgba(212, 212, 212, 1)'
 ]
 
+/**
+ * @description 用户注册后默认分配的头像颜色
+ * */
 export const portrait = [
     'linear-gradient(180deg, #FFA9D9 0%, #E83D3D 100%)',
     'linear-gradient(180deg, #FFA7EB 0%, #F026A8 100%)',

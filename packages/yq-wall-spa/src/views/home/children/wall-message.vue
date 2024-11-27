@@ -309,7 +309,7 @@ const scrollBottom = () => {
     if(messageParams.page * messageParams.pageSize < totalMessage.value) {
       handleGetMessages().finally(() => {
         if(messageParams.page * messageParams.pageSize >= totalMessage.value) {
-            isLoading.value = false
+          isLoading.value = true
         }
       })
     } else {
