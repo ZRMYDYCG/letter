@@ -1,107 +1,81 @@
 <script setup lang="ts">
-import YiCard from '@/views/home/children/components/message-text-card/index.vue'
-import YiButton from '@/components/yq-button/index.vue'
+import { onMounted, ref } from 'vue'
 import { portrait } from '@/config'
+import { getMessageComments, addMessageComment } from '@/api/modules/index.ts'
+import YiCard from '@/views/home/children/components/message-text-card/index.vue'
+import YqButton from '@/components/yq-button/index.vue'
 
-const commentList = [
-  {
-    moment: "2024.06.05",
-    id: 1,
-    userId: 2,
-    message: "让我们一起迎接每一个日出，享受每一次日落，珍惜每一段旅程。因为，这就是生活的真谛。",
-    name: "一勺",
-    imgUrl: 2
-  },
-  {
-    moment: "2024.06.05",
-    id: 2,
-    userId: 2,
-    message: "你的内心拥有无限的力量，只要相信自己，就没有什么是不可能的。",
-    name: "一勺",
-    imgUrl: 3
-  },
-  {
-    moment: "2024.06.05",
-    id: 3,
-    userId: 2,
-    message: " 在这个旅程中，我们不是孤单一人。",
-    name: "一勺",
-    imgUrl: 1
-  },
-  {
-    moment: "2024.06.05",
-    id: 4,
-    userId: 2,
-    message: " 在这个旅程中，我们不是孤单一人。",
-    name: "一勺",
-    imgUrl: 1
-  },
-  {
-    moment: "2024.06.05",
-    id: 5,
-    userId: 2,
-    message: " 在这个旅程中，我们不是孤单一人。",
-    name: "一勺",
-    imgUrl: 1
-  },
-  {
-    moment: "2024.06.05",
-    id: 6,
-    userId: 2,
-    message: " 在这个旅程中，我们不是孤单一人。",
-    name: "一勺",
-    imgUrl: 1
-  },
-  {
-    moment: "2024.06.05",
-    id: 7,
-    userId: 2,
-    message: " 在这个旅程中，我们不是孤单一人。",
-    name: "一勺",
-    imgUrl: 1
-  }
-]
 
-const props = defineProps({
-  item: {
-    type: Object,
-    default: {}
-  }
+const commentList= ref<any[]>([] )
+const content = ref('')
+const nickName = ref('')
+
+interface IMessageDetail {
+  item?: any
+}
+
+const props =defineProps<IMessageDetail>()
+
+function handleAddMessageComment() {
+  addMessageComment({
+    messageId: props.item._id,
+    content: content.value,
+    nickName: nickName.value,
+    userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id,
+  }).then((res) => {
+    if(res) {
+      commentList.value.push(res.data)
+      content.value = ''
+      nickName.value = ''
+    }
+  })
+}
+
+function handleGetMessageComments() {
+  getMessageComments({ messageId: props.item._id }).then(res => {
+    commentList.value = res.data
+  })
+}
+
+onMounted(() => {
+  handleGetMessageComments()
 })
 </script>
 
 <template>
   <div class="card-detail">
     <div class="top">
-      <span class="text-3xl text-rose-500">你好</span>
       <span class="revoke">联系墙主撕掉该便签</span>
       <span class="report">举报</span>
     </div>
     <yi-card class="card-item" :note="item"></yi-card>
     <div class="form">
-      <textarea placeholder="请输入评论" class="message"></textarea>
+      <textarea placeholder="请输入评论" class="message" v-model="content"></textarea>
       <div class="send">
-        <input placeholder="签名" class="inp"></input>
-        <yi-button>确定</yi-button>
+        <input placeholder="签名" class="inp" v-model="nickName" />
+        <yq-button @click.native="handleAddMessageComment">确定</yq-button>
       </div>
     </div>
-    <p class="title">评论 {{ item.comment }}</p>
-    <ul class="comment">
+    <p class="title">评论 {{ commentList.length }}</p>
+    <ul class="comment" v-if="commentList.length > 0">
       <template v-for="(item, index) in commentList" :key="index">
         <li class="item">
-          <div class="user-head" :style="{ backgroundImage: portrait[item.imgUrl] }"></div>
+          <div class="user-head" :style="{ backgroundImage: portrait[0] }"></div>
           <div class="detail">
             <div class="detail-top">
-              <span class="name">{{ item.name }}</span>
-              <span class="time">{{ item.moment }}</span>
+              <span class="name">{{ item.nickName || '匿名' }}</span>
+              <span class="time">{{ item.createdAt }}</span>
             </div>
             <div class="detail-main">
-              {{ item.message }}
+              {{ item.content }}
             </div>
           </div>
         </li>
       </template>
     </ul>
+    <div v-else>
+      暂时还没有评论...
+    </div>
   </div>
 </template>
 

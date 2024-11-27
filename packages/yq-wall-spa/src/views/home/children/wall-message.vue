@@ -381,6 +381,13 @@ async function handleGetMessages() {
 }
 
 /**
+ * @deprecated 回到顶部
+ * */
+function toWallTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+/**
  * @deprecated 处理新增留言成功
  * */
 function handleAddSuccess(val: boolean) {
@@ -393,8 +400,7 @@ function handleAddSuccess(val: boolean) {
     tag: ''
   }).then((res: any) => {
     messageList.value.unshift(res.data[0])
-    wall.value.scrollIntoView({ behavior: 'smooth', block: 'start' })
-
+    toWallTop()
     // 激活该条发送成功的留言
     setTimeout(() => {
       clickDetail(0)
@@ -426,7 +432,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="wall-message" ref="wall">
+  <div class="wall-message">
     <p class="title">{{ wallType[id].name }}</p>
     <p class="individual">{{ wallType[id].individual }}</p>
     <ul class="label">

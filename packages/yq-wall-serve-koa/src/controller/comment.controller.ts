@@ -6,8 +6,8 @@ class commentController {
     * @desc 给某条留言添加评论
     * */
     async createComment(ctx: Context) {
-        const { content, messageId, userId } = ctx.request.body as any
-        const comment = await commentModel.create({ content, messageId, userId })
+        const { content, messageId, userId, nickName } = ctx.request.body as any
+        const comment = await commentModel.create({ content, messageId, userId, nickName })
         ctx.body = {
           success: true,
           data: comment
