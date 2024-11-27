@@ -12,7 +12,13 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 export default defineConfig(({ command }) => {
   return {
     plugins: [
-      vue(),
+      vue({
+        template: {
+          compilerOptions: {
+            isCustomElement: (tag) => tag === 'iconpark-icon'
+          }
+        }
+      }),
       vueJsx(),
       viteMockServe({
         enable: command === 'serve'

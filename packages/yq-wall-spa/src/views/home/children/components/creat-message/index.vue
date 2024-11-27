@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { cardColorOptions, cardColor, label } from '@/utils/data'
+import { cardColorOptions, cardColor, label } from '@/config'
 import { addMessage } from '@/api/modules'
 import YiButton from '@/components/yq-button/index.vue'
 
@@ -13,17 +13,17 @@ const props = withDefaults(defineProps<IProps>(), {
 })
 
 let colorSelected = ref(0)
-let labelSelected = ref(0)
+let tagSelected = ref(0)
 let url = ref('')
 let content = ref('')
-let name = ref('')
+let nickName = ref('')
 
 function changeColor(index: number) {
   colorSelected.value = index
 }
 
 function changeLabel(index: number) {
-  labelSelected.value = index
+  tagSelected.value = index
 }
 
 function  getObjectUrl(file: any) {
@@ -44,16 +44,20 @@ function showPhoto() {
 
 // 发布留言
 const handleAddMessage = async () => {
-  const res = await addMessage({
-    type: 'text',
-    userId: '673da8c21c64dc836eee1ead',
-    nickName: '一乐',
-    color: 'red',
-    image: "",
-    tag: '成长',
-    content: "你一定要好好长大",
-  })
-  console.log(res)
+  // 文本留言
+  if(props.id === 0) {
+    console.log(nickName.value)
+    addMessage({
+      type: props.id,
+      userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id,
+      nickName: nickName.value,
+      content: content.value,
+      tag: tagSelected.value,
+      color: colorSelected.value,
+    }).then((res) => {
+      console.log(res)
+    })
+  }
 }
 </script>
 
@@ -80,12 +84,12 @@ const handleAddMessage = async () => {
     <!--  卡片  -->
     <div class="card-main" v-if="id === 0" :style="{ background: cardColor[colorSelected] }">
       <textarea class="message" placeholder="留言..." maxlength="96" v-model="content"></textarea>
-      <input class="name" type="text" placeholder="签名" v-model="name" />
+      <input class="name" type="text" placeholder="签名" v-model="nickName" />
     </div>
     <div class="labels">
       <p class="title">请选择标签</p>
       <ul class="list">
-        <li class="item" @click="changeLabel(index)" :class="{ labelSelected: labelSelected === index }" v-for="(item, index) in label[id]" :key="index">{{ item }}</li>
+        <li class="item" @click="changeLabel(index)" :class="{ tagSelected: tagSelected === index }" v-for="(item, index) in label[id]" :key="index">{{ item }}</li>
       </ul>
     </div>
     <div class="state">
@@ -223,7 +227,7 @@ const handleAddMessage = async () => {
   color: #5B5B5B;
   transition: all 0.3s;
 }
-.new-card .labels .list .labelSelected {
+.new-card .labels .list .tagSelected {
   background: #EBEBEB;
   font-weight: 600;
   color: #202020;

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { label, cardColor } from '@/utils/data.ts'
+import { label, cardColor } from '@/config'
 
 const props = defineProps({
   photo: {

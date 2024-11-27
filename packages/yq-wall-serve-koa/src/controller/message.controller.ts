@@ -6,6 +6,7 @@ interface CreateMessageBody {
     type?: number   // 类型
     color?: string  // 卡片颜色
     tag?: string    // 标签
+    nickName?: string // 用户的留言昵称
 }
 
 class messageController {
@@ -13,8 +14,8 @@ class messageController {
     * @desc 创建留言
     * */
     async createMessage(ctx: Context) {
-        const { content, userId, type, color, tag } = ctx.request.body as CreateMessageBody
-        const message = await messageModel.create({ content, userId, type, color, tag })
+        const { content, userId, type, color, tag, nickName } = ctx.request.body as CreateMessageBody
+        const message = await messageModel.create({ content, userId, type, color, tag, nickName })
         ctx.body = {
             code: 200,
             message: '留言创建成功',

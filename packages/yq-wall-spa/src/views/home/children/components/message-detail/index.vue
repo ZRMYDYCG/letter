@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import YiCard from '@/views/home/children/components/message-text-card/index.vue'
 import YiButton from '@/components/yq-button/index.vue'
-import { portrait } from '@/utils/data'
+import { portrait } from '@/config'
 
 const commentList = [
   {

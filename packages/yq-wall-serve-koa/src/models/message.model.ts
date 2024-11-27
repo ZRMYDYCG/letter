@@ -14,7 +14,7 @@ const messageSchema = new mongoose.Schema({
     /*背景图*/
     image: { type: String, default: "" },
     /*标签*/
-    tag: { type: String, required: true },
+    tag: { type: Number, required: true },
     /*点赞数*/
     like: { type: Number, default: 0 },
     /*点赞用户列表*/
