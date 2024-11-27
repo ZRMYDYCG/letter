@@ -8,13 +8,13 @@ const messageSchema = new mongoose.Schema({
     /*留言内容*/
     content: { type: String, required: true },
     /*留言类型*/
-    type: { type: String, required: true },
+    type: { type: Number, required: true },
     /*背景色*/
-    color: { type: String, required: true },
+    color: { type: Number, required: true },
     /*背景图*/
     image: { type: String, default: "" },
     /*标签*/
-    tag: { type: String, required: true },
+    tag: { type: Number, required: true },
     /*点赞数*/
     like: { type: Number, default: 0 },
     /*点赞用户列表*/

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, reactive } from 'vue'
+import { ref, onMounted, computed, reactive, onBeforeUnmount } from 'vue'
 import { useRoute } from "vue-router"
-import { wallType, label } from '@/utils/data'
+import { wallType, label } from '@/config'
 import { getMessages } from '@/api/modules'
 import MessageTextCard from '@/views/home/children/components/message-text-card/index.vue'
 import YqModal from '@/components/yq-modal/index.vue'
@@ -12,17 +12,17 @@ import YqImgView from '@/components/yq-img-view/index.vue'
 
 const route = useRoute()
 
+const wall = ref<HTMLElement>()
+let noteWidth = ref(0)
 const isLoading = ref(false)
 let cardSelected = ref(-1)
 let currentIndex = ref(-1)
 let detailData = ref({})
 let title = ref('')
 let isModal = ref(false)
-let noteWidth = ref(0)
 let addBtnBottom = ref('30px')
 const isLabelSelected = ref(-1)
 const messageList = ref([])
-const messageContainer = ref(null)
 const photoList = ref([
   {
     // 创建时间
@@ -264,7 +264,7 @@ let currentImgIndex = ref(-1)
 const totalMessage = ref(0)
 
 const messageParams = reactive({
-  userId: '673da8c21c64dc836eee1ead',
+  userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
   page: 1,
   pageSize: 10,
   tag: '',
@@ -279,21 +279,19 @@ const changeLabelItem = (index: number) =>  {
   isLabelSelected.value = index
 }
 
+/**
+ * 动态计算留言墙的宽度
+ * */
 const getNoteWidth = () => {
   let screenWidth = document.body.clientWidth
-  // 300 = 288 + 左右 margin 6px  => 当前屏幕宽度下可以放置卡片的数量 (screenWidth - 120) / 300  ((screenWidth - 120) / 300) * 300 => 卡片总宽度
+  // 300 = 288 + 左右 margin 6px  => 当前屏幕宽度下可以放置卡片的数量 (screenWidth - 120) / 300  ((screenWidth - 120) / 300) * 300 => 卡片墙的总宽度
   noteWidth.value = Math.floor((screenWidth - 120) / 300) * 300
 }
 
-onMounted(() => {
-  getNoteWidth()
-  // 监听屏幕的变化
-  window.addEventListener('resize', () => {
-    getNoteWidth()
-  })
-})
-
-const scrollBottom = () => {
+/**
+ * 触底
+ * */
+const scrollBottom = async () => {
   // 滚动条距离顶部的高度
   let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
   // 屏幕高度
@@ -305,24 +303,21 @@ const scrollBottom = () => {
     // 按钮移动
     addBtnBottom.value = (scrollTop + clientHeight + 230 - scrollHeight) + 'px'
     // 分页加载更多
-    isLoading.value = true
-    messageParams.page++
-    handleGetMessages().finally(() => {
-      if(messageParams.page * messageParams.pageSize >= totalMessage.value) {
+    if(messageParams.page * messageParams.pageSize < totalMessage.value) {
+      messageParams.page++
+      isLoading.value = true
+      await handleGetMessages()
+    } else {
         isLoading.value = false
-      }
-    })
+    }
   } else {
     addBtnBottom.value = '30px'
   }
 }
 
-onMounted(() => {
-  window.addEventListener('scroll', () => {
-    scrollBottom()
-  })
-})
-
+/**
+ * 打开留言弹窗
+ * */
 const changeModal = () => {
   isModal.value = !isModal.value
   cardSelected.value = -1
@@ -339,7 +334,9 @@ const addCardItem = () => {
   isModal.value = !isModal.value
 }
 
-// 点击查看详情
+/**
+ * @description: 点击留言详情
+ * */
 const clickDetail = (index: number) => {
   title.value = '详情'
   if(cardSelected.value === index) {
@@ -383,8 +380,54 @@ async function handleGetMessages() {
   })
 }
 
+/**
+ * @deprecated 回到顶部
+ * */
+function toWallTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+/**
+ * @deprecated 处理新增留言成功
+ * */
+function handleAddSuccess(val: boolean) {
+  if(!val) return
+  isModal.value = !isModal.value
+  getMessages({
+    userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
+    page: 1,
+    pageSize: 1,
+    tag: ''
+  }).then((res: any) => {
+    messageList.value.unshift(res.data[0])
+    toWallTop()
+    // 激活该条发送成功的留言
+    setTimeout(() => {
+      clickDetail(0)
+    }, 300)
+  })
+}
+
 onMounted(() => {
   handleGetMessages()
+  window.addEventListener('scroll', () => {
+    scrollBottom()
+  })
+  getNoteWidth()
+  // 监听屏幕的变化
+  window.addEventListener('resize', () => {
+    getNoteWidth()
+  })
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', () => {
+    scrollBottom()
+  })
+
+  window.removeEventListener('resize', () => {
+    getNoteWidth()
+  })
 })
 </script>
 
@@ -398,13 +441,16 @@ onMounted(() => {
         <li class="item" :class="{ selected: isLabelSelected === index }" @click="changeLabelItem(Number(index))">{{ item }}</li>
       </template>
     </ul>
-    <div class="card" :style="{ width: noteWidth + 'px' }" v-show="id === '0'">
+    <div class="card" :style="{ width: noteWidth + 'px' }" v-if="id === '0' && messageList.length > 0">
       <template v-for="(item, index) in messageList" :key="index">
         <message-text-card @click="clickDetail(index)" :class="{ cardSelected: index === cardSelected }" @item-click="itemClick" class="card-item" :note="item" width="288px"></message-text-card>
       </template>
       <div v-if="isLoading" class="w-full flex justify-center py-4">正在加载...</div>
     </div>
-    <div class="photo" v-show="id === '1'">
+    <div v-else>
+      暂时还没有留言...
+    </div>
+    <div class="photo" v-if="id === '1'">
       <template v-for="(item, index) in photoList" :key="index">
         <message-photo-card @click="photoSelect(index)" :photo="item"></message-photo-card>
       </template>
@@ -413,7 +459,7 @@ onMounted(() => {
       <span>添加</span>
     </div>
     <yq-modal @change-modal="changeModal" :title="title" :isModal="isModal">
-      <creat-message :id="Number(id)" v-if="title === '写留言'"></creat-message>
+      <creat-message :id="Number(id)" v-if="title === '写留言'" @add-success="handleAddSuccess"></creat-message>
       <message-detail v-if="title === '详情'" :item="detailData"></message-detail>
     </yq-modal>
     <yq-img-view @click-switch="clickSwitch" :img-url="photoList[currentImgIndex]?.imgUrl" v-show="isImgModal"></yq-img-view>

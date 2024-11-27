@@ -5,6 +5,8 @@ const commentSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'users', required: true },
     /* 当前评论关联的留言ID */
     messageId: { type: mongoose.Schema.Types.ObjectId, ref: 'messages', required: true },
+    /* 评论用户签名 */
+    nickName: { type: String, required: true },
     /* 评论内容 */
     content: { type: String, required: true },
     /* 评论时间 */

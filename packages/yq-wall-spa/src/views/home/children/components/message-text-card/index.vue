@@ -1,4 +1,5 @@
-<script setup lang="ts">
+<script setup lang="ts" xmlns="">
+import { cardColor, label } from '@/config/index.ts'
 interface IProps {
   width?: string
   height?: string
@@ -14,24 +15,24 @@ const itemClick = () => {
 </script>
 
 <template>
-  <div class="yi-card" @click="itemClick" :style="{ width: width, background: `${note.color}` }">
+  <div class="yi-card" @click="itemClick" :style="{ width: width, background: cardColor[note.color] }">
     <div class="header">
       <span class="time">{{ note.createdAt }}</span>
-      <span class="label">{{ note.tag }}</span>
+      <span class="label">{{ label[0][note.tag] }}</span>
     </div>
     <p class="message">{{ note.content }}</p>
     <div class="footer">
       <div class="footer-left">
         <div class="item">
-          <span>#</span>
+          <iconpark-icon name="like" size="18"></iconpark-icon>
           <span class="value">{{ note.like }}</span>
         </div>
         <div class="item">
-          <span>#</span>
+          <iconpark-icon name="comment" size="18"></iconpark-icon>
           <span class="value">{{ note.comment }}</span>
         </div>
       </div>
-      <div class="name">{{ note.nickName }}</div>
+      <div class="name">{{ note.nickName || '匿名' }}</div>
     </div>
   </div>
 </template>
