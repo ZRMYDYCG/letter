@@ -292,7 +292,7 @@ onMounted(() => {
   })
 })
 
-const scrollBottom = () => {
+const scrollBottom = async () => {
   // 滚动条距离顶部的高度
   let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
   // 屏幕高度
@@ -303,15 +303,11 @@ const scrollBottom = () => {
   if(scrollTop + clientHeight + 230 >= scrollHeight) {
     // 按钮移动
     addBtnBottom.value = (scrollTop + clientHeight + 230 - scrollHeight) + 'px'
-    // 分页加载更多
-    messageParams.page++
-    isLoading.value = true
     if(messageParams.page * messageParams.pageSize < totalMessage.value) {
-      handleGetMessages().finally(() => {
-        if(messageParams.page * messageParams.pageSize >= totalMessage.value) {
-          isLoading.value = true
-        }
-      })
+      await handleGetMessages()
+      // 分页加载更多
+      messageParams.page++
+      isLoading.value = true
     } else {
         isLoading.value = false
     }
