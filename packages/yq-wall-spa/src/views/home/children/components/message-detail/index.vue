@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, defineExpose, watch} from 'vue'
+import { ref, defineExpose, h, createApp  } from 'vue'
 import { portrait } from '@/config'
 import html2canvas from 'html2canvas'
 import { getMessageComments, addMessageComment } from '@/api/modules/index.ts'
@@ -7,6 +7,7 @@ import YiCard from '@/views/home/children/components/message-text-card/index.vue
 import YqButton from '@/components/yq-button/index.vue'
 import RevokeDialog from '../revoke-dialog/index.vue'
 import YqLoading from '@/components/yq-loading/index.vue'
+import CardForCanves from '../message-text-card/card-for-canves.vue'
 
 const commentList= ref<any[]>([] )
 const content = ref('')
@@ -55,14 +56,42 @@ const handleOnConfirm = (data) => {
  * */
 const generateScreenshot = async () => {
   imgIsLoaded.value = true
-  const element = document.getElementById("view")
-  if (element) {
-    const canvas = await html2canvas(element)
-    screenshotUrl.value = canvas.toDataURL("image/png")
-    imgIsLoaded.value = false
-    emits('share-url', screenshotUrl.value)
+
+  // 创建隐藏的 DOM 容器
+  const hiddenContainer = document.createElement('div')
+  document.body.appendChild(hiddenContainer)
+
+  // 获取 CardForCanves 的宽度
+  const cardElement = document.querySelector('.card-item') // 获取元素
+  if (cardElement) {
+    const cardWidth = cardElement.offsetWidth + 70 // 获取宽度
+    hiddenContainer.style.width = `${cardWidth}px` // 设置隐藏容器的宽度
   }
+
+  // 创建 Vue 实例
+  const appInstance = createApp({
+    render() {
+      return h(CardForCanves, { note: props.item, width: '100%' }) // 这里使用 100% 以适应容器
+    }
+  })
+
+  // 挂载组件
+  appInstance.mount(hiddenContainer)
+
+  // 等待一段时间以确保 DOM 渲染完毕
+  await new Promise(resolve => setTimeout(resolve, 300))
+
+  // 生成截图
+  const canvas = await html2canvas(hiddenContainer)
+  screenshotUrl.value = canvas.toDataURL("image/png")
+  imgIsLoaded.value = false;
+  emits('share-url', screenshotUrl.value)
+
+  // 卸载组件并移除隐藏容器
+  appInstance.unmount()
+  document.body.removeChild(hiddenContainer)
 }
+
 
 defineExpose({
   handleGetMessageComments,
@@ -83,7 +112,7 @@ defineExpose({
         <iconpark-icon name="share"></iconpark-icon>
       </div>
     </div>
-    <yi-card class="card-item" :note="item" id="view"></yi-card>
+    <yi-card class="card-item" :note="item"></yi-card>
     <div class="form">
       <textarea placeholder="请输入评论" class="message" v-model="content"></textarea>
       <div class="send">

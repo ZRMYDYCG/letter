@@ -10,7 +10,6 @@ import MessageDetail from './components/message-detail/index.vue'
 import MessagePhotoCard from '@/views/home/children/components/message-photo-card/index.vue'
 import YqImgView from '@/components/yq-img-view/index.vue'
 import YqButton from '@/components/yq-button/index.vue'
-import YqLoading from '@/components/yq-loading/index.vue'
 
 const route = useRoute()
 

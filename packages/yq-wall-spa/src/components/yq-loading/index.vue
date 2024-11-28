@@ -1,6 +1,6 @@
 <template>
   <teleport :to="container">
-    <div class="full-loading" v-if="isLoading">
+    <div class="flex flex-col items-center justify-center text-white z-[9999] bg-black opacity-[0.5] fixed top-0 left-0 h-full w-full" v-if="isLoading">
       <div class="spinner"></div>
       <p class="mt-1">正在加载...</p>
     </div>
@@ -19,21 +19,6 @@ const props = withDefaults(defineProps<IProps>(), {
 </script>
 
 <style scoped>
-.full-loading {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  z-index: 9999;
-}
-
 .spinner {
   border: 8px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
