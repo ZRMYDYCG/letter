@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, reactive, onBeforeUnmount, nextTick } from 'vue'
+import { ref, onMounted, computed, reactive, onBeforeUnmount, nextTick, watch } from 'vue'
 import { useRoute } from "vue-router"
 import { wallType, label } from '@/config'
 import { getMessages } from '@/api/modules'
@@ -10,6 +10,7 @@ import MessageDetail from './components/message-detail/index.vue'
 import MessagePhotoCard from '@/views/home/children/components/message-photo-card/index.vue'
 import YqImgView from '@/components/yq-img-view/index.vue'
 import YqButton from '@/components/yq-button/index.vue'
+import YqLoading from '@/components/yq-loading/index.vue'
 
 const route = useRoute()
 
@@ -265,6 +266,7 @@ const isImgModal = ref(false)
 let currentImgIndex = ref(-1)
 const totalMessage = ref(0)
 const shareImgUrl = ref('')
+const isImgUrlLoading = ref(false)
 
 const messageParams = reactive({
   userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
@@ -278,7 +280,7 @@ const id = computed(() => {
   return route.query.id
 })
 
-const changeLabelItem = (index: number) =>  {
+const changeLabelItem = (index: number) => {
   isLabelSelected.value = index
 }
 
@@ -421,7 +423,7 @@ function handleAddSuccess(val: boolean) {
 /*
 * @description: 处理分享
 * **/
-const handleShare = (url: string) => {
+const handleShareUrl = (url: string) => {
   shareImgUrl.value = url
 }
 
@@ -431,6 +433,10 @@ const isShowImgDialog = computed(() => {
 
 const closeImgShareDialog = () => {
   shareImgUrl.value = ''
+}
+
+const handleFinishLoadingUrl = (val: boolean) => {
+  if(val) isImgUrlLoading.value = false
 }
 
 onMounted(() => {
@@ -485,7 +491,7 @@ onBeforeUnmount(() => {
     </div>
     <yq-modal @change-modal="changeModal" :title="title" :isModal="isModal">
       <creat-message :id="Number(id)" v-if="title === '写留言'" @add-success="handleAddSuccess"></creat-message>
-      <message-detail ref="messageDetailRef" v-if="title === '详情'" :item="detailData" @share="handleShare"></message-detail>
+      <message-detail ref="messageDetailRef" v-if="title === '详情'" :item="detailData" @share-url="handleShareUrl" @finish-loading-url="handleFinishLoadingUrl"></message-detail>
     </yq-modal>
     <yq-img-view @click-switch="clickSwitch" :img-url="photoList[currentImgIndex]?.imgUrl" v-show="isImgModal"></yq-img-view>
   </div>

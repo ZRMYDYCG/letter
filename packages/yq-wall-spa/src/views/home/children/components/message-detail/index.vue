@@ -1,24 +1,26 @@
 <script setup lang="ts">
-import { ref, defineExpose } from 'vue'
+import {ref, defineExpose, watch} from 'vue'
 import { portrait } from '@/config'
 import html2canvas from 'html2canvas'
 import { getMessageComments, addMessageComment } from '@/api/modules/index.ts'
 import YiCard from '@/views/home/children/components/message-text-card/index.vue'
 import YqButton from '@/components/yq-button/index.vue'
 import RevokeDialog from '../revoke-dialog/index.vue'
+import YqLoading from '@/components/yq-loading/index.vue'
 
 const commentList= ref<any[]>([] )
 const content = ref('')
 const nickName = ref('')
 let revokeDialogRef = ref<InstanceType<typeof revokeDialogRef> | null>(null)
 const screenshotUrl = ref<string | null>(null)
+const imgIsLoaded = ref(false)
 
 interface IMessageDetail {
   item?: any
 }
 
 const props =defineProps<IMessageDetail>()
-const emits = defineEmits(['share'])
+const emits = defineEmits(['share-url'])
 
 function handleAddMessageComment() {
   addMessageComment({
@@ -52,11 +54,13 @@ const handleOnConfirm = (data) => {
  * 分享留言
  * */
 const generateScreenshot = async () => {
+  imgIsLoaded.value = true
   const element = document.getElementById("view")
   if (element) {
     const canvas = await html2canvas(element)
     screenshotUrl.value = canvas.toDataURL("image/png")
-    emits('share', screenshotUrl.value)
+    imgIsLoaded.value = false
+    emits('share-url', screenshotUrl.value)
   }
 }
 
@@ -108,6 +112,7 @@ defineExpose({
       暂时还没有评论...
     </div>
   </div>
+  <yq-loading :is-loading="imgIsLoaded" container="body"></yq-loading>
 </template>
 
 <style scoped>
