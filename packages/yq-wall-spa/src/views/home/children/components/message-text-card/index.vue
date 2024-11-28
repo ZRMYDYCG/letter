@@ -12,6 +12,10 @@ const emits = defineEmits(['item-click'])
 const itemClick = () => {
   emits('item-click')
 }
+
+const handleLike = () => {
+  console.log('like')
+}
 </script>
 
 <template>
@@ -24,7 +28,7 @@ const itemClick = () => {
     <div class="footer">
       <div class="footer-left">
         <div class="item">
-          <iconpark-icon name="like" size="18"></iconpark-icon>
+          <iconpark-icon name="like" size="18" @click.stop="handleLike"></iconpark-icon>
           <span class="value">{{ note.like }}</span>
         </div>
         <div class="item">
