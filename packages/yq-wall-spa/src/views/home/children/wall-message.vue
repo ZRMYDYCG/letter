@@ -4,11 +4,12 @@ import { useRoute } from "vue-router"
 import { wallType, label } from '@/config'
 import { getMessages } from '@/api/modules'
 import MessageTextCard from '@/views/home/children/components/message-text-card/index.vue'
-import YqModal from '@/components/yq-modal/index.vue'
+import YqModal from '@/components/yq-drawer/index.vue'
 import CreatMessage from './components/creat-message/index.vue'
 import MessageDetail from './components/message-detail/index.vue'
 import MessagePhotoCard from '@/views/home/children/components/message-photo-card/index.vue'
 import YqImgView from '@/components/yq-img-view/index.vue'
+import YqButton from '@/components/yq-button/index.vue'
 
 const route = useRoute()
 
@@ -263,6 +264,7 @@ const photoList = ref([
 const isImgModal = ref(false)
 let currentImgIndex = ref(-1)
 const totalMessage = ref(0)
+const shareImgUrl = ref('')
 
 const messageParams = reactive({
   userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
@@ -347,7 +349,10 @@ const clickDetail = (index: number) => {
 
     nextTick(() => {
       try {
+        // 获取留言评论
         messageDetailRef.value?.handleGetMessageComments()
+        // 关闭举报弹窗
+        messageDetailRef.value?.revokeDialogRef.handleCancel()
       } catch (error) {
         console.log(error)
       }
@@ -413,6 +418,21 @@ function handleAddSuccess(val: boolean) {
   })
 }
 
+/*
+* @description: 处理分享
+* **/
+const handleShare = (url: string) => {
+  shareImgUrl.value = url
+}
+
+const isShowImgDialog = computed(() => {
+  return shareImgUrl.value !== ''
+})
+
+const closeImgShareDialog = () => {
+  shareImgUrl.value = ''
+}
+
 onMounted(() => {
   handleGetMessages()
   window.addEventListener('scroll', () => {
@@ -465,13 +485,32 @@ onBeforeUnmount(() => {
     </div>
     <yq-modal @change-modal="changeModal" :title="title" :isModal="isModal">
       <creat-message :id="Number(id)" v-if="title === '写留言'" @add-success="handleAddSuccess"></creat-message>
-      <message-detail ref="messageDetailRef" v-if="title === '详情'" :item="detailData"></message-detail>
+      <message-detail ref="messageDetailRef" v-if="title === '详情'" :item="detailData" @share="handleShare"></message-detail>
     </yq-modal>
     <yq-img-view @click-switch="clickSwitch" :img-url="photoList[currentImgIndex]?.imgUrl" v-show="isImgModal"></yq-img-view>
   </div>
+  <transition name="fade">
+    <div class="w-screen h-screen fixed top-0 left-0 z-[9999] bg-black bg-opacity-50 flex justify-center items-center"
+         v-if="isShowImgDialog"
+         @click="closeImgShareDialog">
+      <div class="z-[10000] rounded-[12px] overflow-hidden bg-white">
+        <img :src="shareImgUrl" alt="#">
+        <div class="flex justify-center w-full gap-4 m-3">
+          <yq-button @click="closeImgShareDialog" type="secondary">取消</yq-button>
+          <yq-button>下载</yq-button>
+        </div>
+      </div>
+    </div>
+  </transition>
 </template>
 
 <style scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+.fade-enter, .fade-leave-to { /* .fade-leave-active in < 2.1.8 */
+  opacity: 0;
+}
 .wall-message {
   min-height: 800px;
   padding-top: 52px;

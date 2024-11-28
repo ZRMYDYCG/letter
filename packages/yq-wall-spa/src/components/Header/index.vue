@@ -17,8 +17,12 @@ const changeWall = (id: string) => {
 <template>
   <div class="YiHeader">
     <div class="logo">
-      <img src="@/assets/images/logo.svg" class="logo-img" alt="#">
-      <p class="logo-name">一勺同学</p>
+      <img
+        src="@/assets/images/logo.svg" class="logo-img shadow rounded-full" alt="#"
+        style="transition: transform 0.5s ease; cursor: pointer;"
+        onmouseover="this.style.transform='rotate(360deg)';"
+        onmouseout="this.style.transform='rotate(0deg)';"
+      >
     </div>
     <div class="menu">
       <YiButton class="menu-message" @click="changeWall('0')" :type="currentViewId === '0' ? 'c-primary' : 'c-secondary'">留言墙</YiButton>
@@ -74,5 +78,4 @@ const changeWall = (id: string) => {
   width: 36px;
   background-image: linear-gradient(180deg, #7BE7FF 2%, #1E85E2 100%);
 }
-
 </style>

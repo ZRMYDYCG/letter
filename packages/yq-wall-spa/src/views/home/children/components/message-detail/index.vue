@@ -1,20 +1,24 @@
 <script setup lang="ts">
 import { ref, defineExpose } from 'vue'
 import { portrait } from '@/config'
+import html2canvas from 'html2canvas'
 import { getMessageComments, addMessageComment } from '@/api/modules/index.ts'
 import YiCard from '@/views/home/children/components/message-text-card/index.vue'
 import YqButton from '@/components/yq-button/index.vue'
-
+import RevokeDialog from '../revoke-dialog/index.vue'
 
 const commentList= ref<any[]>([] )
 const content = ref('')
 const nickName = ref('')
+let revokeDialogRef = ref<InstanceType<typeof revokeDialogRef> | null>(null)
+const screenshotUrl = ref<string | null>(null)
 
 interface IMessageDetail {
   item?: any
 }
 
 const props =defineProps<IMessageDetail>()
+const emits = defineEmits(['share'])
 
 function handleAddMessageComment() {
   addMessageComment({
@@ -37,18 +41,45 @@ function handleGetMessageComments() {
   })
 }
 
+const handleRevokeDialog = () => {
+  revokeDialogRef.value.openDialog(props.item)
+}
+const handleOnConfirm = (data) => {
+  console.log('data', data)
+}
+
+/**
+ * 分享留言
+ * */
+const generateScreenshot = async () => {
+  const element = document.getElementById("view")
+  if (element) {
+    const canvas = await html2canvas(element)
+    screenshotUrl.value = canvas.toDataURL("image/png")
+    emits('share', screenshotUrl.value)
+  }
+}
+
 defineExpose({
   handleGetMessageComments,
+  revokeDialogRef
 })
 </script>
 
 <template>
   <div class="card-detail">
-    <div class="top">
-      <span class="revoke">联系墙主撕掉该便签</span>
-      <span class="report">举报</span>
+    <div class="top flex justify-between">
+      <div>
+        <span class="revoke">联系墙主撕掉该便签</span>
+        <span class="report" @click="handleRevokeDialog">举报</span>
+        <revoke-dialog ref="revokeDialogRef" title="举报理由" @confirm="handleOnConfirm"></revoke-dialog>
+      </div>
+      <div v-if="item.type ===0" class="flex gap-1 cursor-pointer" @click="generateScreenshot">
+        <span>分享</span>
+        <iconpark-icon name="share"></iconpark-icon>
+      </div>
     </div>
-    <yi-card class="card-item" :note="item"></yi-card>
+    <yi-card class="card-item" :note="item" id="view"></yi-card>
     <div class="form">
       <textarea placeholder="请输入评论" class="message" v-model="content"></textarea>
       <div class="send">
@@ -92,7 +123,7 @@ defineExpose({
 }
 .card-detail .top .revoke {
   color: #3B73F0;
-  padding-right: 30px;
+  padding-right: 10px;
   cursor: pointer;
 }
 .card-detail .top .report {
