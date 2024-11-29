@@ -1,9 +1,11 @@
-import Koa from 'koa';
+import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
 import Database from './db/index'
 import cors from 'koa2-cors'
 import router from './router'
 import { corsHandler } from './config/cors'
+import serve from 'koa-static'
+import path from 'path'
 /**
  * koa-jwt 中间件会自动检查请求头中是否携带有效的 JWT
  *
@@ -19,6 +21,9 @@ import { corsHandler } from './config/cors'
 import koajwt from 'koa-jwt'
 
 const app = new Koa()
+
+// 提供 'public' 目录的静态文件
+app.use(serve(path.join(__dirname, 'public/uploads')));
 
 Database.connect()
 
