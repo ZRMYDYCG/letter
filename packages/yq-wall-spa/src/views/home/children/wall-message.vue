@@ -10,6 +10,7 @@ import MessageDetail from './components/message-detail/index.vue'
 import MessagePhotoCard from '@/views/home/children/components/message-photo-card/index.vue'
 import YqImgView from '@/components/yq-img-view/index.vue'
 import YqButton from '@/components/yq-button/index.vue'
+import Error from '@/components/Error/index.vue'
 
 const route = useRoute()
 
@@ -271,7 +272,7 @@ const messageParams = reactive({
   userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
   page: 1,
   pageSize: 10,
-  tag: -1,
+  tag: 0,
 })
 
 // 留言墙与照片墙的切换 id
@@ -455,8 +456,18 @@ const handleDownloadImg = (base64: string) => {
   document.body.removeChild(link)
 }
 
-onMounted(() => {
-  handleGetMessages()
+// 监听墙体变化, 重置状态
+watch(id, () => {
+  isModal.value = false
+  isImgModal.value = false
+  isLabelSelected.value = -1
+  currentImgIndex.value = -1
+  cardSelected.value = -1
+  currentIndex.value = -1
+})
+
+onMounted(async () => {
+  await handleGetMessages()
   window.addEventListener('scroll', () => {
     scrollBottom()
   })
@@ -495,7 +506,7 @@ onBeforeUnmount(() => {
       <div v-if="isLoading" class="w-full flex justify-center py-4">正在加载...</div>
     </div>
     <div v-else>
-      暂时还没有留言...
+      <Error :type="0" />
     </div>
     <div class="photo" v-if="id === '1'">
       <template v-for="(item, index) in photoList" :key="index">
@@ -527,7 +538,6 @@ onBeforeUnmount(() => {
   </transition>
 </template>
 
-
 <style scoped>
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.5s ease;
@@ -535,7 +545,6 @@ onBeforeUnmount(() => {
 .fade-enter, .fade-leave-to { /* .fade-leave-active in < 2.1.8 */
   opacity: 0;
 }
-
 .wall-message {
   min-height: 800px;
   padding-top: 52px;
