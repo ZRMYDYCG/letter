@@ -6,9 +6,11 @@ const uploadRouter = new Router({
 })
 
 uploadRouter.post('/single', uploadMiddleware.single('file'), (ctx: any) => {
-    let path = ctx.req.file.path
-    path = ctx.origin + path
+    let path = 'http://localhost:5174/' + ctx.req.file.filename
+
     ctx.body = {
+        code: 200,
+        message: '上传成功',
         url: path
     }
 })

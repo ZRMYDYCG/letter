@@ -36,7 +36,7 @@ const photoList = ref([
     userId: 1,
     // 内容
     message: "日子就是这么的庸常，却有细碎的事物，如太阳碎碎的光芒，洒落其上。",
-    // 标签  
+    // 标签
     label: 0,
     // 用户昵称
     name: "一勺",

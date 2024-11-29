@@ -23,7 +23,7 @@ import koajwt from 'koa-jwt'
 const app = new Koa()
 
 // 提供 'public' 目录的静态文件
-app.use(serve(path.join(__dirname, 'public/uploads')));
+app.use(serve(path.join(__dirname, 'public/uploads')))
 
 Database.connect()
 

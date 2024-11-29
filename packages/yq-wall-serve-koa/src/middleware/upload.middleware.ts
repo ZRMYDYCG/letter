@@ -9,7 +9,7 @@ const storage = multer.diskStorage({
         const uploadPath = path.join(__dirname, '../public/uploads')
 
         try {
-            await fs.access(uploadPath); // 检查目录是否存在
+            await fs.access(uploadPath) // 检查目录是否存在
         } catch (error) {
             await fs.mkdir(uploadPath, { recursive: true })
         }
@@ -32,6 +32,5 @@ const limits = {
 
 // 加载配置
 const upload = multer({ storage: storage, limits })
-
 
 export default upload
