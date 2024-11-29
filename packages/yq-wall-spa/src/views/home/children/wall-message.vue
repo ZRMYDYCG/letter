@@ -271,7 +271,7 @@ const messageParams = reactive({
   userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
   page: 1,
   pageSize: 10,
-  tag: '',
+  tag: -1,
 })
 
 // 留言墙与照片墙的切换 id
@@ -281,6 +281,14 @@ const id = computed(() => {
 
 const changeLabelItem = (index: number) => {
   isLabelSelected.value = index
+  // 重置结果列表
+  messageList.value = []
+  // 重置搜索条件, 发起分类搜索
+  messageParams.page = 1
+  messageParams.pageSize = 10
+  messageParams.tag = index
+  handleGetMessages()
+  toWallTop()
 }
 
 /**

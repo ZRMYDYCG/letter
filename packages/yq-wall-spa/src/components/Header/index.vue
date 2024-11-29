@@ -11,6 +11,11 @@ const currentViewId = computed(() => {
 
 const changeWall = (id: string) => {
   router.push({path: '/wall', query: { id: id }})
+  toWallTop()
+}
+
+function toWallTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 </script>
 
