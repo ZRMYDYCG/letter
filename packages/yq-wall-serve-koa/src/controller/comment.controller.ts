@@ -1,5 +1,6 @@
 import type { Context } from 'koa'
 import commentModel from "../models/comment.model"
+import messageModel from "../models/message.model"
 
 class commentController {
     /*
@@ -8,6 +9,7 @@ class commentController {
     async createComment(ctx: Context) {
         const { content, messageId, userId, nickName } = ctx.request.body as any
         const comment = await commentModel.create({ content, messageId, userId, nickName })
+        await messageModel.findByIdAndUpdate(messageId, { $inc: { comment: 1 } })
         ctx.body = {
           success: true,
           data: comment

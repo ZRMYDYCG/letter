@@ -1,20 +1,28 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { ref, defineExpose, h, createApp  } from 'vue'
 import { portrait } from '@/config'
+import html2canvas from 'html2canvas'
 import { getMessageComments, addMessageComment } from '@/api/modules/index.ts'
-import YiCard from '@/views/home/children/components/message-text-card/index.vue'
+import MessageTextCard from '@/views/home/children/components/message-text-card/index.vue'
 import YqButton from '@/components/yq-button/index.vue'
-
+import RevokeDialog from '../revoke-dialog/index.vue'
+import YqLoading from '@/components/yq-loading/index.vue'
+import CardForCanves from '../message-text-card/card-for-canves.vue'
 
 const commentList= ref<any[]>([] )
 const content = ref('')
 const nickName = ref('')
+let revokeDialogRef = ref<InstanceType<typeof revokeDialogRef> | null>(null)
+const screenshotUrl = ref<string | null>(null)
+const imgIsLoaded = ref(false)
+const messageTextCardRef = ref<InstanceType<typeof MessageTextCard> | null>(null)
 
 interface IMessageDetail {
   item?: any
 }
 
 const props =defineProps<IMessageDetail>()
+const emits = defineEmits(['share-url'])
 
 function handleAddMessageComment() {
   addMessageComment({
@@ -27,6 +35,8 @@ function handleAddMessageComment() {
       commentList.value.push(res.data)
       content.value = ''
       nickName.value = ''
+      // 获取详情, 更新评论数量
+      messageTextCardRef.value?.handleGetMessage()
     }
   })
 }
@@ -37,18 +47,76 @@ function handleGetMessageComments() {
   })
 }
 
-onMounted(() => {
-  handleGetMessageComments()
+const handleRevokeDialog = () => {
+  revokeDialogRef.value.openDialog(props.item)
+}
+const handleOnConfirm = (data) => {
+  console.log('data', data)
+}
+
+/**
+ * 分享留言
+ * */
+const generateScreenshot = async () => {
+  imgIsLoaded.value = true
+
+  // 创建隐藏的 DOM 容器
+  const hiddenContainer = document.createElement('div')
+  document.body.appendChild(hiddenContainer)
+
+  // 获取 CardForCanves 的宽度
+  const cardElement = document.querySelector('.card-item') // 获取元素
+  if (cardElement) {
+    const cardWidth = cardElement.offsetWidth + 70 // 获取宽度
+    hiddenContainer.style.width = `${cardWidth}px` // 设置隐藏容器的宽度
+  }
+
+  // 创建 Vue 实例
+  const appInstance = createApp({
+    render() {
+      return h(CardForCanves, { note: props.item, width: '100%' }) // 这里使用 100% 以适应容器
+    }
+  })
+
+  // 挂载组件
+  appInstance.mount(hiddenContainer)
+
+  // 等待一段时间以确保 DOM 渲染完毕
+  await new Promise(resolve => setTimeout(resolve, 300))
+
+  // 生成截图
+  const canvas = await html2canvas(hiddenContainer)
+  screenshotUrl.value = canvas.toDataURL("image/png")
+  imgIsLoaded.value = false;
+  emits('share-url', screenshotUrl.value)
+
+  // 卸载组件并移除隐藏容器
+  appInstance.unmount()
+  document.body.removeChild(hiddenContainer)
+}
+
+
+defineExpose({
+  handleGetMessageComments,
+  revokeDialogRef,
+  messageTextCardRef
 })
 </script>
 
 <template>
   <div class="card-detail">
-    <div class="top">
-      <span class="revoke">联系墙主撕掉该便签</span>
-      <span class="report">举报</span>
+    <div class="top flex justify-between">
+      <div>
+        <span class="revoke">联系墙主撕掉该便签</span>
+        <span class="report" @click="handleRevokeDialog">举报</span>
+        <revoke-dialog ref="revokeDialogRef" title="举报理由" @confirm="handleOnConfirm"></revoke-dialog>
+      </div>
+      <div v-if="item.type ===0" class="flex gap-1 cursor-pointer" @click="generateScreenshot">
+        <span>分享</span>
+        <iconpark-icon name="share"></iconpark-icon>
+      </div>
     </div>
-    <yi-card class="card-item" :note="item"></yi-card>
+    <message-text-card ref="messageTextCardRef" class="card-item" :note="item"></message-text-card>
     <div class="form">
       <textarea placeholder="请输入评论" class="message" v-model="content"></textarea>
       <div class="send">
@@ -77,6 +145,7 @@ onMounted(() => {
       暂时还没有评论...
     </div>
   </div>
+  <yq-loading :is-loading="imgIsLoaded" container="body"></yq-loading>
 </template>
 
 <style scoped>
@@ -92,7 +161,7 @@ onMounted(() => {
 }
 .card-detail .top .revoke {
   color: #3B73F0;
-  padding-right: 30px;
+  padding-right: 10px;
   cursor: pointer;
 }
 .card-detail .top .report {

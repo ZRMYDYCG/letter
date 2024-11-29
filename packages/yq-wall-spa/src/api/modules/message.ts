@@ -1,7 +1,7 @@
 import axios from '../index'
 
 /*
-* @desc 获取留言列表
+* @desc 获取留言列表 / 查看某条留言详情
 * **/
 export const getMessages = (params: any) => {
     return axios.get<any>('/message', params)
@@ -27,4 +27,18 @@ export const getMessageComments = (params: any) => {
 * */
 export const addMessageComment = (params: any) => {
     return axios.post<any>('/comment', params)
+}
+
+/*
+* @desc 留言点赞
+* **/
+export const likeMessage = (params: any) => {
+    return axios.post<any>('/message/like', params)
+}
+
+/*
+* @desc 留言取消点赞
+* **/
+export const unlikeMessage = (params: any) => {
+    return axios.post<any>('/message/unlike', params)
 }

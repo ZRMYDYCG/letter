@@ -18,9 +18,15 @@ const props = defineProps({
 </template>
 
 <style scoped>
+@font-face {
+  font-family: XiaoKeNaiNao;
+  src: url("@/assets/fonts/xknn.ttf");
+}
 .yi-button {
   cursor: pointer;
+  font-family: XiaoKeNaiNao;
 }
+
 .max {
   min-width: 100px;
   height: 48px;
@@ -36,11 +42,11 @@ const props = defineProps({
   line-height: 36px;
 }
 .min {
-  min-width: 72px;
-  height: 32px;
+  min-width: 60px;
+  height: 28px;
   border-radius: 24px;
   padding: 0 20px;
-  line-height: 32px;
+  line-height: 28px;
 }
 .primary {
   background-color: #202020;
