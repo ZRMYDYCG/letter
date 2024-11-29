@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { cardColor, label } from '@/config/index.ts'
-import { likeMessage, unlikeMessage } from '@/api/modules/index.ts'
+import { likeMessage, unlikeMessage, getMessages } from '@/api/modules/index.ts'
 
 interface IProps {
   width?: string
@@ -38,6 +38,7 @@ const handleLikeMessage = (messageId: string) => {
   likeMessage({ messageId }).then((res) => {
     // 更新 note 的状态
     if (res.data) {
+      // 破坏数据流进行修改
       props.note.likedBy.push(userId.value)
       props.note.like += 1 // 增加点赞数量
       emits('item-like', res.data)
@@ -59,10 +60,20 @@ const handleUnlikeMessage = (messageId: string) => {
   })
 }
 
+const handleGetMessage = () => {
+  console.log('handleGetMessage')
+  getMessages({ messageId: props.note._id }).then(res => {
+    if (res.data) {
+      props.note.comment = res.data.comment
+    }
+  })
+}
+
 defineExpose({
   likeMessage,
-  unlikeMessage
-});
+  unlikeMessage,
+  handleGetMessage
+})
 </script>
 
 <template>

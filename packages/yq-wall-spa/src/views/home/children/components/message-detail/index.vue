@@ -3,7 +3,7 @@ import { ref, defineExpose, h, createApp  } from 'vue'
 import { portrait } from '@/config'
 import html2canvas from 'html2canvas'
 import { getMessageComments, addMessageComment } from '@/api/modules/index.ts'
-import YiCard from '@/views/home/children/components/message-text-card/index.vue'
+import MessageTextCard from '@/views/home/children/components/message-text-card/index.vue'
 import YqButton from '@/components/yq-button/index.vue'
 import RevokeDialog from '../revoke-dialog/index.vue'
 import YqLoading from '@/components/yq-loading/index.vue'
@@ -15,6 +15,7 @@ const nickName = ref('')
 let revokeDialogRef = ref<InstanceType<typeof revokeDialogRef> | null>(null)
 const screenshotUrl = ref<string | null>(null)
 const imgIsLoaded = ref(false)
+const messageTextCardRef = ref<InstanceType<typeof MessageTextCard> | null>(null)
 
 interface IMessageDetail {
   item?: any
@@ -34,6 +35,8 @@ function handleAddMessageComment() {
       commentList.value.push(res.data)
       content.value = ''
       nickName.value = ''
+      // 获取详情, 更新评论数量
+      messageTextCardRef.value?.handleGetMessage()
     }
   })
 }
@@ -95,7 +98,8 @@ const generateScreenshot = async () => {
 
 defineExpose({
   handleGetMessageComments,
-  revokeDialogRef
+  revokeDialogRef,
+  messageTextCardRef
 })
 </script>
 
@@ -112,7 +116,7 @@ defineExpose({
         <iconpark-icon name="share"></iconpark-icon>
       </div>
     </div>
-    <yi-card class="card-item" :note="item"></yi-card>
+    <message-text-card ref="messageTextCardRef" class="card-item" :note="item"></message-text-card>
     <div class="form">
       <textarea placeholder="请输入评论" class="message" v-model="content"></textarea>
       <div class="send">
