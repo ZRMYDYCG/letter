@@ -438,6 +438,15 @@ const handleFinishLoadingUrl = (val: boolean) => {
   if(val) isImgUrlLoading.value = false
 }
 
+const handleDownloadImg = (base64: string) => {
+  const link = document.createElement('a')
+  link.href = base64
+  link.download = new Date().getTime() + '.png'
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
+
 onMounted(() => {
   handleGetMessages()
   window.addEventListener('scroll', () => {
@@ -502,17 +511,14 @@ onBeforeUnmount(() => {
       <div class="z-[10000] rounded-[12px] overflow-hidden bg-white backdrop-blur-md" @click.stop>
         <img :src="shareImgUrl" alt="#">
         <div class="flex justify-center w-full gap-4 m-3">
-          <el-popconfirm title="确定要销毁该图片吗？">
-            <template #reference>
-              <yq-button type="secondary">销毁</yq-button>
-            </template>
-          </el-popconfirm>
-          <yq-button>下载</yq-button>
+          <yq-button type="secondary" @click="closeImgShareDialog">销毁</yq-button>
+          <yq-button @click="handleDownloadImg(shareImgUrl)">下载</yq-button>
         </div>
       </div>
     </div>
   </transition>
 </template>
+
 
 <style scoped>
 .fade-enter-active, .fade-leave-active {
@@ -521,6 +527,7 @@ onBeforeUnmount(() => {
 .fade-enter, .fade-leave-to { /* .fade-leave-active in < 2.1.8 */
   opacity: 0;
 }
+
 .wall-message {
   min-height: 800px;
   padding-top: 52px;
