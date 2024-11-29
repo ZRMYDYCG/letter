@@ -24,7 +24,7 @@ const messageDetailRef = ref<InstanceType<typeof MessageDetail> | null>(null)
 let title = ref('')
 let isModal = ref(false)
 let addBtnBottom = ref('30px')
-const isLabelSelected = ref(-1)
+const isLabelSelected = ref('')
 const messageList = ref([])
 const photoList = ref([
   {
@@ -280,7 +280,7 @@ const id = computed(() => {
   return route.query.id
 })
 
-const changeLabelItem = (index: number) => {
+const changeLabelItem = (index: any) => {
   isLabelSelected.value = index
   // 重置结果列表
   messageList.value = []
@@ -417,7 +417,7 @@ function handleAddSuccess(val: boolean) {
     userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
     page: 1,
     pageSize: 1,
-    tag: ''
+    tag: -1
   }).then((res: any) => {
     messageList.value.unshift(res.data[0])
     toWallTop()
@@ -456,11 +456,16 @@ const handleDownloadImg = (base64: string) => {
   document.body.removeChild(link)
 }
 
+const handleGetAllMessage = () => {
+  isLabelSelected.value = ''
+  changeLabelItem('')
+}
+
 // 监听墙体变化, 重置状态
 watch(id, () => {
   isModal.value = false
   isImgModal.value = false
-  isLabelSelected.value = -1
+  isLabelSelected.value = ''
   currentImgIndex.value = -1
   cardSelected.value = -1
   currentIndex.value = -1
@@ -494,7 +499,7 @@ onBeforeUnmount(() => {
     <p class="title">{{ wallType[id].name }}</p>
     <p class="individual">{{ wallType[id].individual }}</p>
     <ul class="label">
-      <li class="item" @click="isLabelSelected = -1" :class="{ selected: isLabelSelected === -1 }">全部</li>
+      <li class="item" @click="handleGetAllMessage" :class="{ selected: isLabelSelected === '' }">全部</li>
       <template v-for="(item, index) in label[id]" :key="index">
         <li class="item" :class="{ selected: isLabelSelected === index }" @click="changeLabelItem(Number(index))">{{ item }}</li>
       </template>
@@ -505,8 +510,8 @@ onBeforeUnmount(() => {
       </template>
       <div v-if="isLoading" class="w-full flex justify-center py-4">正在加载...</div>
     </div>
-    <div v-else>
-      <Error :type="0" />
+    <div class="flex w-full h-full justify-center items-center" v-else>
+      <Error :type="0" text="快来占个楼吧~" />
     </div>
     <div class="photo" v-if="id === '1'">
       <template v-for="(item, index) in photoList" :key="index">
