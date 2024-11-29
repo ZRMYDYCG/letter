@@ -28,3 +28,17 @@ export const getMessageComments = (params: any) => {
 export const addMessageComment = (params: any) => {
     return axios.post<any>('/comment', params)
 }
+
+/*
+* @desc 留言点赞
+* **/
+export const likeMessage = (params: any) => {
+    return axios.post<any>('/message/like', params)
+}
+
+/*
+* @desc 留言取消点赞
+* **/
+export const unlikeMessage = (params: any) => {
+    return axios.post<any>('/message/unlike', params)
+}
