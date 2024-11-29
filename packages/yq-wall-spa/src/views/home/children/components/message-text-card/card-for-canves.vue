@@ -16,7 +16,7 @@ const emits = defineEmits(['item-click'])
       <img class="w-[30px] h-[30px] border rounded-full" src="@/assets/images/logo.svg" alt="#" />
       <div class="text-gray-500 flex items-center h-full">
         <img src="@/assets/images/tag.svg"  class="w-[12px] h-[12px] mr-[5px]" alt="#" />
-        <div class="pb-[15px]">{{label[0][note.tag]}}</div>
+        <div class="pb-[15px]">{{ label[0][note.tag] }}</div>
       </div>
     </div>
     <p class="block h-[140px] py-[5px] px-[20px] text-[14px] text-[#202020]">{{ note.content }}</p>

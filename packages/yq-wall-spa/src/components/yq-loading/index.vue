@@ -1,6 +1,6 @@
 <template>
   <teleport :to="container">
-    <div class="flex flex-col items-center justify-center text-white z-[9999] bg-black opacity-[0.5] fixed top-0 left-0 h-full w-full" v-if="isLoading">
+    <div class="flex flex-col items-center justify-center text-white z-[9999] bg-black bg-opacity-90 fixed top-0 left-0 h-full w-full" v-if="isLoading">
       <div class="spinner"></div>
       <p class="mt-1">正在加载...</p>
     </div>

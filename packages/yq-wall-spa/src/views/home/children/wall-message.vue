@@ -495,13 +495,18 @@ onBeforeUnmount(() => {
     <yq-img-view @click-switch="clickSwitch" :img-url="photoList[currentImgIndex]?.imgUrl" v-show="isImgModal"></yq-img-view>
   </div>
   <transition name="fade">
-    <div class="w-screen h-screen fixed top-0 left-0 z-[9999] bg-black bg-opacity-50 flex justify-center items-center"
+    <div class="w-screen h-screen fixed top-0 left-0 z-[9999] bg-black bg-opacity-90 flex justify-center items-center"
          v-if="isShowImgDialog"
-         @click="closeImgShareDialog">
-      <div class="z-[10000] rounded-[12px] overflow-hidden bg-white">
+         @click="closeImgShareDialog"
+        >
+      <div class="z-[10000] rounded-[12px] overflow-hidden bg-white backdrop-blur-md" @click.stop>
         <img :src="shareImgUrl" alt="#">
         <div class="flex justify-center w-full gap-4 m-3">
-          <yq-button @click="closeImgShareDialog" type="secondary">取消</yq-button>
+          <el-popconfirm title="确定要销毁该图片吗？">
+            <template #reference>
+              <yq-button type="secondary">销毁</yq-button>
+            </template>
+          </el-popconfirm>
           <yq-button>下载</yq-button>
         </div>
       </div>
