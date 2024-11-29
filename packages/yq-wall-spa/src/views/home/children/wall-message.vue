@@ -16,7 +16,7 @@ const route = useRoute()
 
 const wall = ref<HTMLElement>()
 let noteWidth = ref(0)
-const isLoading = ref(false)
+const isLoading = ref(true)
 let cardSelected = ref(-1)
 let currentIndex = ref(-1)
 let detailData = ref({})
@@ -281,6 +281,8 @@ const id = computed(() => {
 })
 
 const changeLabelItem = (index: any) => {
+  // 开启Loading
+  isLoading.value = true
   isLabelSelected.value = index
   // 重置结果列表
   messageList.value = []
@@ -306,27 +308,28 @@ const getNoteWidth = () => {
  * */
 const scrollBottom = async () => {
   // 滚动条距离顶部的高度
-  let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+  let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
   // 屏幕高度
-  let clientHeight = document.documentElement.clientHeight
+  let clientHeight = document.documentElement.clientHeight;
   // 内容高度
-  let scrollHeight = document.documentElement.scrollHeight
+  let scrollHeight = document.documentElement.scrollHeight;
 
-  if(scrollTop + clientHeight + 230 >= scrollHeight) {
+  // 判断是否到达底部
+  if (scrollTop + clientHeight + 230 >= scrollHeight) {
     // 按钮移动
-    addBtnBottom.value = (scrollTop + clientHeight + 230 - scrollHeight) + 'px'
-    // 分页加载更多
-    if(messageParams.page * messageParams.pageSize < totalMessage.value) {
-      messageParams.page++
-      isLoading.value = true
-      await handleGetMessages()
-    } else {
-        isLoading.value = false
+    addBtnBottom.value = (scrollTop + clientHeight + 230 - scrollHeight) + 'px';
+
+    // 分页加载更多，只在未加载数据时触发
+    if (!isLoading.value && messageParams.page * messageParams.pageSize < totalMessage.value) {
+      isLoading.value = true; // 开始加载
+      messageParams.page++;
+      await handleGetMessages();
     }
   } else {
-    addBtnBottom.value = '30px'
+    addBtnBottom.value = '30px';
   }
 }
+
 
 /**
  * 打开留言弹窗
@@ -395,8 +398,9 @@ const clickSwitch = (e: string) => {
 
 async function handleGetMessages() {
   getMessages(messageParams).then((res: any) => {
-    messageList.value.push(...res.data)
-    totalMessage.value = res.meta.total
+      messageList.value.push(...res.data)
+      totalMessage.value = res.meta.total
+      isLoading.value = false
   })
 }
 
@@ -417,7 +421,7 @@ function handleAddSuccess(val: boolean) {
     userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
     page: 1,
     pageSize: 1,
-    tag: -1
+    tag: ''
   }).then((res: any) => {
     messageList.value.unshift(res.data[0])
     toWallTop()
@@ -508,15 +512,22 @@ onBeforeUnmount(() => {
       <template v-for="(item, index) in messageList" :key="index">
         <message-text-card @click.native="clickDetail(index)" :class="{ cardSelected: index === cardSelected }" class="card-item" :note="item" width="288px"></message-text-card>
       </template>
-      <div v-if="isLoading" class="w-full flex justify-center py-4">正在加载...</div>
     </div>
-    <div class="flex w-full h-full justify-center items-center" v-else>
-      <Error :type="0" text="快来占个楼吧~" />
+    <div v-if="isLoading" class="w-full flex justify-center py-4">
+      <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+        <circle cx="25" cy="25" r="20" stroke="gray" stroke-width="5" fill="none" />
+        <circle cx="25" cy="25" r="20" stroke="rgba(255, 227, 148, 1)" stroke-width="5" fill="none" stroke-dasharray="125.66" stroke-dashoffset="0">
+          <animate attributeName="stroke-dashoffset" from="0" to="125.66" dur="1.5s" repeatCount="indefinite" />
+        </circle>
+      </svg>
     </div>
     <div class="photo" v-if="id === '1'">
       <template v-for="(item, index) in photoList" :key="index">
         <message-photo-card @click="photoSelect(index)" :photo="item"></message-photo-card>
       </template>
+    </div>
+    <div class="flex w-full h-full justify-center items-center" v-if="messageList.length <= 0 && !isLoading">
+      <Error :type="0" text="快来占个楼吧~" />
     </div>
     <div class="add" @click="addCardItem" v-show="!isModal">
       <span>添加</span>
