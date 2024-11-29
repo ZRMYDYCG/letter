@@ -293,7 +293,7 @@ const changeLabelItem = (index: any) => {
   handleGetMessages()
   toWallTop()
   // 关闭右侧弹窗
-  isModal.value = !isModal.value
+  isModal.value = false
   // 关闭激活状态
   cardSelected.value = -1
 }
