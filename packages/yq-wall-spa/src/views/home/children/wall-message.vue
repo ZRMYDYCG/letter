@@ -82,7 +82,6 @@ const getNoteWidth = () => {
  * 触底
  * */
 const scrollBottom = async () => {
-  if(id.value === '0') {
     // 滚动条距离顶部的高度
     let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
     // 屏幕高度
@@ -91,12 +90,12 @@ const scrollBottom = async () => {
     let scrollHeight = document.documentElement.scrollHeight
 
     // 判断是否到达底部
-    if (scrollTop + clientHeight + 230 >= scrollHeight) {
+    if (scrollTop + clientHeight + 300 >= scrollHeight) {
       // 按钮移动
-      addBtnBottom.value = (scrollTop + clientHeight + 230 - scrollHeight) + 'px'
+      addBtnBottom.value = (scrollTop + clientHeight + 300 - scrollHeight) + 'px'
 
       // 分页加载更多，只在未加载数据时触发
-      if (!isLoading.value && messageParams.page * messageParams.pageSize < totalMessage.value) {
+      if (id.value === '0' && messageParams.page * messageParams.pageSize < totalMessage.value) {
         isLoading.value = true // 开始加载
         messageParams.page++
         await handleGetMessages()
@@ -104,9 +103,7 @@ const scrollBottom = async () => {
     } else {
       addBtnBottom.value = '30px'
     }
-  }
 }
-
 
 /**
  * @description: 打开留言弹窗
@@ -350,7 +347,7 @@ onBeforeUnmount(() => {
   opacity: 0;
 }
 .wall-message {
-  min-height: 800px;
+  min-height: 900px;
   padding-top: 52px;
 }
 .wall-message .title {
