@@ -27,7 +27,7 @@ function changeLabel(index: number) {
   tagSelected.value = index
 }
 
-function  getObjectUrl(file: any) {
+function getObjectUrl(file: any) {
   let res = null
   if(window.createObjectURL != undefined) {
     res = window.createObjectURL(file)
@@ -43,7 +43,9 @@ function showPhoto() {
   url.value = getObjectUrl(document.getElementById("file").files[0])
 }
 
-// 发布留言
+/**
+ * @desc 发布留言
+ * */
 const handleAddMessage = async () => {
   // 文本留言
   if(props.id === 0) {

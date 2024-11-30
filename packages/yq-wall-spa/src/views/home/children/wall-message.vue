@@ -16,7 +16,7 @@ const route = useRoute()
 
 const wall = ref<HTMLElement>()
 let noteWidth = ref(0)
-const isLoading = ref(true)
+const isLoading = ref(false)
 let cardSelected = ref(-1)
 let currentIndex = ref(-1)
 let detailData = ref({})
@@ -26,242 +26,7 @@ let isModal = ref(false)
 let addBtnBottom = ref('30px')
 const isLabelSelected = ref('')
 const messageList = ref([])
-const photoList = ref([
-  {
-    // 创建时间
-    moment: "2024.08.09",
-    // 留言 id
-    id: 1,
-    // 用户 id
-    userId: 1,
-    // 内容
-    message: "日子就是这么的庸常，却有细碎的事物，如太阳碎碎的光芒，洒落其上。",
-    // 标签
-    label: 0,
-    // 用户昵称
-    name: "一勺",
-    // 点赞数
-    like: 12,
-    // 评论数
-    comment: 4,
-    // 背景色
-    imgUrl: 'https://pic35.photophoto.cn/20150511/0034034892281415_b.jpg',
-    // 是否撤回
-    revoke: 0,
-    // 是否举报
-    report: 0,
-    // 类型: 留言 、 照片
-    type: 1
-  },
-  {
-    // 创建时间
-    moment: "2024.08.09",
-    // 留言 id
-    id: 2,
-    // 用户 id
-    userId: 1,
-    // 内容
-    message: "hello",
-    // 标签
-    label: 0,
-    // 用户昵称
-    name: "一勺",
-    // 点赞数
-    like: 12,
-    // 评论数
-    comment: 4,
-    // 背景色
-    imgUrl: 'https://b.zol-img.com.cn/sjbizhi/images/11/1080x1920/1592967802496.jpg',
-    // 是否撤回
-    revoke: 0,
-    // 是否举报
-    report: 0,
-    // 类型: 留言 、 照片
-    type: 1
-  },
-  {
-    // 创建时间
-    moment: "2024.08.09",
-    // 留言 id
-    id: 3,
-    // 用户 id
-    userId: 1,
-    // 内容
-    message: "却有细碎的事物，如太阳碎碎的光芒，洒落其上。",
-    // 标签
-    label: 0,
-    // 用户昵称
-    name: "一勺",
-    // 点赞数
-    like: 12,
-    // 评论数
-    comment: 4,
-    // 背景色
-    imgUrl: 'https://pic.616pic.com/bg_w1180/00/00/81/zi58oHApHm.jpg!/fw/880',
-    // 是否撤回
-    revoke: 0,
-    // 是否举报
-    report: 0,
-    // 类型: 留言 、 照片
-    type: 1
-  },
-  {
-    // 创建时间
-    moment: "2024.08.09",
-    // 留言 id
-    id: 4,
-    // 用户 id
-    userId: 1,
-    // 内容
-    message: "洒落其上。",
-    // 标签
-    label: 0,
-    // 用户昵称
-    name: "一勺",
-    // 点赞数
-    like: 12,
-    // 评论数
-    comment: 4,
-    // 背景色
-    imgUrl: 'https://img.zcool.cn/community/01d21e5d467f5da80120695c80a52a.jpg@1280w_1l_2o_100sh.jpg',
-    // 是否撤回
-    revoke: 0,
-    // 是否举报
-    report: 0,
-    // 类型: 留言 、 照片
-    type: 1
-  },
-  {
-    // 创建时间
-    moment: "2024.08.09",
-    // 留言 id
-    id: 5,
-    // 用户 id
-    userId: 1,
-    // 内容
-    message: "日子就是这么的庸常",
-    // 标签
-    label: 0,
-    // 用户昵称
-    name: "一勺",
-    // 点赞数
-    like: 12,
-    // 评论数
-    comment: 4,
-    // 背景色
-    imgUrl: 'https://pic1.zhimg.com/v2-0cc45f5fda6e8ff79350ec1303835629_r.jpg?source=1940ef5c',
-    // 是否撤回
-    revoke: 0,
-    // 是否举报
-    report: 0,
-    // 类型: 留言 、 照片
-    type: 1
-  },
-  {
-    // 创建时间
-    moment: "2024.08.09",
-    // 留言 id
-    id: 6,
-    // 用户 id
-    userId: 1,
-    // 内容
-    message: "日子就是这么的庸常，却有细碎的事物，如太阳碎碎的光芒，洒落其上。",
-    // 标签
-    label: 0,
-    // 用户昵称
-    name: "一勺",
-    // 点赞数
-    like: 12,
-    // 评论数
-    comment: 4,
-    // 背景色
-    imgUrl: 'https://pic3.zhimg.com/v2-0d2d9b3a2e1d0ebbdae3b282668c772e_r.jpg',
-    // 是否撤回
-    revoke: 0,
-    // 是否举报
-    report: 0,
-    // 类型: 留言 、 照片
-    type: 1
-  },
-  {
-    // 创建时间
-    moment: "2024.08.09",
-    // 留言 id
-    id: 7,
-    // 用户 id
-    userId: 1,
-    // 内容
-    message: "日子就是这么的庸常，却有细碎的事物，如太阳碎碎的光芒，洒落其上。",
-    // 标签
-    label: 0,
-    // 用户昵称
-    name: "一勺",
-    // 点赞数
-    like: 12,
-    // 评论数
-    comment: 4,
-    // 背景色
-    imgUrl: 'https://img.keaitupian.cn/newupload/08/1628502171175140.jpg',
-    // 是否撤回
-    revoke: 0,
-    // 是否举报
-    report: 0,
-    // 类型: 留言 、 照片
-    type: 1
-  },
-  {
-    // 创建时间
-    moment: "2024.08.09",
-    // 留言 id
-    id: 8,
-    // 用户 id
-    userId: 1,
-    // 内容
-    message: "日子就是这么的庸常，却有细碎的事物，如太阳碎碎的光芒，洒落其上。",
-    // 标签
-    label: 0,
-    // 用户昵称
-    name: "一勺",
-    // 点赞数
-    like: 12,
-    // 评论数
-    comment: 4,
-    // 背景色
-    imgUrl: 'https://pic.616pic.com/bg_w1180/00/18/34/C3vNP90km1.jpg!/fw/1120',
-    // 是否撤回
-    revoke: 0,
-    // 是否举报
-    report: 0,
-    // 类型: 留言 、 照片
-    type: 1
-  },
-  {
-    // 创建时间
-    moment: "2024.08.09",
-    // 留言 id
-    id: 9,
-    // 用户 id
-    userId: 1,
-    // 内容
-    message: "日子就是这么的庸常，却有细碎的事物，如太阳碎碎的光芒，洒落其上。",
-    // 标签
-    label: 0,
-    // 用户昵称
-    name: "一勺",
-    // 点赞数
-    like: 12,
-    // 评论数
-    comment: 4,
-    // 背景色
-    imgUrl: 'https://img95.699pic.com/photo/50059/8720.jpg_wh300.jpg!/fh/300/quality/90',
-    // 是否撤回
-    revoke: 0,
-    // 是否举报
-    report: 0,
-    // 类型: 留言 、 照片
-    type: 1
-  }
-])
+const photoList = ref([])
 const isImgModal = ref(false)
 let currentImgIndex = ref(-1)
 const totalMessage = ref(0)
@@ -272,7 +37,7 @@ const messageParams = reactive({
   userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
   page: 1,
   pageSize: 10,
-  tag: 0,
+  tag: '',
 })
 
 // 留言墙与照片墙的切换 id
@@ -281,21 +46,27 @@ const id = computed(() => {
 })
 
 const changeLabelItem = (index: any) => {
-  // 开启Loading
-  isLoading.value = true
-  isLabelSelected.value = index
-  // 重置结果列表
-  messageList.value = []
-  // 重置搜索条件, 发起分类搜索
-  messageParams.page = 1
-  messageParams.pageSize = 10
-  messageParams.tag = index
-  handleGetMessages()
-  toWallTop()
-  // 关闭右侧弹窗
-  isModal.value = false
-  // 关闭激活状态
-  cardSelected.value = -1
+  /**
+   * 0 留言墙
+   * 1 照片墙
+   * */
+  if(id.value === '0') {
+    // 开启Loading
+    isLoading.value = true
+    isLabelSelected.value = index
+    // 重置结果列表
+    messageList.value = []
+    // 重置搜索条件, 发起分类搜索
+    messageParams.page = 1
+    messageParams.pageSize = 10
+    messageParams.tag = index
+    handleGetMessages()
+    toWallTop()
+    // 关闭右侧弹窗
+    isModal.value = false
+    // 关闭激活状态
+    cardSelected.value = -1
+  }
 }
 
 /**
@@ -311,32 +82,34 @@ const getNoteWidth = () => {
  * 触底
  * */
 const scrollBottom = async () => {
-  // 滚动条距离顶部的高度
-  let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-  // 屏幕高度
-  let clientHeight = document.documentElement.clientHeight;
-  // 内容高度
-  let scrollHeight = document.documentElement.scrollHeight;
+  if(id.value === '0') {
+    // 滚动条距离顶部的高度
+    let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+    // 屏幕高度
+    let clientHeight = document.documentElement.clientHeight
+    // 内容高度
+    let scrollHeight = document.documentElement.scrollHeight
 
-  // 判断是否到达底部
-  if (scrollTop + clientHeight + 230 >= scrollHeight) {
-    // 按钮移动
-    addBtnBottom.value = (scrollTop + clientHeight + 230 - scrollHeight) + 'px';
+    // 判断是否到达底部
+    if (scrollTop + clientHeight + 230 >= scrollHeight) {
+      // 按钮移动
+      addBtnBottom.value = (scrollTop + clientHeight + 230 - scrollHeight) + 'px'
 
-    // 分页加载更多，只在未加载数据时触发
-    if (!isLoading.value && messageParams.page * messageParams.pageSize < totalMessage.value) {
-      isLoading.value = true; // 开始加载
-      messageParams.page++;
-      await handleGetMessages();
+      // 分页加载更多，只在未加载数据时触发
+      if (!isLoading.value && messageParams.page * messageParams.pageSize < totalMessage.value) {
+        isLoading.value = true // 开始加载
+        messageParams.page++
+        await handleGetMessages()
+      }
+    } else {
+      addBtnBottom.value = '30px'
     }
-  } else {
-    addBtnBottom.value = '30px';
   }
 }
 
 
 /**
- * 打开留言弹窗
+ * @description: 打开留言弹窗
  * */
 const changeModal = () => {
   isModal.value = !isModal.value
@@ -401,6 +174,7 @@ const clickSwitch = (e: string) => {
 }
 
 async function handleGetMessages() {
+  if(id.value != '0') return
   getMessages(messageParams).then((res: any) => {
       messageList.value.push(...res.data)
       totalMessage.value = res.meta.total
@@ -436,9 +210,9 @@ function handleAddSuccess(val: boolean) {
   })
 }
 
-/*
-* @description: 处理分享
-* **/
+/**
+ * @description: 处理分享
+ * */
 const handleShareUrl = (url: string) => {
   shareImgUrl.value = url
 }
@@ -469,18 +243,28 @@ const handleGetAllMessage = () => {
   changeLabelItem('')
 }
 
-// 监听墙体变化, 重置状态
-watch(id, () => {
+/**
+ * @description: 监听墙体变化, 重置状态
+ * */
+watch(id, async () => {
   isModal.value = false
   isImgModal.value = false
   isLabelSelected.value = ''
   currentImgIndex.value = -1
   cardSelected.value = -1
   currentIndex.value = -1
+  messageParams.tag = ''
+  messageParams.page = 1
+  messageParams.pageSize = 10
+  messageList.value = []
+  await handleGetMessages()
 })
 
 onMounted(async () => {
-  await handleGetMessages()
+  if(id.value === '0') {
+    isLoading.value = true
+    await handleGetMessages()
+  }
   window.addEventListener('scroll', () => {
     scrollBottom()
   })
@@ -531,7 +315,7 @@ onBeforeUnmount(() => {
       </template>
     </div>
     <div class="flex w-full h-full justify-center items-center" v-if="messageList.length <= 0 && !isLoading">
-      <Error :type="0" text="快来占个楼吧~" />
+      <Error :type="id as string" :text="id ==='0' ? '快来留言吧~' : '快来留下照片吧~'" />
     </div>
     <div class="add" @click="addCardItem" v-show="!isModal">
       <span>添加</span>
