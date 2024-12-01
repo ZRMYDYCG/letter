@@ -1,5 +1,6 @@
 import type { Context } from 'koa'
 import messageModel from "../models/message.model"
+
 interface CreateMessageBody {
     content: string // 留言内容
     userId: string  // 用户ID

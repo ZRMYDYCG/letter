@@ -90,12 +90,12 @@ const scrollBottom = async () => {
     let scrollHeight = document.documentElement.scrollHeight
 
     // 判断是否到达底部
-    if (scrollTop + clientHeight + 300 >= scrollHeight) {
+    if (scrollTop + clientHeight + 260 >= scrollHeight) {
       // 按钮移动
       addBtnBottom.value = (scrollTop + clientHeight + 300 - scrollHeight) + 'px'
 
       // 分页加载更多，只在未加载数据时触发
-      if (id.value === '0' && messageParams.page * messageParams.pageSize < totalMessage.value) {
+      if (id.value === '0' && messageParams.page * messageParams.pageSize < totalMessage.value && isLoading.value === false) {
         isLoading.value = true // 开始加载
         messageParams.page++
         await handleGetMessages()
@@ -314,7 +314,7 @@ onBeforeUnmount(() => {
     <div class="flex w-full h-full justify-center items-center" v-if="messageList.length <= 0 && !isLoading">
       <Error :type="id as string" :text="id ==='0' ? '快来留言吧~' : '快来留下照片吧~'" />
     </div>
-    <div class="add" @click="addCardItem" v-show="!isModal">
+    <div class="add cursor-pointer" @click="addCardItem" v-show="!isModal">
       <span>添加</span>
     </div>
     <yq-modal @change-modal="changeModal" :title="title" :isModal="isModal">

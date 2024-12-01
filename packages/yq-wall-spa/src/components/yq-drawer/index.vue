@@ -1,13 +1,10 @@
 <script setup lang="ts">
-const props = defineProps({
-  title: {
-    type: String,
-    default: ''
-  },
-  isModal: {
-    type: Boolean
-  }
-})
+interface IProps {
+  title: string
+  isModal: boolean
+}
+
+defineProps<IProps>()
 
 const emits = defineEmits(['change-modal'])
 const changeModal = () => {
@@ -20,7 +17,9 @@ const changeModal = () => {
     <div class="yi-modal" v-if="isModal">
       <div class="yi-modal-head">
         <p class="modal-name">{{ title }}</p>
-        <span class="shut" @click="changeModal">x</span>
+        <span class="shut" @click="changeModal">
+          <iconpark-icon size="20" name="close"></iconpark-icon>
+        </span>
       </div>
       <div class="yi-modal-main">
         <slot></slot>
@@ -61,7 +60,7 @@ const changeModal = () => {
   height: 100%;
   background: rgba(255, 255, 255, 0.8);
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.08);
-  backdrop-filter: blur(20px);
+
 }
 .yi-modal .yi-modal-head {
   width: 100%;

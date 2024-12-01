@@ -11,7 +11,7 @@ const messageSchema = new mongoose.Schema({
     type: { type: Number, required: true },
     /*背景色*/
     color: { type: Number, required: true },
-    /*背景图*/
+    /*照片*/
     image: { type: String, default: "" },
     /*标签*/
     tag: { type: Number, required: true },

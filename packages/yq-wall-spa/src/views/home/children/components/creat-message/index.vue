@@ -49,7 +49,6 @@ function showPhoto() {
 const handleAddMessage = async () => {
   // 文本留言
   if(props.id === 0) {
-    console.log(nickName.value)
     addMessage({
       type: props.id,
       userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id,
@@ -63,16 +62,15 @@ const handleAddMessage = async () => {
       }
     })
   }
+  // 图片留言
+  if(props.id === 1) {
+    console.log('这是一条图片留言')
+  }
 }
 </script>
 
 <template>
   <div class="new-card">
-    <ul class="color-list" v-if="id === 0">
-      <template v-for="(item, index) in cardColorOptions" :key="index">
-        <li @click="changeColor(index)" class="item" :style="{ background: item }" :class="{ selected: index === colorSelected }"></li>
-      </template>
-    </ul>
     <!--  照片  -->
     <div class="add-photo" v-if="id === 1">
       <input type="file" name="file" id="file" mutiple="multiple" @change="showPhoto"></input>
@@ -86,15 +84,38 @@ const handleAddMessage = async () => {
         <img :src="url" alt="">
       </div>
     </div>
+    <!--  选择留言色彩  -->
+    <ul class="color-list">
+      <template v-for="(item, index) in cardColorOptions" :key="index">
+        <li
+          @click="changeColor(index)"
+          class="item" :style="{ background: item }"
+          :class="{ selected: index === colorSelected }"
+        ></li>
+      </template>
+    </ul>
     <!--  卡片  -->
-    <div class="card-main" v-if="id === 0" :style="{ background: cardColor[colorSelected] }">
-      <textarea class="message" placeholder="留言..." maxlength="96" v-model="content"></textarea>
+    <div class="card-main" :style="{ background: cardColor[colorSelected] }">
+      <textarea
+        class="message"
+        placeholder="留言..."
+        maxlength="96"
+        v-model="content"
+      ></textarea>
       <input class="name" type="text" placeholder="签名" v-model="nickName" />
     </div>
     <div class="labels">
       <p class="title">请选择标签</p>
       <ul class="list">
-        <li class="item" @click="changeLabel(index)" :class="{ tagSelected: tagSelected === index }" v-for="(item, index) in label[id]" :key="index">{{ item }}</li>
+        <li
+          class="item"
+          @click="changeLabel(index)"
+          :class="{ tagSelected: tagSelected === index }"
+          v-for="(item, index) in label[id]"
+          :key="index"
+        >
+          {{ item }}
+        </li>
       </ul>
     </div>
     <div class="state">
