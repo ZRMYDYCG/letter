@@ -23,11 +23,11 @@ const clickSwitch = (row: string) => {
     <div class="view-photo">
       <img :src="imgUrl" alt="">
     </div>
-    <div class="switch sw-left" @click="clickSwitch('left')">
-      <span></span>
+    <div class="switch sw-left flex justify-center items-center" @click="clickSwitch('left')">
+      <iconpark-icon size="28" name="arrow-circle-left"></iconpark-icon>
     </div>
-    <div class="switch sw-right" @click="clickSwitch('right')">
-      <span></span>
+    <div class="switch sw-right flex justify-center items-center" @click="clickSwitch('right')">
+      <iconpark-icon size="28" name="arrow-circle-right"></iconpark-icon>
     </div>
   </div>
 </template>

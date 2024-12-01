@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { cardColorOptions, cardColor, label } from '@/config'
-import { addMessage } from '@/api/modules'
+import { addMessage, addPhotoMessage } from '@/api/modules'
 import YiButton from '@/components/yq-button/index.vue'
 
 interface IProps {
@@ -29,18 +29,18 @@ function changeLabel(index: number) {
 
 function getObjectUrl(file: any) {
   let res = null
-  if(window.createObjectURL != undefined) {
-    res = window.createObjectURL(file)
-  } else if(window.URL != undefined) {
-    res = window.URL.createObjectURL(file)
-  } else if(window.webkitURL != undefined) {
-    res = window.webkitURL.createObjectURL(file)
+  if((window as any).createObjectURL != undefined) {
+    res = (window as any).createObjectURL(file)
+  } else if((window as any).URL != undefined) {
+    res = (window as any).URL.createObjectURL(file)
+  } else if((window as any).webkitURL != undefined) {
+    res = (window as any).webkitURL.createObjectURL(file)
   }
   return res
 }
 
 function showPhoto() {
-  url.value = getObjectUrl(document.getElementById("file").files[0])
+  url.value = getObjectUrl((document.getElementById('file') as any).files[0])
 }
 
 /**
@@ -58,13 +58,42 @@ const handleAddMessage = async () => {
       color: colorSelected.value,
     }).then((res) => {
       if(res.code === 200) {
-        emits('add-success', true)
+        emits('add-success', 'text')
       }
     })
   }
   // 图片留言
-  if(props.id === 1) {
-    console.log('这是一条图片留言')
+  if (props.id === 1) {
+    const formData = new FormData()
+    const fileInput = (document.getElementById('file') as HTMLInputElement)
+
+    // 确保文件存在
+    if (fileInput.files.length > 0) {
+      const file = (fileInput as any).files[0]
+      formData.append('file', file) // 将图片文件追加到 FormData
+
+      // 将其他数据添加到 FormData, 注意将对象转换为字符串
+      const DTO = {
+        type: props.id,
+        userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id,
+        nickName: nickName.value,
+        content: content.value,
+        tag: tagSelected.value,
+        color: colorSelected.value,
+      }
+      formData.append('DTO', JSON.stringify(DTO)) // 将 DTO 作为字符串追加到 FormData
+
+      try {
+        const res = await addPhotoMessage(formData) // 将 FormData 传递给接口
+        if (res.code === 200) {
+          emits('add-success', 'photo')
+        }
+      } catch (error) {
+        console.error("上传失败:", error)
+      }
+    } else {
+      console.error("请上传一张图片")
+    }
   }
 }
 </script>

@@ -109,7 +109,7 @@ defineExpose({
       <div>
         <span class="revoke">联系墙主撕掉该便签</span>
         <span class="report" @click="handleRevokeDialog">举报</span>
-        <revoke-dialog ref="revokeDialogRef" title="举报理由" @confirm="handleOnConfirm"></revoke-dialog>
+        <revoke-dialog  ref="revokeDialogRef" title="举报理由" @confirm="handleOnConfirm"></revoke-dialog>
       </div>
       <div v-if="item.type ===0" class="flex gap-1 cursor-pointer" @click="generateScreenshot">
         <span>分享</span>

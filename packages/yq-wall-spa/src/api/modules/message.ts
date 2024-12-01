@@ -8,12 +8,18 @@ export const getMessages = (params: any) => {
 }
 
 /*
-* @desc 新增留言
+* @desc 新增文本留言
 * **/
 export const addMessage = (params: any) => {
     return axios.post<any>('/message', params)
 }
 
+/**
+ * @desc 新增照片留言
+ * */
+export const addPhotoMessage = (params: any) => {
+    return axios.post<any>('/upload/img-message', params)
+}
 
 /*
 * @desc 获取留言的评论列表

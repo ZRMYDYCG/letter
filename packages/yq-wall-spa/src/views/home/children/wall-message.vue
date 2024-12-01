@@ -33,16 +33,18 @@ const totalMessage = ref(0)
 const shareImgUrl = ref('')
 const isImgUrlLoading = ref(false)
 
+// 留言墙与照片墙的切换 id
+const id = computed(() => {
+  return route.query.id
+})
+
+
 const messageParams = reactive({
   userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
   page: 1,
   pageSize: 10,
   tag: '',
-})
-
-// 留言墙与照片墙的切换 id
-const id = computed(() => {
-  return route.query.id
+  type: id.value
 })
 
 const changeLabelItem = (index: any) => {
@@ -95,7 +97,7 @@ const scrollBottom = async () => {
       addBtnBottom.value = (scrollTop + clientHeight + 300 - scrollHeight) + 'px'
 
       // 分页加载更多，只在未加载数据时触发
-      if (id.value === '0' && messageParams.page * messageParams.pageSize < totalMessage.value && isLoading.value === false) {
+      if ((id.value === '0' || id.value === '1') && messageParams.page * messageParams.pageSize < totalMessage.value && isLoading.value === false) {
         isLoading.value = true // 开始加载
         messageParams.page++
         await handleGetMessages()
@@ -171,12 +173,20 @@ const clickSwitch = (e: string) => {
 }
 
 async function handleGetMessages() {
-  if(id.value != '0') return
-  getMessages(messageParams).then((res: any) => {
+  if(id.value === '0') {
+    getMessages(messageParams).then((res: any) => {
       messageList.value.push(...res.data)
       totalMessage.value = res.meta.total
       isLoading.value = false
-  })
+    })
+  }
+  if(id.value === '1') {
+    getMessages(messageParams).then((res: any) => {
+      photoList.value.push(...res.data)
+      totalMessage.value = res.meta.total
+      isLoading.value = false
+    })
+  }
 }
 
 /**
@@ -189,22 +199,35 @@ function toWallTop() {
 /**
  * @deprecated 处理新增留言成功
  * */
-function handleAddSuccess(val: boolean) {
-  if(!val) return
-  isModal.value = !isModal.value
-  getMessages({
-    userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
-    page: 1,
-    pageSize: 1,
-    tag: ''
-  }).then((res: any) => {
-    messageList.value.unshift(res.data[0])
-    toWallTop()
-    // 激活该条发送成功的留言
-    setTimeout(() => {
-      clickDetail(0)
-    }, 300)
-  })
+function handleAddSuccess(val: string) {
+  if(val === 'add-success') {
+    isModal.value = !isModal.value
+    getMessages({
+      userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
+      page: 1,
+      pageSize: 1,
+      tag: ''
+    }).then((res: any) => {
+      messageList.value.unshift(res.data[0])
+      toWallTop()
+      // 激活该条发送成功的留言
+      setTimeout(() => {
+        clickDetail(0)
+      }, 300)
+    })
+  }
+  if(val === 'photo') {
+    isModal.value = !isModal.value
+    getMessages({
+      userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
+      page: 1,
+      pageSize: 1,
+      tag: ''
+    }).then((res: any) => {
+      photoList.value.unshift(res.data[0])
+      toWallTop()
+    })
+  }
 }
 
 /**
@@ -243,7 +266,7 @@ const handleGetAllMessage = () => {
 /**
  * @description: 监听墙体变化, 重置状态
  * */
-watch(id, async () => {
+watch(id, async (val) => {
   isModal.value = false
   isImgModal.value = false
   isLabelSelected.value = ''
@@ -253,7 +276,9 @@ watch(id, async () => {
   messageParams.tag = ''
   messageParams.page = 1
   messageParams.pageSize = 10
+  messageParams.type = val
   messageList.value = []
+  photoList.value = []
   await handleGetMessages()
 })
 
@@ -306,7 +331,7 @@ onBeforeUnmount(() => {
         </circle>
       </svg>
     </div>
-    <div class="photo" v-if="id === '1'">
+    <div class="photo mt-[100px]" v-if="id === '1'">
       <template v-for="(item, index) in photoList" :key="index">
         <message-photo-card @click="photoSelect(index)" :photo="item"></message-photo-card>
       </template>
@@ -321,7 +346,7 @@ onBeforeUnmount(() => {
       <creat-message :id="Number(id)" v-if="title === '写留言'" @add-success="handleAddSuccess"></creat-message>
       <message-detail ref="messageDetailRef" v-if="title === '详情'" :item="detailData" @share-url="handleShareUrl" @finish-loading-url="handleFinishLoadingUrl"></message-detail>
     </yq-modal>
-    <yq-img-view @click-switch="clickSwitch" :img-url="photoList[currentImgIndex]?.imgUrl" v-show="isImgModal"></yq-img-view>
+    <yq-img-view @click-switch="clickSwitch" :img-url="photoList[currentImgIndex]?.image" v-show="isImgModal"></yq-img-view>
   </div>
   <div class="w-screen h-screen fixed top-0 left-0 z-[9999] bg-black bg-opacity-90 flex justify-center items-center"
        v-if="isShowImgDialog"

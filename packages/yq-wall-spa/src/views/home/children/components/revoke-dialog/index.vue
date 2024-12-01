@@ -39,7 +39,7 @@ defineExpose({
 
 <template>
   <div>
-    <el-dialog :title="title" top="30vh"  v-model="visible" width="80%" @close="handleCancel">
+    <el-dialog :title="title" top="30vh"  v-model="visible" width="20%" @close="handleCancel">
       <div class="dialog-content">
         <el-input v-model="content" type="textarea" resize="none" :rows="6" placeholder="请输入内容"></el-input>
       </div>

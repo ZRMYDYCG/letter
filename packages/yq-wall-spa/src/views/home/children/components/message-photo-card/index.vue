@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { label, cardColor } from '@/config'
-
 const props = defineProps({
   photo: {
     type: Object,
@@ -11,7 +9,7 @@ const props = defineProps({
 
 <template>
   <div class="photo-card">
-    <img :src="photo.imgUrl" class="photo-img" alt="">
+    <img :src="photo.image" class="photo-img" alt="">
     <div class="photo-cover"></div>
     <div class="photo-like">
       <span>❤️</span>
