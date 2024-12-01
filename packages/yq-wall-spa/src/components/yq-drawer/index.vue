@@ -1,6 +1,18 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+import { useRoute } from "vue-router"
+
+const route = useRoute()
+
+const title = computed(() => {
+  if(route.query.id === '0') {
+    return '写留言'
+  } else if(route.query.id === '1') {
+    return '留照片'
+  }
+})
+
 interface IProps {
-  title: string
   isModal: boolean
 }
 

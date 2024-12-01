@@ -30,4 +30,5 @@ userRouter.delete('/:id', UserController.deleteUser)
  * */
 userRouter.post('/change-password', UserController.updatePassword)
 
+
 export default userRouter

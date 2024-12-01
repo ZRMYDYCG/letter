@@ -323,29 +323,21 @@ onBeforeUnmount(() => {
     </yq-modal>
     <yq-img-view @click-switch="clickSwitch" :img-url="photoList[currentImgIndex]?.imgUrl" v-show="isImgModal"></yq-img-view>
   </div>
-  <transition name="fade">
-    <div class="w-screen h-screen fixed top-0 left-0 z-[9999] bg-black bg-opacity-90 flex justify-center items-center"
-         v-if="isShowImgDialog"
-         @click="closeImgShareDialog"
-        >
-      <div class="z-[10000] rounded-[12px] overflow-hidden bg-white backdrop-blur-md" @click.stop>
-        <img :src="shareImgUrl" alt="#">
-        <div class="flex justify-center w-full gap-4 m-3">
-          <yq-button type="secondary" @click="closeImgShareDialog">销毁</yq-button>
-          <yq-button @click="handleDownloadImg(shareImgUrl)">下载</yq-button>
-        </div>
+  <div class="w-screen h-screen fixed top-0 left-0 z-[9999] bg-black bg-opacity-90 flex justify-center items-center"
+       v-if="isShowImgDialog"
+       @click="closeImgShareDialog"
+      >
+    <div class="z-[10000] rounded-[12px] overflow-hidden bg-white backdrop-blur-md" @click.stop>
+      <img :src="shareImgUrl" alt="#">
+      <div class="flex justify-center w-full gap-4 m-3">
+        <yq-button type="secondary" @click="closeImgShareDialog">销毁</yq-button>
+        <yq-button @click="handleDownloadImg(shareImgUrl)">下载</yq-button>
       </div>
     </div>
-  </transition>
+  </div>
 </template>
 
 <style scoped>
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 0.5s ease;
-}
-.fade-enter, .fade-leave-to { /* .fade-leave-active in < 2.1.8 */
-  opacity: 0;
-}
 .wall-message {
   min-height: 900px;
   padding-top: 52px;

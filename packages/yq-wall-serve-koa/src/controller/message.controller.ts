@@ -12,7 +12,7 @@ interface CreateMessageBody {
 
 class messageController {
     /*
-    * @desc 创建留言
+    * @desc 创建文本留言
     * */
     async createMessage(ctx: Context) {
         const { content, userId, type, color, tag, nickName } = ctx.request.body as CreateMessageBody
