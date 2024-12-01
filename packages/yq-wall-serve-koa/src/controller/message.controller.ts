@@ -8,6 +8,7 @@ interface CreateMessageBody {
     color?: string  // 卡片颜色
     tag?: string    // 标签
     nickName?: string // 用户的留言昵称
+    image?: string  // 留言图片
 }
 
 class messageController {
@@ -15,8 +16,8 @@ class messageController {
     * @desc 创建文本留言
     * */
     async createMessage(ctx: Context) {
-        const { content, userId, type, color, tag, nickName } = ctx.request.body as CreateMessageBody
-        const message = await messageModel.create({ content, userId, type, color, tag, nickName })
+        const { content, userId, type, color, tag, nickName, image } = ctx.request.body as CreateMessageBody
+        const message = await messageModel.create({ content, userId, type, color, tag, nickName, image })
         ctx.body = {
             code: 200,
             message: '留言创建成功',
@@ -27,7 +28,7 @@ class messageController {
      * @desc 获取留言列表或单个留言详情或某用户的留言列表或某用户的某标签的留言列表
      * */
     async getMessage(ctx: Context) {
-        const { page = 1, pageSize = 10, messageId, userId, tag } = ctx.query as { page?: string; pageSize?: string; messageId?: string; userId?: string; tag?: string }
+        const { page = 1, pageSize = 10, messageId, userId, tag , type } = ctx.query as { page?: string; pageSize?: string; messageId?: string; userId?: string; tag?: string, type?: number }
 
         try {
             if (messageId) {
@@ -51,6 +52,10 @@ class messageController {
                 // 当查询留言列表时
                 const skip = (Number(page) - 1) * Number(pageSize)
                 const query: any = {}
+
+                if(type) {
+                    query.type = type // 根据留言类型过滤
+                }
 
                 if (userId) {
                     query.userId = userId // 根据用户ID过滤
