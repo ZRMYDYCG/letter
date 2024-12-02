@@ -1,15 +1,3 @@
-<script setup lang="ts">
-interface IProps {
-  size: string
-  type: string
-}
-
-const props = withDefaults(defineProps<IProps>(), {
-  size: 'base',
-  type: 'primary'
-})
-</script>
-
 <template>
   <button
     class="yi-button cursor-pointer font-XiaoKeNaiNao"
@@ -20,6 +8,17 @@ const props = withDefaults(defineProps<IProps>(), {
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+interface IProps {
+  size?: string
+  type?: string
+}
+
+const props = withDefaults(defineProps<IProps>(), {
+  size: 'base',
+  type: 'primary'
+})
+
 const buttonSizeClass = computed(() => {
   switch (props.size) {
     case 'max':

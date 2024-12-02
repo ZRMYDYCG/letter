@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { useCommonStore } from '@/stores/modules/common.ts'
 
-const route = useRoute()
+const commonStore = useCommonStore()
+
+const { currentWall } = storeToRefs(commonStore)
 
 const title = computed(() => {
-  if (route.query.id === '0') {
+  if (currentWall.value === 0) {
     return '写留言'
-  } else if (route.query.id === '1') {
+  } else if (currentWall.value === 1) {
     return '留照片'
   }
 })

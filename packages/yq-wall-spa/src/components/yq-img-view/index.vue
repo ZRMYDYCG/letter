@@ -25,7 +25,7 @@ const clickSwitch = (row: string) => {
     <div
       class="view-photo absolute top-[80px] w-full py-[82px] pl-[96px] pr-[454px] h-full flex justify-center items-center overflow-y-auto"
     >
-      <img :src="imgUrl" alt="" class="w-full" />
+      <img :src="imgUrl" alt="#" class="w-full" />
     </div>
     <div
       class="switch sw-left fixed top-1/2 left-5 flex justify-center items-center w-[56px] h-[56px] bg-[#949494] text-white rounded-full cursor-pointer opacity-50 transition-opacity duration-300 hover:opacity-100"

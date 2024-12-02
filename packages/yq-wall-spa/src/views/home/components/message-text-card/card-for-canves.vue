@@ -13,7 +13,7 @@ const emits = defineEmits(['item-click'])
 <template>
   <div
     class="h-[240px] flex flex-col justify-between"
-    :style="{ width: width, background: cardColor[note.color], fontFamily: 'XiaoKeNaiNao' }"
+    :style="{ width: width, background: cardColor[note.color] }"
   >
     <div class="flex justify-between items-center border-b border-gray-300 h-[40px] px-[10px]">
       <img class="w-[30px] h-[30px] border rounded-full" src="@/assets/images/logo.svg" alt="#" />
@@ -29,9 +29,4 @@ const emits = defineEmits(['item-click'])
   </div>
 </template>
 
-<style scoped>
-@font-face {
-  font-family: XiaoKeNaiNao;
-  src: url('@/assets/fonts/xknn.ttf');
-}
-</style>
+<style scoped></style>

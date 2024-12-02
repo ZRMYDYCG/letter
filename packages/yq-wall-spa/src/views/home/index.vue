@@ -5,7 +5,7 @@ import { useCommonStore } from '@/stores/modules/common.ts'
 import { wallType, label } from '@/config/index.ts'
 import { getMessages } from '@/api/modules'
 import MessageTextCard from './components/message-text-card/index.vue'
-import YqModal from '@/components/yq-drawer/index.vue'
+import YqDrawer from '@/components/yq-drawer/index.vue'
 import CreatMessage from './components/creat-message/index.vue'
 import MessageDetail from './components/message-detail/index.vue'
 import MessagePhotoCard from './components/message-photo-card/index.vue'
@@ -67,6 +67,21 @@ const changeLabelItem = (index: any) => {
     isModal.value = false
     // 关闭激活状态
     cardSelected.value = -1
+  }
+  if (currentWall.value === 1) {
+    // 开启Loading
+    isLoading.value = true
+    isLabelSelected.value = index
+    // 重置结果列表
+    photoList.value = []
+    // 重置搜索条件, 发起分类搜索
+    messageParams.page = 1
+    messageParams.pageSize = 10
+    messageParams.tag = index
+    handleGetMessages()
+    toWallTop()
+    // 关闭右侧弹窗
+    isModal.value = false
   }
 }
 
@@ -240,10 +255,6 @@ const handleShareUrl = (url: string) => {
   shareImgUrl.value = url
 }
 
-const isShowImgDialog = computed(() => {
-  return shareImgUrl.value !== ''
-})
-
 const closeImgShareDialog = () => {
   shareImgUrl.value = ''
 }
@@ -266,6 +277,10 @@ const handleGetAllMessage = () => {
   changeLabelItem('')
 }
 
+const isShowImgDialog = computed(() => {
+  return shareImgUrl.value !== ''
+})
+
 /**
  * @description: 监听墙体变化, 重置状态
  * */
@@ -286,7 +301,7 @@ watch(currentWall, async (val) => {
 })
 
 onMounted(async () => {
-  if (currentWall.value === '0') {
+  if (currentWall.value === 0) {
     isLoading.value = true
     await handleGetMessages()
   }
@@ -380,7 +395,7 @@ onBeforeUnmount(() => {
         </circle>
       </svg>
     </div>
-    <div class="photo mt-[100px] grid grid-cols-5 gap-[4px]" v-if="currentWall === 1">
+    <div class="photo mt-[30px] grid grid-cols-5 gap-[4px]" v-if="currentWall === 1">
       <template v-for="(item, index) in photoList" :key="index">
         <message-photo-card @click="photoSelect(index)" :photo="item" />
       </template>
@@ -394,6 +409,7 @@ onBeforeUnmount(() => {
         :text="currentWall === 0 ? '快来留言吧~' : '快来留下照片吧~'"
       />
     </div>
+    <!-- 添加按钮 -->
     <div
       class="add w-[56px] h-[56px] bg-[#202020] shadow-lg rounded-[28px] fixed right-[30px] bottom-[30px] flex justify-center items-center text-[#ffffff] transition-all duration-300 cursor-pointer"
       @click="addCardItem"
@@ -401,26 +417,38 @@ onBeforeUnmount(() => {
     >
       <span>添加</span>
     </div>
-    <yq-modal @change-modal="changeModal" :title="title" :isModal="isModal">
-      <creat-message
-        :id="currentWall"
-        v-if="title === '写留言'"
-        @add-success="handleAddSuccess"
-      ></creat-message>
-      <message-detail
-        ref="messageDetailRef"
-        v-if="title === '详情'"
-        :item="detailData"
-        @share-url="handleShareUrl"
-        @finish-loading-url="handleFinishLoadingUrl"
-      ></message-detail>
-    </yq-modal>
-    <yq-img-view
-      @click-switch="clickSwitch"
-      :img-url="photoList[currentImgIndex]?.image"
-      v-show="isImgModal"
-    ></yq-img-view>
   </div>
+  <!-- 页脚 -->
+  <yq-footer></yq-footer>
+  <!-- 大图预览 -->
+  <yq-img-view
+    @click-switch="clickSwitch"
+    :img-url="photoList[currentImgIndex]?.image"
+    v-show="isImgModal"
+  ></yq-img-view>
+  <!-- 创建、详情 抽屉 -->
+  <yq-drawer @change-modal="changeModal" :title="title" :isModal="isModal">
+    <creat-message
+      :id="currentWall"
+      v-if="title === '写留言'"
+      @add-success="handleAddSuccess"
+    ></creat-message>
+    <message-detail
+      ref="messageDetailRef"
+      v-if="title === '详情'"
+      :item="detailData"
+      @share-url="handleShareUrl"
+      @finish-loading-url="handleFinishLoadingUrl"
+    ></message-detail>
+  </yq-drawer>
+  <!-- 留言墙视频背景 -->
+  <video
+    src="@/assets/images/light.webm"
+    autoplay
+    muted
+    loop
+    class="fixed top-0 left-0 z-[-99]"
+  ></video>
   <!-- 屏幕截屏分享弹窗 -->
   <div
     class="w-screen h-screen fixed top-0 left-0 z-[9999] bg-black bg-opacity-90 flex justify-center items-center"
@@ -435,16 +463,6 @@ onBeforeUnmount(() => {
       </div>
     </div>
   </div>
-  <!-- 页脚 -->
-  <yq-footer></yq-footer>
-  <!-- 留言墙视频背景 -->
-  <video
-    src="@/assets/images/light.webm"
-    autoplay
-    muted
-    loop
-    class="fixed top-0 left-0 z-[-99]"
-  ></video>
 </template>
 
 <style scoped>

@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { useCommonStore } from '@/stores/modules/common.ts'
 import YiButton from '@/components/yq-button/index.vue'
 
-const route = useRoute()
-const router = useRouter()
+const commonStore = useCommonStore()
+const { currentWall } = storeToRefs(commonStore)
+
 const currentViewId = computed(() => {
-  return route.query.id
+  return currentWall.value
 })
 
-const changeWall = (id: string) => {
-  router.push({ path: '/wall', query: { id: id } })
+const changeWall = (id: number) => {
+  commonStore.changeWall(id)
   toWallTop()
 }
 
@@ -35,14 +37,14 @@ function toWallTop() {
     <div class="menu">
       <YiButton
         class="menu-message mr-6"
-        @click="changeWall('0')"
-        :type="currentViewId === '0' ? 'c-primary' : 'c-secondary'"
+        @click="changeWall(0)"
+        :type="currentViewId === 0 ? 'c-primary' : 'c-secondary'"
         >留言墙</YiButton
       >
       <YiButton
         class="menu-photo"
-        @click="changeWall('1')"
-        :type="currentViewId === '1' ? 'c-primary' : 'c-secondary'"
+        @click="changeWall(1)"
+        :type="currentViewId === 1 ? 'c-primary' : 'c-secondary'"
         >照片墙</YiButton
       >
     </div>
