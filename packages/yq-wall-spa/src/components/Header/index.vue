@@ -20,20 +20,21 @@ function toWallTop() {
 </script>
 
 <template>
-  <div class="YiHeader">
-    <div class="logo">
+  <div
+    class="YiHeader w-full h-[52px] bg-white bg-opacity-80 shadow-md backdrop-blur-md fixed top-0 left-0 z-[9999] flex items-center justify-between px-8"
+  >
+    <div class="logo flex items-center w-[200px]">
       <img
         src="@/assets/images/logo.svg"
-        class="logo-img shadow rounded-full"
+        class="logo-img w-[40px] h-[40px] shadow rounded-full transition-transform duration-500 cursor-pointer"
         alt="#"
-        style="transition: transform 0.5s ease; cursor: pointer"
-        onmouseover="this.style.transform='rotate(360deg)';"
-        onmouseout="this.style.transform='rotate(0deg)';"
+        @mouseover="this.style.transform = 'rotate(360deg)'"
+        @mouseout="this.style.transform = 'rotate(0deg)'"
       />
     </div>
     <div class="menu">
       <YiButton
-        class="menu-message"
+        class="menu-message mr-6"
         @click="changeWall('0')"
         :type="currentViewId === '0' ? 'c-primary' : 'c-secondary'"
         >留言墙</YiButton
@@ -45,54 +46,10 @@ function toWallTop() {
         >照片墙</YiButton
       >
     </div>
-    <div class="user">
-      <div class="user-head"></div>
+    <div class="user w-[200px]">
+      <div
+        class="user-head rounded-full h-[36px] w-[36px] bg-gradient-to-b from-[#7be7ff] to-[#1e85e2] float-right"
+      ></div>
     </div>
   </div>
 </template>
-
-<style scoped>
-.YiHeader {
-  width: 100%;
-  height: 52px;
-  background-color: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 30px;
-}
-.YiHeader .logo {
-  display: flex;
-  align-items: center;
-  width: 200px;
-}
-.YiHeader .logo .logo-img {
-  width: 40px;
-  height: 40px;
-}
-.YiHeader .logo .logo-name {
-  font-size: 20px;
-  color: #202020;
-  font-weight: 600;
-  padding-left: 10px;
-}
-.YiHeader .menu .menu-message {
-  margin-right: 24px;
-}
-.YiHeader .user {
-  width: 200px;
-}
-.YiHeader .user .user-head {
-  float: right;
-  border-radius: 50%;
-  height: 36px;
-  width: 36px;
-  background-image: linear-gradient(180deg, #7be7ff 2%, #1e85e2 100%);
-}
-</style>

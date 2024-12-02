@@ -41,10 +41,6 @@ const changeModal = () => {
 </template>
 
 <style scoped>
-@font-face {
-  font-family: XiaoKeNaiNao;
-  src: url('@/assets/fonts/xknn.ttf');
-}
 .modal-enter-from {
   transform: translateX(360px);
 }
