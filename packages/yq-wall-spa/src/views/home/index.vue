@@ -173,6 +173,14 @@ const photoSelect = (currentWall: number) => {
   isModal.value = !isModal.value
   detailData.value = photoList.value[currentWall]
   currentImgIndex.value = currentWall
+
+  nextTick(() => {
+    try {
+      messageDetailRef.value?.handleGetMessageComments()
+    } catch (error) {
+      console.log(error)
+    }
+  })
 }
 
 const clickSwitch = (e: string) => {
