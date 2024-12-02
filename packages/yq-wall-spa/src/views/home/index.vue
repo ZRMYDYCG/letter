@@ -314,17 +314,29 @@ onBeforeUnmount(() => {
 <template>
   <!-- 头部 -->
   <yq-header></yq-header>
-  <div class="wall-message">
-    <p class="title">{{ wallType[0].name }}</p>
-    <p class="individual">{{ wallType[0].individual }}</p>
-    <ul class="label">
-      <li class="item" @click="handleGetAllMessage" :class="{ selected: isLabelSelected === '' }">
+  <div class="wall-message min-h-[900px] pt-[52px]">
+    <p class="title pt-[48px] pb-[8px] text-[56px] text-[#202020] text-center font-semibold">
+      {{ wallType[0].name }}
+    </p>
+    <p class="individual text-[#5b5b5b] text-center">{{ wallType[0].individual }}</p>
+    <ul class="label flex justify-center mt-[40px]">
+      <li
+        class="item px-[15px] text-[28px] my-[6px] text-[#5b5b5b] cursor-pointer transition-all duration-200"
+        @click="handleGetAllMessage"
+        :class="{
+          'text-[#202020] font-semibold border border-[#202020] rounded-[14px]':
+            isLabelSelected === ''
+        }"
+      >
         全部
       </li>
       <template v-for="(item, index) in label[currentWall]" :key="index">
         <li
-          class="item"
-          :class="{ selected: isLabelSelected === index }"
+          class="item px-[15px] text-[28px] my-[6px] text-[#5b5b5b] cursor-pointer transition-all duration-200"
+          :class="{
+            'text-[#202020] font-semibold border border-[#202020] rounded-[14px]':
+              isLabelSelected === index
+          }"
           @click="changeLabelItem(Number(index))"
         >
           {{ item }}
@@ -332,17 +344,16 @@ onBeforeUnmount(() => {
       </template>
     </ul>
     <div
-      class="card"
+      class="card flex flex-wrap pt-[28px] mx-auto"
       :style="{ width: noteWidth + 'px' }"
       v-if="currentWall === 0 && messageList.length > 0"
     >
       <template v-for="(item, index) in messageList" :key="index">
         <message-text-card
           @click.native="clickDetail(index)"
-          :class="{ cardSelected: index === cardSelected }"
-          class="card-item"
+          :class="{ 'border border-[#3b73f0]': index === cardSelected }"
+          class="card-item m-[6px] w-[288px]"
           :note="item"
-          width="288px"
         ></message-text-card>
       </template>
     </div>
@@ -369,9 +380,9 @@ onBeforeUnmount(() => {
         </circle>
       </svg>
     </div>
-    <div class="photo mt-[100px]" v-if="currentWall === 1">
+    <div class="photo mt-[100px] grid grid-cols-5 gap-[4px]" v-if="currentWall === 1">
       <template v-for="(item, index) in photoList" :key="index">
-        <message-photo-card @click="photoSelect(index)" :photo="item"></message-photo-card>
+        <message-photo-card @click="photoSelect(index)" :photo="item" />
       </template>
     </div>
     <div
@@ -383,7 +394,11 @@ onBeforeUnmount(() => {
         :text="currentWall === 0 ? '快来留言吧~' : '快来留下照片吧~'"
       />
     </div>
-    <div class="add cursor-pointer" @click="addCardItem" v-show="!isModal">
+    <div
+      class="add w-[56px] h-[56px] bg-[#202020] shadow-lg rounded-[28px] fixed right-[30px] bottom-[30px] flex justify-center items-center text-[#ffffff] transition-all duration-300 cursor-pointer"
+      @click="addCardItem"
+      v-show="!isModal"
+    >
       <span>添加</span>
     </div>
     <yq-modal @change-modal="changeModal" :title="title" :isModal="isModal">
@@ -406,6 +421,7 @@ onBeforeUnmount(() => {
       v-show="isImgModal"
     ></yq-img-view>
   </div>
+  <!-- 屏幕截屏分享弹窗 -->
   <div
     class="w-screen h-screen fixed top-0 left-0 z-[9999] bg-black bg-opacity-90 flex justify-center items-center"
     v-if="isShowImgDialog"
@@ -424,81 +440,25 @@ onBeforeUnmount(() => {
   <!-- 留言墙视频背景 -->
   <video
     src="@/assets/images/light.webm"
-    :autoplay="true"
-    :muted="true"
-    :loop="true"
+    autoplay
+    muted
+    loop
     class="fixed top-0 left-0 z-[-99]"
   ></video>
 </template>
 
 <style scoped>
-.wall-message {
-  min-height: 900px;
-  padding-top: 52px;
-}
-.wall-message .title {
-  padding-top: 48px;
-  padding-bottom: 8px;
-  font-size: 56px;
-  color: #202020;
-  text-align: center;
-  font-weight: 600;
-}
-.wall-message .individual {
-  color: #5b5b5b;
-  text-align: center;
-}
-.wall-message .label {
-  display: flex;
-  justify-content: center;
-  margin-top: 40px;
-}
-.wall-message .label .item {
-  padding: 0 15px;
-  line-height: 28px;
-  margin: 6px;
-  color: #5b5b5b;
-  cursor: pointer;
-  transition: all 0.2s;
-}
 .wall-message .label .item.selected {
   color: #202020;
   font-weight: 600;
   border: 1px solid #202020;
   border-radius: 14px;
 }
-.wall-message .card {
-  display: flex;
-  flex-wrap: wrap;
-  padding-top: 28px;
-  margin: auto;
-}
-.wall-message .card .card-item {
-  margin: 6px;
-}
+
 .wall-message .card .cardSelected {
   border: 1px solid #3b73f0;
 }
 .wall-message .add {
-  width: 56px;
-  height: 56px;
-  background-color: #202020;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.08);
-  border-radius: 28px;
-  position: fixed;
-  right: 30px;
   bottom: v-bind(addBtnBottom);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #ffffff;
-  transition: all 0.3s;
-}
-.wall-message .photo {
-  column-count: 5;
-  column-gap: 4px;
-  counter-reset: count;
-  width: 88%;
-  margin: 0 auto;
 }
 </style>
