@@ -1,6 +1,9 @@
 <template>
   <teleport :to="container">
-    <div class="flex flex-col items-center justify-center text-white z-[9999] bg-black bg-opacity-90 fixed top-0 left-0 h-full w-full" v-if="isLoading">
+    <div
+      class="flex flex-col items-center justify-center text-white z-[9999] bg-black bg-opacity-90 fixed top-0 left-0 h-full w-full"
+      v-if="isLoading"
+    >
       <div class="spinner"></div>
       <p class="mt-1">正在加载...</p>
     </div>
@@ -29,7 +32,11 @@ const props = withDefaults(defineProps<IProps>(), {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

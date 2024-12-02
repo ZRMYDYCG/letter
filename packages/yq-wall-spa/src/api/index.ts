@@ -1,8 +1,14 @@
 import axios from 'axios'
-import type { AxiosInstance, AxiosError, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig }  from 'axios'
+import type {
+  AxiosInstance,
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse,
+  InternalAxiosRequestConfig
+} from 'axios'
 import { ElMessage } from 'element-plus'
 import type { ResultData } from './interface'
-import  useAuthStore from '../stores/modules/auth'
+import useAuthStore from '../stores/modules/auth'
 
 const URL: string = 'http://localhost:5174'
 
@@ -10,7 +16,7 @@ enum RequestEnums {
   TIMEOUT = 20000, // 请求超时时间
   OVERDUE = 600, // 登录失效
   FAIL = 999, // 请求失败
-  SUCCESS = 200, // 请求成功
+  SUCCESS = 200 // 请求成功
 }
 const config = {
   // 默认地址
@@ -38,7 +44,7 @@ class RequestHttp {
         return {
           ...config,
           headers: {
-            'Authorization': 'Bearer ' + authStore.token,
+            Authorization: 'Bearer ' + authStore.token
           }
         } as any
       },
@@ -71,7 +77,7 @@ class RequestHttp {
         return data
       },
       (error: AxiosError) => {
-        const {response} = error
+        const { response } = error
         if (response) {
           this.handleCode(response.status)
         }
@@ -85,8 +91,8 @@ class RequestHttp {
       }
     )
   }
-  handleCode(code: number):void {
-    switch(code) {
+  handleCode(code: number): void {
+    switch (code) {
       case 401:
         ElMessage.error('登录失败，请重新登录')
         break
@@ -98,7 +104,7 @@ class RequestHttp {
 
   // 常用方法封装
   get<T>(url: string, params?: object): Promise<ResultData<T>> {
-    return this.service.get(url, {params})
+    return this.service.get(url, { params })
   }
   post<T>(url: string, params?: object): Promise<ResultData<T>> {
     return this.service.post(url, params)
@@ -107,7 +113,7 @@ class RequestHttp {
     return this.service.put(url, params)
   }
   delete<T>(url: string, params?: object): Promise<ResultData<T>> {
-    return this.service.delete(url, {params})
+    return this.service.delete(url, { params })
   }
 }
 

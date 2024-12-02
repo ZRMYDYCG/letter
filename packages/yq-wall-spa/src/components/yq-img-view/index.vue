@@ -9,7 +9,7 @@ const props = defineProps({
 const emits = defineEmits(['click-switch'])
 
 const clickSwitch = (row: string) => {
-  if(row === 'left') {
+  if (row === 'left') {
     emits('click-switch', 'left')
   } else {
     emits('click-switch', 'right')
@@ -21,7 +21,7 @@ const clickSwitch = (row: string) => {
   <div class="yi-img-view">
     <div class="cover"></div>
     <div class="view-photo">
-      <img :src="imgUrl" alt="">
+      <img :src="imgUrl" alt="" />
     </div>
     <div class="switch sw-left flex justify-center items-center" @click="clickSwitch('left')">
       <iconpark-icon size="28" name="arrow-circle-left"></iconpark-icon>
@@ -87,5 +87,4 @@ const clickSwitch = (row: string) => {
   top: 50%;
   right: 390px;
 }
-
 </style>

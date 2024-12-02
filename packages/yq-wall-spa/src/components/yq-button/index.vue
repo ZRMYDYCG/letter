@@ -12,15 +12,15 @@ const props = defineProps({
 </script>
 
 <template>
-    <button class="yi-button" :class="[size, type]">
-      <slot></slot>
-    </button>
+  <button class="yi-button" :class="[size, type]">
+    <slot></slot>
+  </button>
 </template>
 
 <style scoped>
 @font-face {
   font-family: XiaoKeNaiNao;
-  src: url("@/assets/fonts/xknn.ttf");
+  src: url('@/assets/fonts/xknn.ttf');
 }
 .yi-button {
   cursor: pointer;
@@ -53,12 +53,12 @@ const props = defineProps({
   color: #ffffff;
 }
 .secondary {
-  background-color:#ffffff;
+  background-color: #ffffff;
   color: #202020;
   border: 1px solid #202020;
 }
 .c-primary {
-  background-color: #3B73F0;
+  background-color: #3b73f0;
   color: #ffffff;
   font-weight: 600;
 }

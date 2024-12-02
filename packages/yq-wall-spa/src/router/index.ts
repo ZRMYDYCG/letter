@@ -1,19 +1,12 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes: [
     {
       path: '/',
       name: 'Home',
-      redirect: '/wall?id=0',
-      component: import('@/views/home/index.vue'),
-      children: [
-        {
-          path: '/wall',
-          component: import('@/views/home/children/wall-message.vue')
-        }
-      ]
+      component: import('@/views/home/index.vue')
     },
     {
       path: '/login',

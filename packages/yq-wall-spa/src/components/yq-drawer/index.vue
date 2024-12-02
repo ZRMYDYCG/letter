@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useRoute } from "vue-router"
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
 const title = computed(() => {
-  if(route.query.id === '0') {
+  if (route.query.id === '0') {
     return '写留言'
-  } else if(route.query.id === '1') {
+  } else if (route.query.id === '1') {
     return '留照片'
   }
 })
@@ -43,7 +43,7 @@ const changeModal = () => {
 <style scoped>
 @font-face {
   font-family: XiaoKeNaiNao;
-  src: url("@/assets/fonts/xknn.ttf");
+  src: url('@/assets/fonts/xknn.ttf');
 }
 .modal-enter-from {
   transform: translateX(360px);
@@ -72,7 +72,6 @@ const changeModal = () => {
   height: 100%;
   background: rgba(255, 255, 255, 0.8);
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.08);
-
 }
 .yi-modal .yi-modal-head {
   width: 100%;
@@ -88,7 +87,7 @@ const changeModal = () => {
   color: #202020;
 }
 .yi-modal .yi-modal-head .shut {
-  color: #5B5B5B;
+  color: #5b5b5b;
   cursor: pointer;
 }
 .yi-modal .yi-modal-main {

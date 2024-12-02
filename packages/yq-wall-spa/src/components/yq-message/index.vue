@@ -10,7 +10,7 @@ const props = defineProps({
   },
   type: {
     type: String,
-    default: "warn"
+    default: 'warn'
   }
 })
 </script>
@@ -26,6 +26,4 @@ const props = defineProps({
   </transition>
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

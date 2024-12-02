@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useRoute,useRouter } from "vue-router"
+import { useRoute, useRouter } from 'vue-router'
 import YiButton from '@/components/yq-button/index.vue'
 
 const route = useRoute()
@@ -10,7 +10,7 @@ const currentViewId = computed(() => {
 })
 
 const changeWall = (id: string) => {
-  router.push({path: '/wall', query: { id: id }})
+  router.push({ path: '/wall', query: { id: id } })
   toWallTop()
 }
 
@@ -23,15 +23,27 @@ function toWallTop() {
   <div class="YiHeader">
     <div class="logo">
       <img
-        src="@/assets/images/logo.svg" class="logo-img shadow rounded-full" alt="#"
-        style="transition: transform 0.5s ease; cursor: pointer;"
+        src="@/assets/images/logo.svg"
+        class="logo-img shadow rounded-full"
+        alt="#"
+        style="transition: transform 0.5s ease; cursor: pointer"
         onmouseover="this.style.transform='rotate(360deg)';"
         onmouseout="this.style.transform='rotate(0deg)';"
-      >
+      />
     </div>
     <div class="menu">
-      <YiButton class="menu-message" @click="changeWall('0')" :type="currentViewId === '0' ? 'c-primary' : 'c-secondary'">留言墙</YiButton>
-      <YiButton class="menu-photo" @click="changeWall('1')" :type="currentViewId === '1' ? 'c-primary' : 'c-secondary'">照片墙</YiButton>
+      <YiButton
+        class="menu-message"
+        @click="changeWall('0')"
+        :type="currentViewId === '0' ? 'c-primary' : 'c-secondary'"
+        >留言墙</YiButton
+      >
+      <YiButton
+        class="menu-photo"
+        @click="changeWall('1')"
+        :type="currentViewId === '1' ? 'c-primary' : 'c-secondary'"
+        >照片墙</YiButton
+      >
     </div>
     <div class="user">
       <div class="user-head"></div>
@@ -81,6 +93,6 @@ function toWallTop() {
   border-radius: 50%;
   height: 36px;
   width: 36px;
-  background-image: linear-gradient(180deg, #7BE7FF 2%, #1E85E2 100%);
+  background-image: linear-gradient(180deg, #7be7ff 2%, #1e85e2 100%);
 }
 </style>
