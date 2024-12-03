@@ -30,8 +30,6 @@ function toWallTop() {
         src="@/assets/images/logo.svg"
         class="logo-img w-[40px] h-[40px] shadow rounded-full transition-transform duration-500 cursor-pointer"
         alt="#"
-        @mouseover="this.style.transform = 'rotate(360deg)'"
-        @mouseout="this.style.transform = 'rotate(0deg)'"
       />
     </div>
     <div class="menu">

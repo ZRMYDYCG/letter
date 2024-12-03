@@ -1,11 +1,50 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import { useEventListener } from '@vueuse/core'
+import Error from '@/components/Error/index.vue'
+import MessageTextCard from '@/views/home/components/message-text-card/index.vue'
 
+const props = defineProps<{
+  messageList: any[]
+  isLoading: boolean
+}>()
+const emits = defineEmits(['on-preview'])
+
+let textWallWidth = ref(0)
+
+const getNoteWidth = () => {
+  let screenWidth = document.body.clientWidth
+  textWallWidth.value = Math.floor((screenWidth - 120) / 300) * 300
+}
+
+useEventListener(window as any, 'resize' as any, () => {
+  getNoteWidth()
+})
+
+getNoteWidth()
 </script>
 
 <template>
-
+  <div
+    class="card flex flex-wrap pt-[28px] mx-auto"
+    :style="{ width: textWallWidth + 'px' }"
+    v-if="messageList.length > 0"
+  >
+    <template v-for="(item, index) in messageList" :key="index">
+      <message-text-card
+        @click="emits('on-preview', index)"
+        :class="{ 'border border-[#3b73f0]': index === cardSelected }"
+        class="card-item m-[6px] w-[288px]"
+        :note="item"
+      ></message-text-card>
+    </template>
+  </div>
+  <div
+    class="flex w-full h-full justify-center items-center"
+    v-else-if="messageList.length <= 0 && !isLoading"
+  >
+    <Error :type="0" text="快来留言吧~" />
+  </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

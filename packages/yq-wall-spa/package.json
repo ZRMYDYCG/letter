@@ -11,6 +11,7 @@
     "type-check": "vue-tsc --build --force"
   },
   "dependencies": {
+    "@vueuse/core": "^12.0.0",
     "axios": "^1.7.2",
     "element-plus": "^2.8.8",
     "html2canvas": "^1.4.1",
@@ -24,8 +25,11 @@
     "@types/node": "^20.12.5",
     "@vitejs/plugin-vue": "^5.0.4",
     "@vitejs/plugin-vue-jsx": "^3.1.0",
+    "@vue/eslint-config-prettier": "^9.0.0",
     "@vue/tsconfig": "^0.5.1",
     "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.0",
+    "eslint-plugin-vue": "^9.23.0",
     "npm-run-all2": "^6.1.2",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.15",
@@ -34,9 +38,6 @@
     "unplugin-vue-components": "^0.27.4",
     "vite": "^5.2.8",
     "vite-plugin-mock": "^3.0.2",
-    "vue-tsc": "^2.0.11",
-    "@vue/eslint-config-prettier": "^9.0.0",
-    "eslint": "^8.57.0",
-    "eslint-plugin-vue": "^9.23.0"
+    "vue-tsc": "^2.0.11"
   }
 }

@@ -4,23 +4,22 @@ import { storeToRefs } from 'pinia'
 import { useCommonStore } from '@/stores/modules/common.ts'
 import { wallType, label } from '@/config/index.ts'
 import { getMessages } from '@/api/modules'
-import MessageTextCard from './components/message-text-card/index.vue'
 import YqDrawer from '@/components/yq-drawer/index.vue'
 import CreatMessage from './components/creat-message/index.vue'
 import MessageDetail from './components/message-detail/index.vue'
 import MessagePhotoCard from './components/message-photo-card/index.vue'
 import YqImgView from '@/components/yq-img-view/index.vue'
 import YqButton from '@/components/yq-button/index.vue'
-import Error from '@/components/Error/index.vue'
 import YqFooter from '@/components/Footer/index.vue'
 import YqHeader from '@/components/Header/index.vue'
+import MessageTextWall from './components/message-text-wall/index.vue'
 
 const commonStore = useCommonStore()
 
 const { currentWall } = storeToRefs(commonStore)
 
 const wall = ref<HTMLElement>()
-let noteWidth = ref(0)
+
 const isLoading = ref(false)
 let cardSelected = ref(-1)
 let currentIndex = ref(-1)
@@ -86,16 +85,7 @@ const changeLabelItem = (index: any) => {
 }
 
 /**
- * 动态计算留言墙的宽度
- * */
-const getNoteWidth = () => {
-  let screenWidth = document.body.clientWidth
-  // 300 = 288 + 左右 margin 6px  => 当前屏幕宽度下可以放置卡片的数量 (screenWidth - 120) / 300  ((screenWidth - 120) / 300) * 300 => 卡片墙的总宽度
-  noteWidth.value = Math.floor((screenWidth - 120) / 300) * 300
-}
-
-/**
- * 触底
+ * @description: 触底
  * */
 const scrollBottom = async () => {
   // 滚动条距离顶部的高度
@@ -153,7 +143,6 @@ const clickDetail = (index: number) => {
     cardSelected.value = index
     currentIndex.value = index
     detailData.value = messageList.value[currentIndex.value]
-
     nextTick(() => {
       try {
         // 获取留言评论
@@ -316,20 +305,11 @@ onMounted(async () => {
   window.addEventListener('scroll', () => {
     scrollBottom()
   })
-  getNoteWidth()
-  // 监听屏幕的变化
-  window.addEventListener('resize', () => {
-    getNoteWidth()
-  })
 })
 
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', () => {
     scrollBottom()
-  })
-
-  window.removeEventListener('resize', () => {
-    getNoteWidth()
   })
 })
 </script>
@@ -342,6 +322,7 @@ onBeforeUnmount(() => {
       {{ wallType[0].name }}
     </p>
     <p class="individual text-[#5b5b5b] text-center">{{ wallType[0].individual }}</p>
+    <!-- 分类标签  -->
     <ul class="label flex justify-center mt-[40px]">
       <li
         class="item px-[15px] text-[28px] my-[6px] text-[#5b5b5b] cursor-pointer transition-all duration-200"
@@ -366,20 +347,13 @@ onBeforeUnmount(() => {
         </li>
       </template>
     </ul>
-    <div
-      class="card flex flex-wrap pt-[28px] mx-auto"
-      :style="{ width: noteWidth + 'px' }"
-      v-if="currentWall === 0 && messageList.length > 0"
-    >
-      <template v-for="(item, index) in messageList" :key="index">
-        <message-text-card
-          @click.native="clickDetail(index)"
-          :class="{ 'border border-[#3b73f0]': index === cardSelected }"
-          class="card-item m-[6px] w-[288px]"
-          :note="item"
-        ></message-text-card>
-      </template>
-    </div>
+    <!-- 文本留言墙 -->
+    <message-text-wall
+      v-if="currentWall === 0"
+      :message-list="messageList"
+      :is-loading="isLoading"
+      @on-preview="clickDetail"
+    ></message-text-wall>
     <div v-if="isLoading" class="w-full flex justify-center py-4">
       <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
         <circle cx="25" cy="25" r="20" stroke="gray" stroke-width="5" fill="none" />
@@ -407,15 +381,6 @@ onBeforeUnmount(() => {
       <template v-for="(item, index) in photoList" :key="index">
         <message-photo-card @click="photoSelect(index)" :photo="item" />
       </template>
-    </div>
-    <div
-      class="flex w-full h-full justify-center items-center"
-      v-if="messageList.length <= 0 && !isLoading"
-    >
-      <Error
-        :type="currentWall as string"
-        :text="currentWall === 0 ? '快来留言吧~' : '快来留下照片吧~'"
-      />
     </div>
     <!-- 添加按钮 -->
     <div
@@ -474,17 +439,8 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
-.wall-message .label .item.selected {
-  color: #202020;
-  font-weight: 600;
-  border: 1px solid #202020;
-  border-radius: 14px;
-}
-
-.wall-message .card .cardSelected {
-  border: 1px solid #3b73f0;
-}
 .wall-message .add {
   bottom: v-bind(addBtnBottom);
 }
 </style>
++
