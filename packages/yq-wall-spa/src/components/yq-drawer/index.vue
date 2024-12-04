@@ -16,7 +16,7 @@ const title = computed(() => {
 })
 
 interface IProps {
-  isModal: boolean
+  isDrawerShow: boolean
 }
 
 defineProps<IProps>()
@@ -29,7 +29,7 @@ const changeModal = () => {
 
 <template>
   <transition name="modal">
-    <div class="yi-modal" v-if="isModal">
+    <div class="yi-modal" v-if="isDrawerShow">
       <div class="yi-modal-head">
         <p class="modal-name">{{ title }}</p>
         <span class="shut" @click="changeModal">

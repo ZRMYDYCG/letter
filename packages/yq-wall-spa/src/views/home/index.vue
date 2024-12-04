@@ -15,76 +15,67 @@ import YqLoading from '@/components/yq-loading/index.vue'
 import ShareImgMask from './components/share-img-mask/index.vue'
 import WallTitle from './components/wall-title/index.vue'
 import LabelFilter from './components/label-filter/index.vue'
-import { useMessages } from '@/hook/useMessages.ts'
+import { useGetMessages } from '@/hook/useGetMessages.js'
+import { useScrollToTop } from '@/hook/useScrollToTop.ts'
 
 const commonStore = useCommonStore()
 const { currentWall } = storeToRefs(commonStore)
 
-const { isLoading, textList, photoList, messageTotal, fetchMessages, messageParams } = useMessages(
-  currentWall.value
-)
+const { isLoading, textList, photoList, messageTotal, fetchMessages, messageParams } =
+  useGetMessages(currentWall.value)
+const { toWallTop } = useScrollToTop()
 
-let isModal = ref(false) // 右侧抽屉的展示状态
+let isDrawerShow = ref(false) // 右侧抽屉的展示状态
 let currentIndex = ref(-1) // 当前激活展示的留言
 let messageDetailData = ref({}) // 当前展示的留言详情
 let addBtnBottom = ref('30px') // 添加按钮距离底部的距离
 const bigPhotoPreview = ref(false) // 大图预览状态是否打开
 const DownloadImgUrl = ref('') // 预览图片的下载链接
-
-let title = ref('')
-
 const messageDetailRef = ref<InstanceType<typeof MessageDetail> | null>(null)
+let title = ref('') // TODO: perf
 
 const changeLabelItem = (index: any) => {
-  /**
-   * 0 留言墙
-   * 1 照片墙
-   * */
-  if (currentWall.value === 0) {
-    // 开启Loading
-    isLoading.value = true
-    // 重置结果列表
-    textList.value = []
-    // 重置搜索条件, 发起分类搜索
+  // 开启Loading
+  isLoading.value = true
+
+  // 基于当前墙体重置结果列表和搜索条件
+  const resetListsAndParams = () => {
+    if (currentWall.value === 0) {
+      textList.value = []
+    } else if (currentWall.value === 1) {
+      photoList.value = []
+    }
+
     messageParams.page = 1
     messageParams.pageSize = 10
     messageParams.tag = index
-    handleGetMessages()
+  }
+
+  const fetchMessagesAndCloseDrawer = async () => {
+    await handleGetMessages()
     toWallTop()
     // 关闭右侧弹窗
-    isModal.value = false
-    // 关闭激活状态
+    isDrawerShow.value = false
+    // 重置激活状态
     currentIndex.value = -1
   }
-  if (currentWall.value === 1) {
-    // 开启Loading
-    isLoading.value = true
-    // 重置结果列表
-    photoList.value = []
-    // 重置搜索条件, 发起分类搜索
-    messageParams.page = 1
-    messageParams.pageSize = 10
-    messageParams.tag = index
-    handleGetMessages()
-    toWallTop()
-    // 关闭右侧弹窗
-    isModal.value = false
-  }
+
+  resetListsAndParams()
+  fetchMessagesAndCloseDrawer()
 }
 
 /**
  * @description: 打开留言弹窗
  * */
 const changeDrawer = () => {
-  isModal.value = !isModal.value
-  currentIndex.value = -1
+  isDrawerShow.value = !isDrawerShow.value
   currentIndex.value = -1
   bigPhotoPreview.value = false
 }
 
 const addCardItem = () => {
   title.value = '写留言'
-  isModal.value = !isModal.value
+  isDrawerShow.value = !isDrawerShow.value
 }
 
 /**
@@ -94,9 +85,9 @@ const textSelect = (index: number) => {
   title.value = '详情'
   if (currentIndex.value === index) {
     currentIndex.value = -1
-    isModal.value = !isModal.value
+    isDrawerShow.value = !isDrawerShow.value
   } else {
-    isModal.value = true
+    isDrawerShow.value = true
     currentIndex.value = index
     messageDetailData.value = textList.value[currentIndex.value]
     nextTick(() => {
@@ -115,7 +106,7 @@ const textSelect = (index: number) => {
 const photoSelect = (currentWall: number) => {
   title.value = '详情'
   bigPhotoPreview.value = !bigPhotoPreview.value
-  isModal.value = !isModal.value
+  isDrawerShow.value = !isDrawerShow.value
   messageDetailData.value = photoList.value[currentWall]
   currentIndex.value = currentWall
 
@@ -149,8 +140,8 @@ async function handleGetMessages() {
  * @deprecated 处理新增留言成功
  * */
 function handleAddSuccess(val: string) {
-  if (val === 'add-success') {
-    isModal.value = !isModal.value
+  if (val === 'add-text-success') {
+    isDrawerShow.value = !isDrawerShow.value
     getMessages({
       userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
       page: 1,
@@ -165,8 +156,8 @@ function handleAddSuccess(val: string) {
       }, 300)
     })
   }
-  if (val === 'photo') {
-    isModal.value = !isModal.value
+  if (val === 'add-photo-success') {
+    isDrawerShow.value = !isDrawerShow.value
     getMessages({
       userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
       page: 1,
@@ -202,7 +193,7 @@ const handleSwitchImg = (row: string) => {
  * @description: 监听墙体变化, 重置状态
  * */
 watch(currentWall, async (val) => {
-  isModal.value = false
+  isDrawerShow.value = false
   bigPhotoPreview.value = false
   currentIndex.value = -1
   messageParams.tag = ''
@@ -213,13 +204,6 @@ watch(currentWall, async (val) => {
   photoList.value = []
   await fetchMessages()
 })
-
-/**
- * @deprecated 回到顶部
- * */
-function toWallTop() {
-  window.scrollTo({ top: 0, behavior: 'smooth' })
-}
 
 /**
  * @description: 触底
@@ -291,7 +275,7 @@ onMounted(async () => {
     <div
       class="add w-[56px] h-[56px] bg-[#202020] shadow-lg rounded-[28px] fixed right-[30px] bottom-[30px] flex justify-center items-center text-[#ffffff] transition-all duration-300 cursor-pointer"
       @click="addCardItem"
-      v-show="!isModal"
+      v-show="!isDrawerShow"
     >
       <span>添加</span>
     </div>
@@ -299,7 +283,7 @@ onMounted(async () => {
   <!-- 页脚 -->
   <yq-footer></yq-footer>
   <!-- 创建、详情 抽屉 -->
-  <yq-drawer @change-modal="changeDrawer" :title="title" :isModal="isModal">
+  <yq-drawer @change-modal="changeDrawer" :title="title" :isDrawerShow="isDrawerShow">
     <creat-message
       :id="currentWall"
       v-if="title === '写留言'"

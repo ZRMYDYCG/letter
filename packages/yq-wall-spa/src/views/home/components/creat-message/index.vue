@@ -144,7 +144,7 @@ const handleAddMessage = async () => {
       color: colorSelected.value
     }).then((res) => {
       if (res.code === 200) {
-        emits('add-success', 'text')
+        emits('add-success', 'add-text-success')
       }
     })
   }
@@ -172,7 +172,7 @@ const handleAddMessage = async () => {
       try {
         const res = await addPhotoMessage(formData) // 将 FormData 传递给接口
         if (res.code === 200) {
-          emits('add-success', 'photo')
+          emits('add-success', 'add-photo-success')
         }
       } catch (error) {
         console.error('上传失败:', error)

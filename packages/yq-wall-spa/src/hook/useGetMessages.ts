@@ -1,7 +1,7 @@
 import { ref, reactive } from 'vue'
 import { getMessages } from '../api/modules'
 
-export function useMessages(currentWall: any) {
+export function useGetMessages(currentWall: any) {
   const isLoading = ref(false) // 加载状态
   const messageParams = reactive({
     userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
@@ -13,7 +13,7 @@ export function useMessages(currentWall: any) {
 
   const textList = ref([]) // 文本留言列表
   const photoList = ref([]) // 照片留言列表
-  const messageTotal = ref(0)
+  const messageTotal = ref(0) // 留言总数
 
   const fetchMessages = async () => {
     try {
