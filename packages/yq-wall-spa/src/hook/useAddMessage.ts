@@ -1,11 +1,12 @@
-import { Ref } from 'vue'
+import type { Ref } from 'vue'
 import { getMessages } from '../api/modules'
 import { useScrollToTop } from './useScrollToTop.ts'
 
 export function useAddMessage(
   isDrawerShow: Ref<boolean>,
   textList: Ref<any[]>, // 文本留言列表
-  photoList: Ref<any[]> // 照片留言列表
+  photoList: Ref<any[]>, // 照片留言列表
+  onSuccess?: () => void // 副作用
 ) {
   const { toWallTop } = useScrollToTop()
 
@@ -25,9 +26,13 @@ export function useAddMessage(
   }
 
   const handleAddSuccess = async (val: string, userId: string) => {
-    isDrawerShow.value = !isDrawerShow.value
+    isDrawerShow.value = !isDrawerShow.value // 切换抽屉显示状态
     await fetchNewMessage(userId, val === 'add-text-success' ? 'text' : 'photo')
     toWallTop()
+
+    if (onSuccess) {
+      onSuccess()
+    }
   }
 
   return {
