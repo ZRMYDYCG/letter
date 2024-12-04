@@ -14,6 +14,7 @@ import YqHeader from '@/components/Header/index.vue'
 import MessageTextWall from './components/message-text-wall/index.vue'
 import YqLoading from '@/components/yq-loading/index.vue'
 import ShareImgMask from './components/share-img-mask/index.vue'
+import WallTitle from './components/wall-title/index.vue'
 
 const commonStore = useCommonStore()
 const { currentWall } = storeToRefs(commonStore)
@@ -286,11 +287,9 @@ onMounted(async () => {
   <!-- 头部 -->
   <yq-header></yq-header>
   <div class="wall-message min-h-[900px] pt-[52px]">
-    <p class="title pt-[48px] pb-[8px] text-[56px] text-[#202020] text-center font-semibold">
-      {{ wallType[0].name }}
-    </p>
-    <p class="individual text-[#5b5b5b] text-center">{{ wallType[0].individual }}</p>
-    <!-- 分类标签  -->
+    <!--  墙标题  -->
+    <wall-title></wall-title>
+    <!-- 筛选器  -->
     <ul class="label flex justify-center mt-[40px]">
       <li
         class="item px-[15px] text-[28px] my-[6px] text-[#5b5b5b] cursor-pointer transition-all duration-200"
