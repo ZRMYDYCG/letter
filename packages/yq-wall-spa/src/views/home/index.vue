@@ -17,13 +17,11 @@ import WallTitle from './components/wall-title/index.vue'
 import LabelFilter from './components/label-filter/index.vue'
 import { useGetMessages } from '@/hook/useGetMessages.js'
 import { useScrollToTop } from '@/hook/useScrollToTop.ts'
+import { useAddMessage } from '@/hook/useAddMessage.ts'
+import { useResetOnChange } from '@/hook/useResetOnChange.ts'
 
 const commonStore = useCommonStore()
 const { currentWall } = storeToRefs(commonStore)
-
-const { isLoading, textList, photoList, messageTotal, fetchMessages, messageParams } =
-  useGetMessages(currentWall.value)
-const { toWallTop } = useScrollToTop()
 
 let isDrawerShow = ref(false) // 右侧抽屉的展示状态
 let currentIndex = ref(-1) // 当前激活展示的留言
@@ -33,6 +31,23 @@ const bigPhotoPreview = ref(false) // 大图预览状态是否打开
 const DownloadImgUrl = ref('') // 预览图片的下载链接
 const messageDetailRef = ref<InstanceType<typeof MessageDetail> | null>(null)
 let title = ref('') // TODO: perf
+
+const { isLoading, textList, photoList, messageTotal, fetchMessages, messageParams } =
+  useGetMessages(currentWall.value)
+const { toWallTop } = useScrollToTop()
+const { handleAddSuccess } = useAddMessage(isDrawerShow, textList, photoList)
+useResetOnChange(currentWall, async () => {
+  isDrawerShow.value = false
+  bigPhotoPreview.value = false
+  currentIndex.value = -1
+  messageParams.tag = ''
+  messageParams.page = 1
+  messageParams.pageSize = 10
+  messageParams.type = currentWall.value
+  textList.value = []
+  photoList.value = []
+  await fetchMessages()
+})
 
 const changeLabelItem = (index: any) => {
   // 开启Loading
@@ -137,40 +152,6 @@ async function handleGetMessages() {
 }
 
 /**
- * @deprecated 处理新增留言成功
- * */
-function handleAddSuccess(val: string) {
-  if (val === 'add-text-success') {
-    isDrawerShow.value = !isDrawerShow.value
-    getMessages({
-      userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
-      page: 1,
-      pageSize: 1,
-      tag: ''
-    }).then((res: any) => {
-      textList.value.unshift(res.data[0])
-      toWallTop()
-      // 激活该条发送成功的留言
-      setTimeout(() => {
-        textSelect(0)
-      }, 300)
-    })
-  }
-  if (val === 'add-photo-success') {
-    isDrawerShow.value = !isDrawerShow.value
-    getMessages({
-      userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
-      page: 1,
-      pageSize: 1,
-      tag: ''
-    }).then((res: any) => {
-      photoList.value.unshift(res.data[0])
-      toWallTop()
-    })
-  }
-}
-
-/**
  * @description: 分享图片截图
  * */
 const handleShareUrl = (url: string) => {
@@ -188,22 +169,6 @@ const handleSwitchImg = (row: string) => {
   }
   messageDetailData.value = photoList.value[currentIndex.value]
 }
-
-/**
- * @description: 监听墙体变化, 重置状态
- * */
-watch(currentWall, async (val) => {
-  isDrawerShow.value = false
-  bigPhotoPreview.value = false
-  currentIndex.value = -1
-  messageParams.tag = ''
-  messageParams.page = 1
-  messageParams.pageSize = 10
-  messageParams.type = val
-  textList.value = []
-  photoList.value = []
-  await fetchMessages()
-})
 
 /**
  * @description: 触底
