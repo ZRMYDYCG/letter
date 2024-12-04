@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from 'vue'
-import { useEventListener } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { useCommonStore } from '@/stores/modules/common.ts'
-import { getMessages } from '@/api/modules'
 import YqDrawer from '@/components/yq-drawer/index.vue'
 import CreatMessage from './components/creat-message/index.vue'
 import MessageDetail from './components/message-detail/index.vue'
@@ -15,10 +13,13 @@ import YqLoading from '@/components/yq-loading/index.vue'
 import ShareImgMask from './components/share-img-mask/index.vue'
 import WallTitle from './components/wall-title/index.vue'
 import LabelFilter from './components/label-filter/index.vue'
-import { useGetMessages } from '@/hook/useGetMessages.js'
-import { useScrollToTop } from '@/hook/useScrollToTop.ts'
-import { useAddMessage } from '@/hook/useAddMessage.ts'
-import { useResetOnChange } from '@/hook/useResetOnChange.ts'
+import {
+  useGetMessages,
+  useScrollToTop,
+  useAddMessage,
+  useResetOnChange,
+  useScrollHeight
+} from '@/hook'
 
 const commonStore = useCommonStore()
 const { currentWall } = storeToRefs(commonStore)
@@ -35,7 +36,7 @@ let title = ref('') // TODO: perf
 const { isLoading, textList, photoList, messageTotal, fetchMessages, messageParams } =
   useGetMessages(currentWall.value)
 const { toWallTop } = useScrollToTop()
-const { handleAddSuccess } = useAddMessage(isDrawerShow, textList, photoList)
+const { handleAddSuccess } = useAddMessage(isDrawerShow, textList, photoList, () => textSelect(0))
 useResetOnChange(currentWall, async () => {
   isDrawerShow.value = false
   bigPhotoPreview.value = false
@@ -47,6 +48,26 @@ useResetOnChange(currentWall, async () => {
   textList.value = []
   photoList.value = []
   await fetchMessages()
+})
+const { scrollTop, clientHeight, scrollHeight } = useScrollHeight(async () => {
+  // 判断是否到达底部
+  if (scrollTop.value + clientHeight.value + 260 >= scrollHeight.value) {
+    // 按钮移动
+    addBtnBottom.value = `${scrollTop.value + clientHeight.value + 300 - scrollHeight.value}px`
+
+    // 分页加载更多，只在未加载数据时触发
+    if (
+      (currentWall.value === 0 || currentWall.value === 1) &&
+      messageParams.page * messageParams.pageSize < messageTotal.value &&
+      !isLoading.value
+    ) {
+      isLoading.value = true
+      messageParams.page++
+      await fetchMessages()
+    }
+  } else {
+    addBtnBottom.value = '30px'
+  }
 })
 
 const changeLabelItem = (index: any) => {
@@ -67,7 +88,7 @@ const changeLabelItem = (index: any) => {
   }
 
   const fetchMessagesAndCloseDrawer = async () => {
-    await handleGetMessages()
+    await fetchMessages()
     toWallTop()
     // 关闭右侧弹窗
     isDrawerShow.value = false
@@ -88,67 +109,61 @@ const changeDrawer = () => {
   bigPhotoPreview.value = false
 }
 
+/**
+ * @description: 打开留言抽屉
+ * */
 const addCardItem = () => {
   title.value = '写留言'
   isDrawerShow.value = !isDrawerShow.value
 }
 
 /**
- * @description: 点击留言详情
+ * @description: 支持选择不同类型留言
  * */
-const textSelect = (index: number) => {
+const selectMessage = (index: number, type: 'text' | 'photo') => {
   title.value = '详情'
-  if (currentIndex.value === index) {
-    currentIndex.value = -1
-    isDrawerShow.value = !isDrawerShow.value
-  } else {
+
+  if (type === 'text') {
+    if (currentIndex.value === index) {
+      currentIndex.value = -1
+      isDrawerShow.value = !isDrawerShow.value
+    } else {
+      isDrawerShow.value = true
+      currentIndex.value = index
+      messageDetailData.value = textList.value[currentIndex.value]
+    }
+  } else if (type === 'photo') {
     isDrawerShow.value = true
     currentIndex.value = index
-    messageDetailData.value = textList.value[currentIndex.value]
-    nextTick(() => {
-      try {
-        // 获取留言评论
-        messageDetailRef.value?.handleGetMessageComments()
-        // 关闭举报弹窗
-        messageDetailRef.value?.revokeDialogRef.handleCancel()
-      } catch (error) {
-        console.log(error)
-      }
-    })
+    messageDetailData.value = photoList.value[currentIndex.value]
   }
-}
-
-const photoSelect = (currentWall: number) => {
-  title.value = '详情'
-  bigPhotoPreview.value = !bigPhotoPreview.value
-  isDrawerShow.value = !isDrawerShow.value
-  messageDetailData.value = photoList.value[currentWall]
-  currentIndex.value = currentWall
 
   nextTick(() => {
     try {
+      // 加载留言评论
       messageDetailRef.value?.handleGetMessageComments()
+      if (type === 'text') {
+        // 关闭举报弹窗
+        messageDetailRef.value?.revokeDialogRef.handleCancel()
+      }
     } catch (error) {
       console.log(error)
     }
   })
 }
 
-async function handleGetMessages() {
-  if (currentWall.value === 0) {
-    getMessages(messageParams).then((res: any) => {
-      textList.value.push(...res.data)
-      messageTotal.value = res.meta.total
-      isLoading.value = false
-    })
-  }
-  if (currentWall.value === 1) {
-    getMessages(messageParams).then((res: any) => {
-      photoList.value.push(...res.data)
-      messageTotal.value = res.meta.total
-      isLoading.value = false
-    })
-  }
+/**
+ * @description: 激活文本留言详情
+ * */
+const textSelect = (index: number) => {
+  selectMessage(index, 'text')
+}
+
+/**
+ * @description: 激活图片留言详情
+ * */
+const photoSelect = (index: number) => {
+  selectMessage(index, 'photo')
 }
 
 /**
@@ -171,38 +186,8 @@ const handleSwitchImg = (row: string) => {
 }
 
 /**
- * @description: 触底
+ * @description: 页面加载完成后，默认加载第一页数据
  * */
-const scrollBottom = async () => {
-  // 滚动条距离顶部的高度
-  let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
-  // 屏幕高度
-  let clientHeight = document.documentElement.clientHeight
-  // 内容高度
-  let scrollHeight = document.documentElement.scrollHeight
-
-  // 判断是否到达底部
-  if (scrollTop + clientHeight + 260 >= scrollHeight) {
-    // 按钮移动
-    addBtnBottom.value = scrollTop + clientHeight + 300 - scrollHeight + 'px'
-
-    // 分页加载更多，只在未加载数据时触发
-    if (
-      (currentWall.value === 0 || currentWall.value === 1) &&
-      messageParams.page * messageParams.pageSize < messageTotal.value &&
-      isLoading.value === false
-    ) {
-      isLoading.value = true // 开始加载
-      messageParams.page++
-      await handleGetMessages()
-    }
-  } else {
-    addBtnBottom.value = '30px'
-  }
-}
-
-useEventListener(window, 'scroll', scrollBottom)
-
 onMounted(async () => {
   if (currentWall.value === 0) {
     await fetchMessages()
@@ -248,7 +233,7 @@ onMounted(async () => {
   <!-- 页脚 -->
   <yq-footer></yq-footer>
   <!-- 创建、详情 抽屉 -->
-  <yq-drawer @change-modal="changeDrawer" :title="title" :isDrawerShow="isDrawerShow">
+  <yq-drawer @change-modal="changeDrawer" :isDrawerShow="isDrawerShow">
     <creat-message
       :id="currentWall"
       v-if="title === '写留言'"

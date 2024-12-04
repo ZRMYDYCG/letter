@@ -19,6 +19,15 @@ export function useGetMessages(currentWall: any) {
     try {
       isLoading.value = true
       const res = await getMessages(messageParams)
+      /**
+       * 0 文本留言墙
+       * 1 照片留言墙
+       * 2 视频留言墙
+       * 3 音频留言墙
+       * 4 链接墙
+       * 5 问答墙
+       * 6 公告墙
+       * */
       if (currentWall === 0) {
         ;(textList.value as any).push(...res.data)
       } else {
