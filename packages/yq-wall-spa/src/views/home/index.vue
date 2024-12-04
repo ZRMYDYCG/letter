@@ -13,6 +13,7 @@ import YqFooter from '@/components/Footer/index.vue'
 import YqHeader from '@/components/Header/index.vue'
 import MessageTextWall from './components/message-text-wall/index.vue'
 import YqLoading from '@/components/yq-loading/index.vue'
+import ShareImgMask from './components/share-img-mask/index.vue'
 
 const commonStore = useCommonStore()
 const { currentWall } = storeToRefs(commonStore)
@@ -27,11 +28,9 @@ const textList = ref([]) // 文本留言列表
 const photoList = ref([]) // 照片留言列表
 const bigPhotoPreview = ref(false) // 大图预览状态是否打开
 const messageTotal = ref(0) // 总留言数
-const shareImgUrl = ref('') // 预览图片的下载链接
+const DownloadImgUrl = ref('') // 预览图片的下载链接
 
 let title = ref('')
-
-const isImgUrlLoading = ref(false)
 
 const messageDetailRef = ref<InstanceType<typeof MessageDetail> | null>(null)
 
@@ -193,24 +192,18 @@ function handleAddSuccess(val: string) {
  * @description: 分享图片截图
  * */
 const handleShareUrl = (url: string) => {
-  shareImgUrl.value = url
+  DownloadImgUrl.value = url
 }
 
 /**
  * 等待生成 URL 后关闭 Loading
  * */
-const handleFinishLoadingUrl = (val: boolean) => {
-  if (val) isImgUrlLoading.value = false
-}
+const handleFinishLoadingUrl = (val: boolean) => {}
 
 const handleGetAllMessage = () => {
   currentLabel.value = -1
   changeLabelItem('')
 }
-
-const isShowImgDialog = computed(() => {
-  return shareImgUrl.value !== ''
-})
 
 /**
  * @description: 切换大图及对应的留言内容
@@ -374,7 +367,10 @@ onMounted(async () => {
     class="fixed top-0 left-0 z-[-99]"
   ></video>
   <!-- 屏幕截屏分享弹窗 -->
-  <share-img-dialog></share-img-dialog>
+  <share-img-mask
+    @close-img-download-mask="DownloadImgUrl = ''"
+    :DownloadImgUrl="DownloadImgUrl"
+  ></share-img-mask>
 </template>
 
 <style scoped>

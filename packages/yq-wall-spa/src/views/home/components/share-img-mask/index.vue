@@ -2,11 +2,11 @@
 import YqButton from '@/components/yq-button/index.vue'
 
 interface IProps {
-  shareImgUrl: string
+  DownloadImgUrl: string
 }
 
 defineProps<IProps>()
-const emits = defineEmits(['close-img-share-mask'])
+const emits = defineEmits(['close-img-download-mask'])
 
 const handleDownloadImg = (base64: string) => {
   const link = document.createElement('a')
@@ -18,21 +18,21 @@ const handleDownloadImg = (base64: string) => {
 }
 
 const closeImgShareDialog = () => {
-  emits('close-img-share-mask', true)
+  emits('close-img-download-mask')
 }
 </script>
 
 <template>
   <div
     class="w-screen h-screen fixed top-0 left-0 z-[9999] bg-black bg-opacity-90 flex justify-center items-center"
-    v-if="!shareImgUrl"
+    v-if="DownloadImgUrl"
     @click="closeImgShareDialog"
   >
     <div class="z-[10000] rounded-[12px] overflow-hidden bg-white backdrop-blur-md" @click.stop>
-      <img :src="shareImgUrl" alt="#" />
+      <img :src="DownloadImgUrl" alt="#" />
       <div class="flex justify-center w-full gap-4 m-3">
         <yq-button type="secondary" @click="closeImgShareDialog">销毁</yq-button>
-        <yq-button @click="handleDownloadImg(shareImgUrl)">下载</yq-button>
+        <yq-button @click="handleDownloadImg(DownloadImgUrl)">下载</yq-button>
       </div>
     </div>
   </div>
