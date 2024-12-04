@@ -120,7 +120,7 @@ const addCardItem = () => {
 /**
  * @description: 支持选择不同类型留言
  * */
-const selectMessage = (index: number, type: 'text' | 'photo') => {
+const selectMessage = (index: number, type: 'text' | 'photo' | 'video' | 'audio' | 'link') => {
   title.value = '详情'
 
   if (type === 'text') {
