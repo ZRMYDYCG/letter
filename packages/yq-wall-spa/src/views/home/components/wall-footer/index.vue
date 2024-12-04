@@ -7,7 +7,7 @@
     >
       <div class="footer-left flex flex-col mb-8 md:mb-0">
         <div class="logo flex items-center mb-6">
-          <img src="@/assets/images/logo.svg" class="logo-img w-9" alt="#" />
+          <img src="../../../../assets/images/logo.svg" class="logo-img w-9" alt="#" />
           <p class="logo-name text-white font-semibold text-xl pl-2">YQ-Software Dev Lab</p>
         </div>
         <p class="top-p text-gray-400 text-sm pb-2 max-w-xs">
@@ -28,13 +28,13 @@
             href="https://github.com/ZRMYDYCG"
             class="text-gray-400 hover:text-white transition w-10 h-10"
           >
-            <img src="@/assets/images/github.svg" alt="#" class="w-full h-full" />
+            <img src="../../../../assets/images/github.svg" alt="#" class="w-full h-full" />
           </a>
           <a
             href="https://github.com/Software-Dev-Lab"
             class="text-gray-400 hover:text-white transition w-10 h-10"
           >
-            <img src="@/assets/images/class.svg" alt="#" class="w-full h-full" />
+            <img src="../../../../assets/images/class.svg" alt="#" class="w-full h-full" />
           </a>
         </div>
       </div>

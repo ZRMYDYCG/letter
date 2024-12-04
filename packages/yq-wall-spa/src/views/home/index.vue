@@ -1,47 +1,39 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, reactive, onBeforeUnmount, nextTick, watch } from 'vue'
+import { ref, onMounted, reactive, nextTick, watch } from 'vue'
 import { useEventListener } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { useCommonStore } from '@/stores/modules/common.ts'
-import { wallType, label } from '@/config/index.ts'
 import { getMessages } from '@/api/modules'
 import YqDrawer from '@/components/yq-drawer/index.vue'
 import CreatMessage from './components/creat-message/index.vue'
 import MessageDetail from './components/message-detail/index.vue'
 import MessagePhotoWall from './components/message-photo-wall/index.vue'
-import YqFooter from '@/components/Footer/index.vue'
-import YqHeader from '@/components/Header/index.vue'
+import YqFooter from '@/views/home/components/wall-footer/index.vue'
+import YqHeader from '@/views/home/components/wall-header/index.vue'
 import MessageTextWall from './components/message-text-wall/index.vue'
 import YqLoading from '@/components/yq-loading/index.vue'
 import ShareImgMask from './components/share-img-mask/index.vue'
 import WallTitle from './components/wall-title/index.vue'
+import LabelFilter from './components/label-filter/index.vue'
+import { useMessages } from '@/hook/useMessages.ts'
 
 const commonStore = useCommonStore()
 const { currentWall } = storeToRefs(commonStore)
 
-const isLoading = ref(false) // 加载状态
+const { isLoading, textList, photoList, messageTotal, fetchMessages, messageParams } = useMessages(
+  currentWall.value
+)
+
 let isModal = ref(false) // 右侧抽屉的展示状态
 let currentIndex = ref(-1) // 当前激活展示的留言
 let messageDetailData = ref({}) // 当前展示的留言详情
 let addBtnBottom = ref('30px') // 添加按钮距离底部的距离
-const currentLabel = ref(-1) // 当前选择的分类标签
-const textList = ref([]) // 文本留言列表
-const photoList = ref([]) // 照片留言列表
 const bigPhotoPreview = ref(false) // 大图预览状态是否打开
-const messageTotal = ref(0) // 总留言数
 const DownloadImgUrl = ref('') // 预览图片的下载链接
 
 let title = ref('')
 
 const messageDetailRef = ref<InstanceType<typeof MessageDetail> | null>(null)
-
-const messageParams = reactive({
-  userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
-  page: 1,
-  pageSize: 10,
-  tag: '',
-  type: currentWall.value
-})
 
 const changeLabelItem = (index: any) => {
   /**
@@ -51,7 +43,6 @@ const changeLabelItem = (index: any) => {
   if (currentWall.value === 0) {
     // 开启Loading
     isLoading.value = true
-    currentLabel.value = index
     // 重置结果列表
     textList.value = []
     // 重置搜索条件, 发起分类搜索
@@ -68,7 +59,6 @@ const changeLabelItem = (index: any) => {
   if (currentWall.value === 1) {
     // 开启Loading
     isLoading.value = true
-    currentLabel.value = index
     // 重置结果列表
     photoList.value = []
     // 重置搜索条件, 发起分类搜索
@@ -197,16 +187,6 @@ const handleShareUrl = (url: string) => {
 }
 
 /**
- * 等待生成 URL 后关闭 Loading
- * */
-const handleFinishLoadingUrl = (val: boolean) => {}
-
-const handleGetAllMessage = () => {
-  currentLabel.value = -1
-  changeLabelItem('')
-}
-
-/**
  * @description: 切换大图及对应的留言内容
  * */
 const handleSwitchImg = (row: string) => {
@@ -224,7 +204,6 @@ const handleSwitchImg = (row: string) => {
 watch(currentWall, async (val) => {
   isModal.value = false
   bigPhotoPreview.value = false
-  currentLabel.value = -1
   currentIndex.value = -1
   messageParams.tag = ''
   messageParams.page = 1
@@ -232,7 +211,7 @@ watch(currentWall, async (val) => {
   messageParams.type = val
   textList.value = []
   photoList.value = []
-  await handleGetMessages()
+  await fetchMessages()
 })
 
 /**
@@ -277,8 +256,7 @@ useEventListener(window, 'scroll', scrollBottom)
 
 onMounted(async () => {
   if (currentWall.value === 0) {
-    isLoading.value = true
-    await handleGetMessages()
+    await fetchMessages()
   }
 })
 </script>
@@ -289,30 +267,8 @@ onMounted(async () => {
   <div class="wall-message min-h-[900px] pt-[52px]">
     <!--  墙标题  -->
     <wall-title></wall-title>
-    <!-- 筛选器  -->
-    <ul class="label flex justify-center mt-[40px]">
-      <li
-        class="item px-[15px] text-[28px] my-[6px] text-[#5b5b5b] cursor-pointer transition-all duration-200"
-        @click="handleGetAllMessage"
-        :class="{
-          'text-[#202020] font-semibold border border-[#202020] rounded-[14px]': currentLabel === -1
-        }"
-      >
-        全部
-      </li>
-      <template v-for="(item, index) in label[currentWall]" :key="index">
-        <li
-          class="item px-[15px] text-[28px] my-[6px] text-[#5b5b5b] cursor-pointer transition-all duration-200"
-          :class="{
-            'text-[#202020] font-semibold border border-[#202020] rounded-[14px]':
-              currentLabel === index
-          }"
-          @click="changeLabelItem(Number(index))"
-        >
-          {{ item }}
-        </li>
-      </template>
-    </ul>
+    <!-- 文本留言墙及图片留言墙筛选器  -->
+    <label-filter @filter-by-label="changeLabelItem"></label-filter>
     <!-- 文本留言墙 -->
     <message-text-wall
       v-if="currentWall === 0"
@@ -354,7 +310,6 @@ onMounted(async () => {
       v-if="title === '详情'"
       :item="messageDetailData"
       @share-url="handleShareUrl"
-      @finish-loading-url="handleFinishLoadingUrl"
     ></message-detail>
   </yq-drawer>
   <!-- 留言墙视频背景 -->

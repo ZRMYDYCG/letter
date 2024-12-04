@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import YqImgView from '../yq-img-view/index.vue'
-import Error from '@/components/Error/index.vue'
+import Error from '@/views/home/components/empty/index.vue'
 import MessagePhotoCard from '../message-photo-card/index.vue'
 
 interface IProps {

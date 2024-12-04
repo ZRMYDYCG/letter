@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useEventListener } from '@vueuse/core'
-import Error from '@/components/Error/index.vue'
+import Error from '@/views/home/components/empty/index.vue'
 import MessageTextCard from '@/views/home/components/message-text-card/index.vue'
 
 const props = defineProps<{

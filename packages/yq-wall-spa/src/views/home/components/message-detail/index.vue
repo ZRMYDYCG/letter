@@ -7,7 +7,7 @@ import MessageTextCard from '../message-text-card/index.vue'
 import YqButton from '@/components/yq-button/index.vue'
 import RevokeDialog from '../revoke-dialog/index.vue'
 import CardForCanvas from '../message-text-card/card-for-canvas.vue'
-import Error from '@/components/Error/index.vue'
+import Error from '@/views/home/components/empty/index.vue'
 
 const commentList = ref<any[]>([])
 const content = ref('')

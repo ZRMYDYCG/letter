@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useCommonStore } from '@/stores/modules/common.ts'
+import { useCommonStore } from '@/stores/modules/common.js'
 import YiButton from '@/components/yq-button/index.vue'
 
 const commonStore = useCommonStore()
@@ -27,7 +27,7 @@ function toWallTop() {
   >
     <div class="logo flex items-center w-[200px]">
       <img
-        src="@/assets/images/logo.svg"
+        src="../../../../assets/images/logo.svg"
         class="logo-img w-[40px] h-[40px] shadow rounded-full transition-transform duration-500 cursor-pointer"
         alt="#"
       />
