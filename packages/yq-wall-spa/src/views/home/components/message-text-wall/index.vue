@@ -7,6 +7,7 @@ import MessageTextCard from '@/views/home/components/message-text-card/index.vue
 const props = defineProps<{
   messageList: any[]
   isLoading: boolean
+  activeTextIndex: number
 }>()
 const emits = defineEmits(['on-preview'])
 
@@ -33,7 +34,7 @@ getNoteWidth()
     <template v-for="(item, index) in messageList" :key="index">
       <message-text-card
         @click="emits('on-preview', index)"
-        :class="{ 'border border-[#3b73f0]': index === cardSelected }"
+        :class="{ 'border border-[#3b73f0]': index === activeTextIndex }"
         class="card-item m-[6px] w-[288px]"
         :note="item"
       ></message-text-card>

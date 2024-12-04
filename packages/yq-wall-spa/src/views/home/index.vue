@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, reactive, onBeforeUnmount, nextTick, watch } from 'vue'
+import { useEventListener } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { useCommonStore } from '@/stores/modules/common.ts'
 import { wallType, label } from '@/config/index.ts'
@@ -7,35 +8,32 @@ import { getMessages } from '@/api/modules'
 import YqDrawer from '@/components/yq-drawer/index.vue'
 import CreatMessage from './components/creat-message/index.vue'
 import MessageDetail from './components/message-detail/index.vue'
-import MessagePhotoCard from './components/message-photo-card/index.vue'
-import YqImgView from '@/components/yq-img-view/index.vue'
-import YqButton from '@/components/yq-button/index.vue'
+import MessagePhotoWall from './components/message-photo-wall/index.vue'
 import YqFooter from '@/components/Footer/index.vue'
 import YqHeader from '@/components/Header/index.vue'
 import MessageTextWall from './components/message-text-wall/index.vue'
+import YqLoading from '@/components/yq-loading/index.vue'
 
 const commonStore = useCommonStore()
-
 const { currentWall } = storeToRefs(commonStore)
 
-const wall = ref<HTMLElement>()
+const isLoading = ref(false) // 加载状态
+let isModal = ref(false) // 右侧抽屉的展示状态
+let currentIndex = ref(-1) // 当前激活展示的留言
+let messageDetailData = ref({}) // 当前展示的留言详情
+let addBtnBottom = ref('30px') // 添加按钮距离底部的距离
+const currentLabel = ref(-1) // 当前选择的分类标签
+const textList = ref([]) // 文本留言列表
+const photoList = ref([]) // 照片留言列表
+const bigPhotoPreview = ref(false) // 大图预览状态是否打开
+const messageTotal = ref(0) // 总留言数
+const shareImgUrl = ref('') // 预览图片的下载链接
 
-const isLoading = ref(false)
-let cardSelected = ref(-1)
-let currentIndex = ref(-1)
-let detailData = ref({})
-const messageDetailRef = ref<InstanceType<typeof MessageDetail> | null>(null)
 let title = ref('')
-let isModal = ref(false)
-let addBtnBottom = ref('30px')
-const isLabelSelected = ref('')
-const messageList = ref([])
-const photoList = ref([])
-const isImgModal = ref(false)
-let currentImgIndex = ref(-1)
-const totalMessage = ref(0)
-const shareImgUrl = ref('')
+
 const isImgUrlLoading = ref(false)
+
+const messageDetailRef = ref<InstanceType<typeof MessageDetail> | null>(null)
 
 const messageParams = reactive({
   userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
@@ -53,9 +51,9 @@ const changeLabelItem = (index: any) => {
   if (currentWall.value === 0) {
     // 开启Loading
     isLoading.value = true
-    isLabelSelected.value = index
+    currentLabel.value = index
     // 重置结果列表
-    messageList.value = []
+    textList.value = []
     // 重置搜索条件, 发起分类搜索
     messageParams.page = 1
     messageParams.pageSize = 10
@@ -65,12 +63,12 @@ const changeLabelItem = (index: any) => {
     // 关闭右侧弹窗
     isModal.value = false
     // 关闭激活状态
-    cardSelected.value = -1
+    currentIndex.value = -1
   }
   if (currentWall.value === 1) {
     // 开启Loading
     isLoading.value = true
-    isLabelSelected.value = index
+    currentLabel.value = index
     // 重置结果列表
     photoList.value = []
     // 重置搜索条件, 发起分类搜索
@@ -82,6 +80,172 @@ const changeLabelItem = (index: any) => {
     // 关闭右侧弹窗
     isModal.value = false
   }
+}
+
+/**
+ * @description: 打开留言弹窗
+ * */
+const changeDrawer = () => {
+  isModal.value = !isModal.value
+  currentIndex.value = -1
+  currentIndex.value = -1
+  bigPhotoPreview.value = false
+}
+
+const addCardItem = () => {
+  title.value = '写留言'
+  isModal.value = !isModal.value
+}
+
+/**
+ * @description: 点击留言详情
+ * */
+const textSelect = (index: number) => {
+  title.value = '详情'
+  if (currentIndex.value === index) {
+    currentIndex.value = -1
+    isModal.value = !isModal.value
+  } else {
+    isModal.value = true
+    currentIndex.value = index
+    messageDetailData.value = textList.value[currentIndex.value]
+    nextTick(() => {
+      try {
+        // 获取留言评论
+        messageDetailRef.value?.handleGetMessageComments()
+        // 关闭举报弹窗
+        messageDetailRef.value?.revokeDialogRef.handleCancel()
+      } catch (error) {
+        console.log(error)
+      }
+    })
+  }
+}
+
+const photoSelect = (currentWall: number) => {
+  title.value = '详情'
+  bigPhotoPreview.value = !bigPhotoPreview.value
+  isModal.value = !isModal.value
+  messageDetailData.value = photoList.value[currentWall]
+  currentIndex.value = currentWall
+
+  nextTick(() => {
+    try {
+      messageDetailRef.value?.handleGetMessageComments()
+    } catch (error) {
+      console.log(error)
+    }
+  })
+}
+
+async function handleGetMessages() {
+  if (currentWall.value === 0) {
+    getMessages(messageParams).then((res: any) => {
+      textList.value.push(...res.data)
+      messageTotal.value = res.meta.total
+      isLoading.value = false
+    })
+  }
+  if (currentWall.value === 1) {
+    getMessages(messageParams).then((res: any) => {
+      photoList.value.push(...res.data)
+      messageTotal.value = res.meta.total
+      isLoading.value = false
+    })
+  }
+}
+
+/**
+ * @deprecated 处理新增留言成功
+ * */
+function handleAddSuccess(val: string) {
+  if (val === 'add-success') {
+    isModal.value = !isModal.value
+    getMessages({
+      userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
+      page: 1,
+      pageSize: 1,
+      tag: ''
+    }).then((res: any) => {
+      textList.value.unshift(res.data[0])
+      toWallTop()
+      // 激活该条发送成功的留言
+      setTimeout(() => {
+        textSelect(0)
+      }, 300)
+    })
+  }
+  if (val === 'photo') {
+    isModal.value = !isModal.value
+    getMessages({
+      userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
+      page: 1,
+      pageSize: 1,
+      tag: ''
+    }).then((res: any) => {
+      photoList.value.unshift(res.data[0])
+      toWallTop()
+    })
+  }
+}
+
+/**
+ * @description: 分享图片截图
+ * */
+const handleShareUrl = (url: string) => {
+  shareImgUrl.value = url
+}
+
+/**
+ * 等待生成 URL 后关闭 Loading
+ * */
+const handleFinishLoadingUrl = (val: boolean) => {
+  if (val) isImgUrlLoading.value = false
+}
+
+const handleGetAllMessage = () => {
+  currentLabel.value = -1
+  changeLabelItem('')
+}
+
+const isShowImgDialog = computed(() => {
+  return shareImgUrl.value !== ''
+})
+
+/**
+ * @description: 切换大图及对应的留言内容
+ * */
+const handleSwitchImg = (row: string) => {
+  if (row === 'left' && currentIndex.value >= 0) {
+    currentIndex.value--
+  } else if (row === 'right' && currentIndex.value < photoList.value.length - 1) {
+    currentIndex.value++
+  }
+  messageDetailData.value = photoList.value[currentIndex.value]
+}
+
+/**
+ * @description: 监听墙体变化, 重置状态
+ * */
+watch(currentWall, async (val) => {
+  isModal.value = false
+  bigPhotoPreview.value = false
+  currentLabel.value = -1
+  currentIndex.value = -1
+  messageParams.tag = ''
+  messageParams.page = 1
+  messageParams.pageSize = 10
+  messageParams.type = val
+  textList.value = []
+  photoList.value = []
+  await handleGetMessages()
+})
+
+/**
+ * @deprecated 回到顶部
+ * */
+function toWallTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 /**
@@ -103,7 +267,7 @@ const scrollBottom = async () => {
     // 分页加载更多，只在未加载数据时触发
     if (
       (currentWall.value === 0 || currentWall.value === 1) &&
-      messageParams.page * messageParams.pageSize < totalMessage.value &&
+      messageParams.page * messageParams.pageSize < messageTotal.value &&
       isLoading.value === false
     ) {
       isLoading.value = true // 开始加载
@@ -115,202 +279,13 @@ const scrollBottom = async () => {
   }
 }
 
-/**
- * @description: 打开留言弹窗
- * */
-const changeModal = () => {
-  isModal.value = !isModal.value
-  cardSelected.value = -1
-  currentIndex.value = -1
-  isImgModal.value = false
-}
-
-const addCardItem = () => {
-  title.value = '写留言'
-  isModal.value = !isModal.value
-}
-
-/**
- * @description: 点击留言详情
- * */
-const clickDetail = (index: number) => {
-  title.value = '详情'
-  if (cardSelected.value === index) {
-    cardSelected.value = -1
-    isModal.value = !isModal.value
-  } else {
-    isModal.value = true
-    cardSelected.value = index
-    currentIndex.value = index
-    detailData.value = messageList.value[currentIndex.value]
-    nextTick(() => {
-      try {
-        // 获取留言评论
-        messageDetailRef.value?.handleGetMessageComments()
-        // 关闭举报弹窗
-        messageDetailRef.value?.revokeDialogRef.handleCancel()
-      } catch (error) {
-        console.log(error)
-      }
-    })
-  }
-}
-
-const photoSelect = (currentWall: number) => {
-  title.value = '详情'
-  isImgModal.value = !isImgModal.value
-  isModal.value = !isModal.value
-  detailData.value = photoList.value[currentWall]
-  currentImgIndex.value = currentWall
-
-  nextTick(() => {
-    try {
-      messageDetailRef.value?.handleGetMessageComments()
-    } catch (error) {
-      console.log(error)
-    }
-  })
-}
-
-const clickSwitch = (e: string) => {
-  let length = photoList.value.length
-  let currentIndex = currentImgIndex.value
-
-  if (e === 'left' && currentIndex > 0) {
-    currentIndex--
-  } else if (e === 'right' && currentIndex < length - 1) {
-    currentIndex++
-  } else {
-    return
-  }
-  currentImgIndex.value = currentIndex
-  detailData.value = photoList.value[currentIndex]
-}
-
-async function handleGetMessages() {
-  if (currentWall.value === 0) {
-    getMessages(messageParams).then((res: any) => {
-      messageList.value.push(...res.data)
-      totalMessage.value = res.meta.total
-      isLoading.value = false
-    })
-  }
-  if (currentWall.value === 1) {
-    getMessages(messageParams).then((res: any) => {
-      photoList.value.push(...res.data)
-      totalMessage.value = res.meta.total
-      isLoading.value = false
-    })
-  }
-}
-
-/**
- * @deprecated 回到顶部
- * */
-function toWallTop() {
-  window.scrollTo({ top: 0, behavior: 'smooth' })
-}
-
-/**
- * @deprecated 处理新增留言成功
- * */
-function handleAddSuccess(val: string) {
-  if (val === 'add-success') {
-    isModal.value = !isModal.value
-    getMessages({
-      userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
-      page: 1,
-      pageSize: 1,
-      tag: ''
-    }).then((res: any) => {
-      messageList.value.unshift(res.data[0])
-      toWallTop()
-      // 激活该条发送成功的留言
-      setTimeout(() => {
-        clickDetail(0)
-      }, 300)
-    })
-  }
-  if (val === 'photo') {
-    isModal.value = !isModal.value
-    getMessages({
-      userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
-      page: 1,
-      pageSize: 1,
-      tag: ''
-    }).then((res: any) => {
-      photoList.value.unshift(res.data[0])
-      toWallTop()
-    })
-  }
-}
-
-/**
- * @description: 处理分享
- * */
-const handleShareUrl = (url: string) => {
-  shareImgUrl.value = url
-}
-
-const closeImgShareDialog = () => {
-  shareImgUrl.value = ''
-}
-
-const handleFinishLoadingUrl = (val: boolean) => {
-  if (val) isImgUrlLoading.value = false
-}
-
-const handleDownloadImg = (base64: string) => {
-  const link = document.createElement('a')
-  link.href = base64
-  link.download = new Date().getTime() + '.png'
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
-}
-
-const handleGetAllMessage = () => {
-  isLabelSelected.value = ''
-  changeLabelItem('')
-}
-
-const isShowImgDialog = computed(() => {
-  return shareImgUrl.value !== ''
-})
-
-/**
- * @description: 监听墙体变化, 重置状态
- * */
-watch(currentWall, async (val) => {
-  isModal.value = false
-  isImgModal.value = false
-  isLabelSelected.value = ''
-  currentImgIndex.value = -1
-  cardSelected.value = -1
-  currentIndex.value = -1
-  messageParams.tag = ''
-  messageParams.page = 1
-  messageParams.pageSize = 10
-  messageParams.type = val
-  messageList.value = []
-  photoList.value = []
-  await handleGetMessages()
-})
+useEventListener(window, 'scroll', scrollBottom)
 
 onMounted(async () => {
   if (currentWall.value === 0) {
     isLoading.value = true
     await handleGetMessages()
   }
-  window.addEventListener('scroll', () => {
-    scrollBottom()
-  })
-})
-
-onBeforeUnmount(() => {
-  window.removeEventListener('scroll', () => {
-    scrollBottom()
-  })
 })
 </script>
 
@@ -328,8 +303,7 @@ onBeforeUnmount(() => {
         class="item px-[15px] text-[28px] my-[6px] text-[#5b5b5b] cursor-pointer transition-all duration-200"
         @click="handleGetAllMessage"
         :class="{
-          'text-[#202020] font-semibold border border-[#202020] rounded-[14px]':
-            isLabelSelected === ''
+          'text-[#202020] font-semibold border border-[#202020] rounded-[14px]': currentLabel === -1
         }"
       >
         全部
@@ -339,7 +313,7 @@ onBeforeUnmount(() => {
           class="item px-[15px] text-[28px] my-[6px] text-[#5b5b5b] cursor-pointer transition-all duration-200"
           :class="{
             'text-[#202020] font-semibold border border-[#202020] rounded-[14px]':
-              isLabelSelected === index
+              currentLabel === index
           }"
           @click="changeLabelItem(Number(index))"
         >
@@ -350,38 +324,21 @@ onBeforeUnmount(() => {
     <!-- 文本留言墙 -->
     <message-text-wall
       v-if="currentWall === 0"
-      :message-list="messageList"
+      :message-list="textList"
       :is-loading="isLoading"
-      @on-preview="clickDetail"
+      @on-preview="textSelect"
+      :activeTextIndex="currentIndex"
     ></message-text-wall>
-    <div v-if="isLoading" class="w-full flex justify-center py-4">
-      <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
-        <circle cx="25" cy="25" r="20" stroke="gray" stroke-width="5" fill="none" />
-        <circle
-          cx="25"
-          cy="25"
-          r="20"
-          stroke="rgba(255, 227, 148, 1)"
-          stroke-width="5"
-          fill="none"
-          stroke-dasharray="125.66"
-          stroke-dashoffset="0"
-        >
-          <animate
-            attributeName="stroke-dashoffset"
-            from="0"
-            to="125.66"
-            dur="1.5s"
-            repeatCount="indefinite"
-          />
-        </circle>
-      </svg>
-    </div>
-    <div class="photo mt-[30px] grid grid-cols-5 gap-[4px]" v-if="currentWall === 1">
-      <template v-for="(item, index) in photoList" :key="index">
-        <message-photo-card @click="photoSelect(index)" :photo="item" />
-      </template>
-    </div>
+    <!-- 照片留言墙 -->
+    <message-photo-wall
+      v-if="currentWall === 1"
+      :photo-list="photoList"
+      @on-preview="photoSelect"
+      :activePhotoIndex="currentIndex"
+      @switch-img="handleSwitchImg"
+    ></message-photo-wall>
+    <!-- Loading -->
+    <yq-loading :is-loading="isLoading"></yq-loading>
     <!-- 添加按钮 -->
     <div
       class="add w-[56px] h-[56px] bg-[#202020] shadow-lg rounded-[28px] fixed right-[30px] bottom-[30px] flex justify-center items-center text-[#ffffff] transition-all duration-300 cursor-pointer"
@@ -393,14 +350,8 @@ onBeforeUnmount(() => {
   </div>
   <!-- 页脚 -->
   <yq-footer></yq-footer>
-  <!-- 大图预览 -->
-  <yq-img-view
-    @click-switch="clickSwitch"
-    :img-url="photoList[currentImgIndex]?.image"
-    v-show="isImgModal"
-  ></yq-img-view>
   <!-- 创建、详情 抽屉 -->
-  <yq-drawer @change-modal="changeModal" :title="title" :isModal="isModal">
+  <yq-drawer @change-modal="changeDrawer" :title="title" :isModal="isModal">
     <creat-message
       :id="currentWall"
       v-if="title === '写留言'"
@@ -409,7 +360,7 @@ onBeforeUnmount(() => {
     <message-detail
       ref="messageDetailRef"
       v-if="title === '详情'"
-      :item="detailData"
+      :item="messageDetailData"
       @share-url="handleShareUrl"
       @finish-loading-url="handleFinishLoadingUrl"
     ></message-detail>
@@ -423,19 +374,7 @@ onBeforeUnmount(() => {
     class="fixed top-0 left-0 z-[-99]"
   ></video>
   <!-- 屏幕截屏分享弹窗 -->
-  <div
-    class="w-screen h-screen fixed top-0 left-0 z-[9999] bg-black bg-opacity-90 flex justify-center items-center"
-    v-if="isShowImgDialog"
-    @click="closeImgShareDialog"
-  >
-    <div class="z-[10000] rounded-[12px] overflow-hidden bg-white backdrop-blur-md" @click.stop>
-      <img :src="shareImgUrl" alt="#" />
-      <div class="flex justify-center w-full gap-4 m-3">
-        <yq-button type="secondary" @click="closeImgShareDialog">销毁</yq-button>
-        <yq-button @click="handleDownloadImg(shareImgUrl)">下载</yq-button>
-      </div>
-    </div>
-  </div>
+  <share-img-dialog></share-img-dialog>
 </template>
 
 <style scoped>
@@ -443,4 +382,3 @@ onBeforeUnmount(() => {
   bottom: v-bind(addBtnBottom);
 }
 </style>
-+

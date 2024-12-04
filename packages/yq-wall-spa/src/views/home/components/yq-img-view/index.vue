@@ -1,18 +1,18 @@
 <script setup lang="ts">
-const props = defineProps({
-  imgUrl: {
-    type: String,
-    default: ''
-  }
+interface IProps {
+  imgUrl: string
+}
+
+const props = withDefaults(defineProps<IProps>(), {
+  imgUrl: ''
 })
+const emits = defineEmits(['switch-img'])
 
-const emits = defineEmits(['click-switch'])
-
-const clickSwitch = (row: string) => {
+const handleSwitchImg = (row: string) => {
   if (row === 'left') {
-    emits('click-switch', 'left')
+    emits('switch-img', 'left')
   } else {
-    emits('click-switch', 'right')
+    emits('switch-img', 'right')
   }
 }
 </script>
@@ -29,13 +29,13 @@ const clickSwitch = (row: string) => {
     </div>
     <div
       class="switch sw-left fixed top-1/2 left-5 flex justify-center items-center w-[56px] h-[56px] bg-[#949494] text-white rounded-full cursor-pointer opacity-50 transition-opacity duration-300 hover:opacity-100"
-      @click="clickSwitch('left')"
+      @click="handleSwitchImg('left')"
     >
       <iconpark-icon size="28" name="arrow-circle-left"></iconpark-icon>
     </div>
     <div
       class="switch sw-right fixed top-1/2 right-[390px] flex justify-center items-center w-[56px] h-[56px] bg-[#949494] text-white rounded-full cursor-pointer opacity-50 transition-opacity duration-300 hover:opacity-100"
-      @click="clickSwitch('right')"
+      @click="handleSwitchImg('right')"
     >
       <iconpark-icon size="28" name="arrow-circle-right"></iconpark-icon>
     </div>
