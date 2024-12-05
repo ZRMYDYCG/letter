@@ -46,7 +46,8 @@ function toWallTop() {
         >照片墙</YiButton
       >
     </div>
-    <div class="user w-[200px]">
+    <div class="user w-[200px] flex items-center justify-end">
+      <el-switch class="mr-2"></el-switch>
       <div
         class="user-head rounded-full h-[36px] w-[36px] bg-gradient-to-b from-[#7be7ff] to-[#1e85e2] float-right"
       ></div>

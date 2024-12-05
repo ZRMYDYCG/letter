@@ -1,0 +1,80 @@
+{
+	"pages": [
+		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/read/read",
+			"style": {
+				"navigationBarTitleText": "阅读",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/book/book",
+			"style": {
+				"navigationBarTitleText": "书架",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/play/play",
+			"style": {
+				"navigationBarTitleText": "有声书",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/me/me",
+			"style": {
+				"navigationBarTitleText": "我",
+				"enablePullDownRefresh": false
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8",
+		"navigationStyle": "custom"
+	},
+	"tabBar": {
+		"selectedColor": "#1296db",
+		"color": "#707070",
+		"backgroundColor": "#f7f7f7",
+		"list": [{
+				"pagePath": "pages/read/read",
+				"text": "阅读",
+				"iconPath": "static/images/tabbar/read.png",
+				"selectedIconPath": "static/images/tabbar/read-selected.png"
+			},
+			{
+				"pagePath": "pages/book/book",
+				"text": "书架",
+				"iconPath": "static/images/tabbar/bookshelf.png",
+				"selectedIconPath": "static/images/tabbar/bookshelf-selected.png"
+			},
+			{
+				"pagePath": "pages/play/play",
+				"text": "有声书",
+				"iconPath": "static/images/tabbar/play.png",
+				"selectedIconPath": "static/images/tabbar/play-selected.png"
+			},
+			{
+				"pagePath": "pages/me/me",
+				"text": "我",
+				"iconPath": "static/images/tabbar/me.png",
+				"selectedIconPath": "static/images/tabbar/me-selected.png"
+			}
+		]
+	},
+	"easycom": {
+		// 自动扫描组件
+		"autoscan": true,
+		"custom": {
+			"^wr-(.*)": "@/components/wr-$1/wr-$1.vue",
+			"^u--(.*)": "uview-plus/components/u-$1/u-$1.vue",
+			"^up-(.*)": "uview-plus/components/u-$1/u-$1.vue",
+			"^u-([^-].*)": "uview-plus/components/u-$1/u-$1.vue"
+		}
+	}
+}
