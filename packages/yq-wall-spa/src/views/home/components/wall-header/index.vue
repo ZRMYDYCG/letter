@@ -3,9 +3,11 @@ import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCommonStore } from '@/stores/modules/common.js'
 import YiButton from '@/components/yq-button/index.vue'
+import { useTheme } from '@/hook'
 
 const commonStore = useCommonStore()
-const { currentWall } = storeToRefs(commonStore)
+const { currentWall, themeType } = storeToRefs(commonStore)
+useTheme()
 
 const currentViewId = computed(() => {
   return currentWall.value
@@ -47,7 +49,21 @@ function toWallTop() {
       >
     </div>
     <div class="user w-[200px] flex items-center justify-end">
-      <el-switch class="mr-2"></el-switch>
+      <el-switch
+        class="mr-2"
+        v-model="themeType"
+        active-value="dark"
+        inactive-value="light"
+        style="
+          --el-switch-on-color: #000;
+          --el-switch-off-color: #ccc;
+          --el-switch-border-color: #ccc;
+          --el-switch-background-color: #fff;
+          --el-switch-handle-color: #fff;
+          --el-switch-border-radius: 10px;
+          --el-switch-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+        "
+      ></el-switch>
       <div
         class="user-head rounded-full h-[36px] w-[36px] bg-gradient-to-b from-[#7be7ff] to-[#1e85e2] float-right"
       ></div>

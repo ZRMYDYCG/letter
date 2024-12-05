@@ -13,6 +13,7 @@ import YqLoading from '@/components/yq-loading/index.vue'
 import ShareImgMask from './components/share-img-mask/index.vue'
 import WallTitle from './components/wall-title/index.vue'
 import LabelFilter from './components/label-filter/index.vue'
+
 import {
   useGetMessages,
   useScrollToTop,
