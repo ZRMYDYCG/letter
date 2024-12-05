@@ -20,6 +20,7 @@ import {
   useResetOnChange,
   useScrollHeight
 } from '@/hook'
+import type { IResetOnChange } from '@/hook/useResetOnChange.ts'
 
 const commonStore = useCommonStore()
 const { currentWall } = storeToRefs(commonStore)
@@ -37,7 +38,7 @@ const { isLoading, textList, photoList, messageTotal, fetchMessages, messagePara
   useGetMessages(currentWall.value)
 const { toWallTop } = useScrollToTop()
 const { handleAddSuccess } = useAddMessage(isDrawerShow, textList, photoList, () => textSelect(0))
-useResetOnChange(currentWall, async () => {
+useResetOnChange<IResetOnChange>(currentWall, async () => {
   isDrawerShow.value = false
   bigPhotoPreview.value = false
   currentIndex.value = -1
