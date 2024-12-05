@@ -23,8 +23,8 @@ import {
 import type { IResetOnChange } from '@/hook/useResetOnChange.ts'
 
 const DrawerState = {
-  CREATE_MESSAGE: Symbol('CREATE_MESSAGE'),
-  MESSAGE_DETAIL: Symbol('MESSAGE_DETAIL')
+  CREATE_MESSAGE: 'CREATE_MESSAGE',
+  MESSAGE_DETAIL: 'MESSAGE_DETAIL'
 }
 
 const commonStore = useCommonStore()
@@ -110,7 +110,7 @@ const changeLabelItem = (index: any) => {
 }
 
 /**
- * @description: 打开留言弹窗
+ * @description: 留言抽屉状态切换
  * */
 const changeDrawer = () => {
   isDrawerShow.value = !isDrawerShow.value
@@ -121,7 +121,7 @@ const changeDrawer = () => {
 /**
  * @description: 打开留言抽屉
  * */
-const addCardItem = () => {
+const openDrawer = () => {
   currentDrawerState.value = DrawerState.CREATE_MESSAGE
   isDrawerShow.value = !isDrawerShow.value
 }
@@ -130,6 +130,7 @@ const addCardItem = () => {
  * @description: 支持选择不同类型留言
  * */
 const selectMessage = (index: number, type: 'text' | 'photo' | 'video' | 'audio' | 'link') => {
+  currentDrawerState.value = DrawerState.MESSAGE_DETAIL
   if (type === 'text') {
     if (currentIndex.value === index) {
       currentIndex.value = -1
@@ -231,7 +232,7 @@ onMounted(async () => {
     <!-- 添加按钮 -->
     <div
       class="add w-[56px] h-[56px] bg-[#202020] shadow-lg rounded-[28px] fixed right-[30px] bottom-[30px] flex justify-center items-center text-[#ffffff] transition-all duration-300 cursor-pointer"
-      @click="addCardItem"
+      @click="openDrawer"
       v-show="!isDrawerShow"
     >
       <span>添加</span>
