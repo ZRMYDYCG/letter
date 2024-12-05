@@ -5,8 +5,8 @@ import { label } from '@/config'
 const emits = defineEmits(['filter-by-label'])
 const selectedLabel = ref<number>(-1)
 
-const handleLabelClick = (label: number) => {
-  selectedLabel.value = label
+const handleLabelClick = (label: number | null) => {
+  selectedLabel.value = label as any
   emits('filter-by-label', label === -1 ? -1 : label)
 }
 </script>
@@ -18,7 +18,7 @@ const handleLabelClick = (label: number) => {
       :class="{
         'text-[#202020] font-semibold border border-[#202020] rounded-[14px]': selectedLabel === ''
       }"
-      @click="handleLabelClick(-1)"
+      @click="handleLabelClick(null)"
     >
       全部
     </li>
