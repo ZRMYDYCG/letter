@@ -262,7 +262,7 @@ onMounted(async () => {
     autoplay
     muted
     loop
-    class="fixed top-0 left-0 z-[-99]"
+    class="fixed top-0 left-0 z-[-9999]"
   ></video>
   <!-- 屏幕截屏分享弹窗 -->
   <share-img-mask
