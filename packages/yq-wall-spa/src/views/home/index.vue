@@ -22,17 +22,22 @@ import {
 } from '@/hook'
 import type { IResetOnChange } from '@/hook/useResetOnChange.ts'
 
+const DrawerState = {
+  CREATE_MESSAGE: Symbol('CREATE_MESSAGE'),
+  MESSAGE_DETAIL: Symbol('MESSAGE_DETAIL')
+}
+
 const commonStore = useCommonStore()
 const { currentWall } = storeToRefs(commonStore)
 
 let isDrawerShow = ref(false) // 右侧抽屉的展示状态
+let currentDrawerState = ref(DrawerState.CREATE_MESSAGE) // 当前抽屉状态
 let currentIndex = ref(-1) // 当前激活展示的留言
 let messageDetailData = ref({}) // 当前展示的留言详情
 let addBtnBottom = ref('30px') // 添加按钮距离底部的距离
 const bigPhotoPreview = ref(false) // 大图预览状态是否打开
 const DownloadImgUrl = ref('') // 预览图片的下载链接
 const messageDetailRef = ref<InstanceType<typeof MessageDetail> | null>(null)
-let title = ref('') // TODO: perf
 
 const { isLoading, textList, photoList, messageTotal, fetchMessages, messageParams } =
   useGetMessages(currentWall.value)
@@ -117,7 +122,7 @@ const changeDrawer = () => {
  * @description: 打开留言抽屉
  * */
 const addCardItem = () => {
-  title.value = '写留言'
+  currentDrawerState.value = DrawerState.CREATE_MESSAGE
   isDrawerShow.value = !isDrawerShow.value
 }
 
@@ -125,8 +130,6 @@ const addCardItem = () => {
  * @description: 支持选择不同类型留言
  * */
 const selectMessage = (index: number, type: 'text' | 'photo' | 'video' | 'audio' | 'link') => {
-  title.value = '详情'
-
   if (type === 'text') {
     if (currentIndex.value === index) {
       currentIndex.value = -1
@@ -240,12 +243,12 @@ onMounted(async () => {
   <yq-drawer @change-modal="changeDrawer" :isDrawerShow="isDrawerShow">
     <creat-message
       :id="currentWall"
-      v-if="title === '写留言'"
+      v-if="currentDrawerState === DrawerState.CREATE_MESSAGE"
       @add-success="handleAddSuccess"
     ></creat-message>
     <message-detail
       ref="messageDetailRef"
-      v-if="title === '详情'"
+      v-if="currentDrawerState === DrawerState.MESSAGE_DETAIL"
       :item="messageDetailData"
       @share-url="handleShareUrl"
     ></message-detail>

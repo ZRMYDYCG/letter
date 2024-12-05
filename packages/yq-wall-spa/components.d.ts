@@ -10,17 +10,10 @@ declare module 'vue' {
     ElDialog: typeof import('element-plus/es')['ElDialog']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
-    Error: typeof import('./src/components/Error/index.vue')['default']
-    Footer: typeof import('./src/components/Footer/index.vue')['default']
-    Header: typeof import('./src/components/Header/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     YqButton: typeof import('./src/components/yq-button/index.vue')['default']
-    YqDialog: typeof import('./src/views/home/children/components/revoke-dialog/index.vue')['default']
     YqDrawer: typeof import('./src/components/yq-drawer/index.vue')['default']
-    YqImgView: typeof import('./src/views/home/components/yq-img-view/index.vue')['default']
     YqLoading: typeof import('./src/components/yq-loading/index.vue')['default']
-    YqMessage: typeof import('./src/components/yq-message/index.vue')['default']
-    YqModal: typeof import('./src/components/yq-drawer/index.vue')['default']
   }
 }
