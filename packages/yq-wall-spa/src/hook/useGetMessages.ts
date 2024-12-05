@@ -11,6 +11,7 @@ export interface IGetMessageParams {
 
 export function useGetMessages(currentWall: any) {
   const isLoading = ref(false) // 加载状态
+
   const messageParams = reactive<IGetMessageParams>({
     userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
     page: 1,
@@ -36,7 +37,7 @@ export function useGetMessages(currentWall: any) {
        * 5 问答墙
        * 6 公告墙
        */
-      switch (currentWall) {
+      switch (messageParams.type) {
         case 0:
           // 文本墙
           textList.value.push(...res.data)

@@ -110,7 +110,7 @@ const changeLabelItem = (index: any) => {
 }
 
 /**
- * @description: 留言抽屉状态切换
+ * @description: 留言抽屉状态切换需要产生的副作用
  * */
 const changeDrawer = () => {
   isDrawerShow.value = !isDrawerShow.value
@@ -226,6 +226,7 @@ onMounted(async () => {
       @on-preview="photoSelect"
       :activePhotoIndex="currentIndex"
       @switch-img="handleSwitchImg"
+      :is-loading="isLoading"
     ></message-photo-wall>
     <!-- Loading -->
     <yq-loading :is-loading="isLoading"></yq-loading>
