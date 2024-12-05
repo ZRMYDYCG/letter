@@ -3,11 +3,17 @@ import { getMessages } from '../api/modules'
 
 export function useGetMessages(currentWall: any) {
   const isLoading = ref(false) // 加载状态
-  const messageParams = reactive({
+  const messageParams = reactive<{
+    userId: string | number
+    page: number
+    pageSize: number
+    tag: string | null
+    type: number
+  }>({
     userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
     page: 1,
     pageSize: 10,
-    tag: '',
+    tag: null,
     type: currentWall
   })
 

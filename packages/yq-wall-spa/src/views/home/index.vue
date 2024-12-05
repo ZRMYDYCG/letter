@@ -41,7 +41,7 @@ useResetOnChange(currentWall, async () => {
   isDrawerShow.value = false
   bigPhotoPreview.value = false
   currentIndex.value = -1
-  messageParams.tag = ''
+  messageParams.tag = null
   messageParams.page = 1
   messageParams.pageSize = 10
   messageParams.type = currentWall.value
@@ -70,6 +70,9 @@ const { scrollTop, clientHeight, scrollHeight } = useScrollHeight(async () => {
   }
 })
 
+/**
+ * @description: 标签筛选
+ * */
 const changeLabelItem = (index: any) => {
   // 开启Loading
   isLoading.value = true

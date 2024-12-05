@@ -60,13 +60,8 @@ defineExpose({
 </template>
 
 <style scoped>
-@font-face {
-  font-family: XiaoKeNaiNao;
-  src: url('@/assets/fonts/xknn.ttf');
-}
 :deep(.el-textarea__inner) {
   font-size: 14px;
-  font-family: XiaoKeNaiNao;
 }
 :deep(.el-textarea__inner) {
   --el-input-focus-border-color: #ccc;
@@ -77,6 +72,5 @@ defineExpose({
 :deep(.el-dialog__title) {
   color: #333;
   font-size: 14px;
-  font-family: XiaoKeNaiNao;
 }
 </style>
