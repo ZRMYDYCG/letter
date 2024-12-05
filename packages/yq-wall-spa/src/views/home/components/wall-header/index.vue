@@ -25,7 +25,7 @@ function toWallTop() {
 
 <template>
   <div
-    class="YiHeader w-full h-[52px] bg-white bg-opacity-80 shadow-md backdrop-blur-md fixed top-0 left-0 z-[9999] flex items-center justify-between px-8"
+    class="YiHeader w-full h-[52px] bg-white bg-opacity-80 shadow-md backdrop-blur-md fixed top-0 left-0 z-[9999] flex items-center justify-between px-8 dark:bg-opacity-10"
   >
     <div class="logo flex items-center w-[200px]">
       <img
@@ -63,7 +63,8 @@ function toWallTop() {
           --el-switch-border-radius: 10px;
           --el-switch-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
         "
-      ></el-switch>
+      >
+      </el-switch>
       <div
         class="user-head rounded-full h-[36px] w-[36px] bg-gradient-to-b from-[#7be7ff] to-[#1e85e2] float-right"
       ></div>

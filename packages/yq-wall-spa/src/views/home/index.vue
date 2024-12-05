@@ -13,6 +13,8 @@ import YqLoading from '@/components/yq-loading/index.vue'
 import ShareImgMask from './components/share-img-mask/index.vue'
 import WallTitle from './components/wall-title/index.vue'
 import LabelFilter from './components/label-filter/index.vue'
+import darkVideo from '@/assets/images/dark.webm'
+import lightVideo from '@/assets/images/light.webm'
 
 import {
   useGetMessages,
@@ -29,7 +31,7 @@ const DrawerState = {
 }
 
 const commonStore = useCommonStore()
-const { currentWall } = storeToRefs(commonStore)
+const { currentWall, themeType } = storeToRefs(commonStore)
 
 let isDrawerShow = ref(false) // 右侧抽屉的展示状态
 let currentDrawerState = ref(DrawerState.CREATE_MESSAGE) // 当前抽屉状态
@@ -258,11 +260,11 @@ onMounted(async () => {
   </yq-drawer>
   <!-- 留言墙视频背景 -->
   <video
-    src="@/assets/images/light.webm"
+    :src="themeType === 'light' ? lightVideo : darkVideo"
+    class="fixed top-0 left-0 z-[-99] w-full h-full object-cover"
     autoplay
     muted
     loop
-    class="fixed top-0 left-0 z-[-9999]"
   ></video>
   <!-- 屏幕截屏分享弹窗 -->
   <share-img-mask

@@ -2,10 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-    @apply bg-white text-black; /* 默认白天模式 */
-}
+/*html {*/
+/*    @apply bg-[transparent] text-black; !* 默认白天模式 *!*/
+/*}*/
 
-.dark {
-    @apply bg-black text-white; /* 深色模式样式 */
-}
+/*.dark {*/
+/*    @apply bg-black opacity-50 text-white; !* 深色模式样式 *!*/
+/*}*/
