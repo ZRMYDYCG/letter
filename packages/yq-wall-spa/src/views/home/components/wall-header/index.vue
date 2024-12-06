@@ -72,7 +72,7 @@ watch(
           --el-switch-on-color: #000;
           --el-switch-off-color: #ccc;
           --el-switch-border-color: #ccc;
-          --el-switch-background-color: #fff;
+          --el-switch-background-color: rgba(46, 78, 150, 0.8);
           --el-switch-handle-color: #fff;
           --el-switch-border-radius: 10px;
           --el-switch-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
