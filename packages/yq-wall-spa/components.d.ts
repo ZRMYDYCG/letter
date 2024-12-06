@@ -10,6 +10,7 @@ declare module 'vue' {
     ElDialog: typeof import('element-plus/es')['ElDialog']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
+    LoadingScreen: typeof import('./src/components/yq-loading/loading-screen.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     YqButton: typeof import('./src/components/yq-button/index.vue')['default']

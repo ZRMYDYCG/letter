@@ -1,5 +1,5 @@
 import { ref, reactive } from 'vue'
-import { getMessages } from '../api/modules'
+import { getMessages } from '@/api/modules'
 
 export interface IGetMessageParams {
   userId: string | number

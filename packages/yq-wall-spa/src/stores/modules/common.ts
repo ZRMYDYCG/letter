@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export const useCommonStore = defineStore('common', () => {
-  const currentWall = ref(0)
+  const currentWall = ref(-1)
   const themeType = ref(localStorage.getItem('themeType') || 'light')
 
   /**

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useCommonStore } from '@/stores/modules/common.ts'
+import { useCommonStore } from '@/stores/modules/common'
 import YqDrawer from '@/components/yq-drawer/index.vue'
 import CreatMessage from './components/creat-message/index.vue'
 import MessageDetail from './components/message-detail/index.vue'
@@ -15,6 +15,7 @@ import LabelFilter from './components/label-filter/index.vue'
 import darkVideo from '@/assets/images/dark.webm'
 import lightVideo from '@/assets/images/light.webm'
 import YqLoading from '@/components/yq-loading/index.vue'
+import ChatPanel from './components/chat-panel/index.vue'
 
 import {
   useGetMessages,
@@ -23,7 +24,7 @@ import {
   useResetOnChange,
   useScrollHeight
 } from '@/hook'
-import type { IResetOnChange } from '@/hook/useResetOnChange.ts'
+import type { IResetOnChange } from '@/hook/useResetOnChange'
 
 const DrawerState = {
   CREATE_MESSAGE: 'CREATE_MESSAGE',
@@ -209,7 +210,7 @@ onMounted(async () => {
 <template>
   <!-- 头部 -->
   <yq-header></yq-header>
-  <div class="wall-message min-h-[900px] pt-[52px]">
+  <div class="wall-message min-h-[900px] pt-[52px]" v-if="currentWall === 0 || currentWall === 1">
     <!--  墙标题  -->
     <wall-title></wall-title>
     <!-- 文本留言墙及图片留言墙筛选器  -->
@@ -242,10 +243,15 @@ onMounted(async () => {
       <span>添加</span>
     </div>
   </div>
+  <ChatPanel v-if="currentWall === -1"></ChatPanel>
   <!-- 页脚 -->
-  <yq-footer></yq-footer>
+  <yq-footer v-if="currentWall === 0 || currentWall === 1"></yq-footer>
   <!-- 创建、详情 抽屉 -->
-  <yq-drawer @change-modal="changeDrawer" :isDrawerShow="isDrawerShow">
+  <yq-drawer
+    @change-modal="changeDrawer"
+    :isDrawerShow="isDrawerShow"
+    v-if="currentWall === 0 || currentWall === 1"
+  >
     <creat-message
       :id="currentWall"
       v-if="currentDrawerState === DrawerState.CREATE_MESSAGE"
@@ -270,6 +276,7 @@ onMounted(async () => {
   <share-img-mask
     @close-img-download-mask="DownloadImgUrl = ''"
     :DownloadImgUrl="DownloadImgUrl"
+    v-if="currentWall === 0 || currentWall === 1"
   ></share-img-mask>
 </template>
 
