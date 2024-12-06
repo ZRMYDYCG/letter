@@ -4,15 +4,10 @@ import { storeToRefs } from 'pinia'
 import { useCommonStore } from '@/stores/modules/common.ts'
 
 const commonStore = useCommonStore()
-
 const { currentWall } = storeToRefs(commonStore)
 
 const title = computed(() => {
-  if (currentWall.value === 0) {
-    return '写留言'
-  } else if (currentWall.value === 1) {
-    return '留照片'
-  }
+  return currentWall.value === 0 ? '写留言' : '留照片'
 })
 
 interface IProps {
@@ -29,14 +24,17 @@ const changeModal = () => {
 
 <template>
   <transition name="modal">
-    <div class="yi-modal" v-if="isDrawerShow">
-      <div class="yi-modal-head">
-        <p class="modal-name">{{ title }}</p>
-        <span class="shut" @click="changeModal">
+    <div
+      class="fixed top-[52px] right-0 w-[360px] h-full bg-white bg-opacity-80 shadow-lg z-[1000] dark:bg-opacity-90 dark:bg-gray-800 dark:text-white"
+      v-if="isDrawerShow"
+    >
+      <div class="flex justify-between items-center p-5 dark:text-white">
+        <p class="font-semibold text-[17px] text-[#202020] dark:text-white">{{ title }}</p>
+        <span class="text-[#5b5b5b] cursor-pointer dark:text-white" @click="changeModal">
           <iconpark-icon size="20" name="close"></iconpark-icon>
         </span>
       </div>
-      <div class="yi-modal-main">
+      <div class="h-full w-full overflow-y-auto pb-[160px]">
         <slot></slot>
       </div>
     </div>
@@ -61,54 +59,5 @@ const changeModal = () => {
 }
 .modal-leave-to {
   transform: translateX(360px);
-}
-.yi-modal {
-  position: fixed;
-  z-index: 1000;
-  top: 52px;
-  right: 0;
-  width: 360px;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.08);
-}
-.yi-modal .yi-modal-head {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-  align-items: center;
-}
-.yi-modal .yi-modal-head .modal-name {
-  font-weight: 600;
-  font-size: 17px;
-  font-family: XiaoKeNaiNao;
-  color: #202020;
-}
-.yi-modal .yi-modal-head .shut {
-  color: #5b5b5b;
-  cursor: pointer;
-}
-.yi-modal .yi-modal-main {
-  height: 100%;
-  width: 100%;
-  overflow-y: auto;
-  padding-bottom: 160px;
-}
-.yi-modal .yi-modal-main::-webkit-scrollbar {
-  /*滚动条整体样式*/
-  width: 4px;
-  /*高宽分别对应横竖滚动条的尺寸*/
-  height: 4px;
-}
-.yi-modal .yi-modal-main::-webkit-scrollbar-thumb {
-  /*滚动条里面的小方块*/
-  border-radius: 4px;
-  background-color: rgba(0, 0, 0, 0.2);
-}
-.yi-modal .yi-modal-main::-webkit-scrollbar-track {
-  /*滚动条里面的轨道*/
-  border-radius: 4px;
-  background-color: rgba(0, 0, 0, 0);
 }
 </style>

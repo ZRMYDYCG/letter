@@ -18,7 +18,6 @@ const watchSystemThemeChange = () => {
  * @param theme
  */
 export const changeTheme = (theme: any) => {
-  console.log('changeTheme', theme)
   let themeClassName = ''
   switch (theme) {
     case 'light':

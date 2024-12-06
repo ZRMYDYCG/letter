@@ -113,7 +113,7 @@ defineExpose({
         ></revoke-dialog>
       </div>
       <div v-if="item.type === 0" class="flex gap-1 cursor-pointer" @click="generateScreenshot">
-        <span>分享</span>
+        <span class="dark:text-white">分享</span>
         <iconpark-icon name="share"></iconpark-icon>
       </div>
     </div>
@@ -133,7 +133,7 @@ defineExpose({
         <yq-button @click.native="handleAddMessageComment">确定</yq-button>
       </div>
     </div>
-    <p class="title mt-5 pb-7 text-[#202020] text-lg font-semibold">
+    <p class="title mt-5 pb-7 text-[#202020] text-lg font-semibold dark:text-white">
       评论 {{ commentList.length }}
     </p>
     <ul class="comment" v-if="commentList.length > 0">

@@ -37,6 +37,12 @@ function toWallTop() {
     <div class="menu">
       <YiButton
         class="menu-message mr-6"
+        @click="changeWall(-1)"
+        :type="currentViewId === -1 ? 'c-primary' : 'c-secondary'"
+        >AI会话</YiButton
+      >
+      <YiButton
+        class="menu-message mr-6"
         @click="changeWall(0)"
         :type="currentViewId === 0 ? 'c-primary' : 'c-secondary'"
         >留言墙</YiButton

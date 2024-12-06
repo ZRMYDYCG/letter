@@ -20,7 +20,7 @@ const handleSwitchImg = (row: string) => {
 <template>
   <div class="yi-img-view fixed top-0 left-0 w-full h-full pr-[360px]">
     <div
-      class="cover absolute top-0 left-0 bg-white bg-opacity-80 backdrop-blur-md h-full w-full"
+      class="cover absolute top-0 left-0 bg-white bg-opacity-80 backdrop-blur-md h-full w-full dark:bg-opacity-90 dark:bg-gray-800 dark:text-white"
     ></div>
     <div
       class="view-photo absolute top-[80px] w-full py-[82px] pl-[96px] pr-[454px] h-full flex justify-center items-center overflow-y-auto"

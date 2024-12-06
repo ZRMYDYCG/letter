@@ -3,7 +3,7 @@ import { ref } from 'vue'
 
 export const useCommonStore = defineStore('common', () => {
   const currentWall = ref(0)
-  const themeType = ref('light')
+  const themeType = ref(localStorage.getItem('themeType') || 'light')
 
   /**
    * 墙体切换
@@ -15,8 +15,9 @@ export const useCommonStore = defineStore('common', () => {
   /**
    * 主题切换
    * */
-  const changeThemeType = (newThemeType: any) => {
+  const changeThemeType = (newThemeType: string) => {
     themeType.value = newThemeType
+    localStorage.setItem('themeType', newThemeType)
   }
 
   return {
