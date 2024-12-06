@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCommonStore } from '@/stores/modules/common.js'
 import YiButton from '@/components/yq-button/index.vue'
@@ -21,6 +21,14 @@ const changeWall = (id: number) => {
 function toWallTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
+
+watch(
+  () => themeType.value,
+  () => {
+    console.log('themeType change')
+    commonStore.changeThemeType(themeType.value)
+  }
+)
 </script>
 
 <template>
