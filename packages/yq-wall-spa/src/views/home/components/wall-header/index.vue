@@ -3,11 +3,12 @@ import { computed, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCommonStore } from '@/stores/modules/common.js'
 import YiButton from '@/components/yq-button/index.vue'
-import { useTheme } from '@/hook'
+import { useTheme, useChangeTitle } from '@/hook'
 
 const commonStore = useCommonStore()
 const { currentWall, themeType } = storeToRefs(commonStore)
 useTheme()
+const { title, changeTitle } = useChangeTitle('留言墙')
 
 const currentViewId = computed(() => {
   return currentWall.value
@@ -15,6 +16,7 @@ const currentViewId = computed(() => {
 
 const changeWall = (id: number) => {
   commonStore.changeWall(id)
+  changeTitle(id === -1 ? 'AI会话' : id === 0 ? '留言墙' : '照片墙')
   toWallTop()
 }
 
@@ -25,7 +27,6 @@ function toWallTop() {
 watch(
   () => themeType.value,
   () => {
-    console.log('themeType change')
     commonStore.changeThemeType(themeType.value)
   }
 )

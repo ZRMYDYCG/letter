@@ -15,5 +15,6 @@ declare module 'vue' {
     YqButton: typeof import('./src/components/yq-button/index.vue')['default']
     YqDrawer: typeof import('./src/components/yq-drawer/index.vue')['default']
     YqLoading: typeof import('./src/components/yq-loading/index.vue')['default']
+    YqSwitch: typeof import('./src/components/yq-switch/index.vue')['default']
   }
 }
