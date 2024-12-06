@@ -17,4 +17,7 @@ declare module 'vue' {
     YqLoading: typeof import('./src/components/yq-loading/index.vue')['default']
     YqSwitch: typeof import('./src/components/yq-switch/index.vue')['default']
   }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
+  }
 }

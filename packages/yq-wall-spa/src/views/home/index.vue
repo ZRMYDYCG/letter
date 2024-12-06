@@ -9,12 +9,12 @@ import MessagePhotoWall from './components/message-photo-wall/index.vue'
 import YqFooter from '@/views/home/components/wall-footer/index.vue'
 import YqHeader from '@/views/home/components/wall-header/index.vue'
 import MessageTextWall from './components/message-text-wall/index.vue'
-import YqLoading from '@/components/yq-loading/index.vue'
 import ShareImgMask from './components/share-img-mask/index.vue'
 import WallTitle from './components/wall-title/index.vue'
 import LabelFilter from './components/label-filter/index.vue'
 import darkVideo from '@/assets/images/dark.webm'
 import lightVideo from '@/assets/images/light.webm'
+import YqLoading from '@/components/yq-loading/index.vue'
 
 import {
   useGetMessages,
@@ -231,8 +231,8 @@ onMounted(async () => {
       @switch-img="handleSwitchImg"
       :is-loading="isLoading"
     ></message-photo-wall>
-    <!-- Loading -->
-    <yq-loading :is-loading="isLoading"></yq-loading>
+    <!--  Loading messageParams.page > 1 防止第一次渲染页面时打开 Loading -->
+    <yq-loading v-if="isLoading && messageParams.page > 1"></yq-loading>
     <!-- 添加按钮 -->
     <div
       class="add w-[56px] h-[56px] bg-[#202020] shadow-lg rounded-[28px] fixed right-[30px] bottom-[30px] flex justify-center items-center text-[#ffffff] transition-all duration-300 cursor-pointer"
