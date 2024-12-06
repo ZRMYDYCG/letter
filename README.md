@@ -1,6 +1,9 @@
 ## 前言
 
-UI 部分采用了 YiKe UP 主提供的主题, 十分感谢设计出这么好看的样式, 隔空投送鸡腿
+![image](https://github.com/user-attachments/assets/16577672-bd07-4cd7-882d-c8d4436480df)
+
+
+UI 部分采用了 YiKe UP 主提供的主题, 十分感谢设计出这么好看的样式, 隔空投送鸡腿 🍗
 
 前端使用 Vite + Vue3 + TypeScript 进行开发
 
