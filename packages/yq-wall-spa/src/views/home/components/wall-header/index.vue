@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useCommonStore } from '@/stores/modules/common.js'
+import { useCommonStore } from '@/stores/modules/common.ts'
 import YiButton from '@/components/yq-button/index.vue'
+import YiSwitch from '@/components/yq-switch/index.vue'
 import { useTheme, useChangeTitle } from '@/hook'
 
 const commonStore = useCommonStore()
@@ -62,56 +63,46 @@ watch(
         class="menu-message mr-6"
         @click="changeWall(-1)"
         :type="currentViewId === -1 ? 'c-primary' : 'c-secondary'"
-        >通义小助</YiButton
-      >
+        >通义小助
+      </YiButton>
       <YiButton
         class="menu-message mr-6"
         @click="changeWall(0)"
         :type="currentViewId === 0 ? 'c-primary' : 'c-secondary'"
-        >留言墙</YiButton
-      >
+        >留言墙
+      </YiButton>
       <YiButton
         class="menu-photo mr-6"
         @click="changeWall(1)"
         :type="currentViewId === 1 ? 'c-primary' : 'c-secondary'"
-        >照片墙</YiButton
-      >
+        >照片墙
+      </YiButton>
       <YiButton
         class="menu-photo mr-6"
         @click="changeWall(2)"
         :type="currentViewId === 2 ? 'c-primary' : 'c-secondary'"
-        >视频墙</YiButton
-      >
+        >视频墙
+      </YiButton>
       <YiButton
         class="menu-photo mr-6"
         @click="changeWall(3)"
         :type="currentViewId === 3 ? 'c-primary' : 'c-secondary'"
-        >问答墙</YiButton
-      >
+        >问答墙
+      </YiButton>
       <YiButton
         class="menu-photo"
         @click="changeWall(4)"
         :type="currentViewId === 4 ? 'c-primary' : 'c-secondary'"
-        >公告墙</YiButton
-      >
+        >公告墙
+      </YiButton>
     </div>
     <div class="user w-[200px] flex items-center justify-end">
-      <el-switch
-        class="mr-2"
+      <YiSwitch
+        class="mr-6"
         v-model="themeType"
         active-value="dark"
         inactive-value="light"
-        style="
-          --el-switch-on-color: #000;
-          --el-switch-off-color: #ccc;
-          --el-switch-border-color: #ccc;
-          --el-switch-background-color: rgba(46, 78, 150, 0.8);
-          --el-switch-handle-color: #fff;
-          --el-switch-border-radius: 10px;
-          --el-switch-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
-        "
-      >
-      </el-switch>
+      ></YiSwitch>
       <div
         class="user-head rounded-full h-[36px] w-[36px] bg-gradient-to-b from-[#7be7ff] to-[#1e85e2] float-right"
       ></div>

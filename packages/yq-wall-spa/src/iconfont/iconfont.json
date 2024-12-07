@@ -1,0 +1,23 @@
+{
+  "id": "4773574",
+  "name": "Message-Wall",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "8936804",
+      "name": "太阳",
+      "font_class": "taiyang",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "9594839",
+      "name": "月亮",
+      "font_class": "yueliang",
+      "unicode": "e6cc",
+      "unicode_decimal": 59084
+    }
+  ]
+}

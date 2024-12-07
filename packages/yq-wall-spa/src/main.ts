@@ -4,7 +4,7 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import './styles/index.css'
 import './styles/commons/index.css'
-
+import './iconfont/iconfont.css'
 const pinia = createPinia()
 
 const app = createApp(App)
