@@ -62,6 +62,12 @@ watch(
         :type="currentViewId === 1 ? 'c-primary' : 'c-secondary'"
         >照片墙</YiButton
       >
+      <YiButton
+        class="menu-photo"
+        @click="changeWall(1)"
+        :type="currentViewId === 1 ? 'c-primary' : 'c-secondary'"
+        >视频墙</YiButton
+      >
     </div>
     <div class="user w-[200px] flex items-center justify-end">
       <el-switch

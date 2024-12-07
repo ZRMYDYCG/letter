@@ -33,7 +33,7 @@ const handleLabelClick = (label: number | null) => {
           'text-[#202020] font-semibold border border-[#202020] rounded-[14px]':
             selectedLabel === index
         }"
-        @click="handleLabelClick(index)"
+        @click="handleLabelClick(index as number)"
       >
         {{ item }}
       </li>
