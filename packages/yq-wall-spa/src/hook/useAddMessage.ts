@@ -1,5 +1,5 @@
 import { Ref } from 'vue'
-import { getMessages } from '../api/modules'
+import { getMessages } from '@/api/modules'
 import { useScrollToTop } from './useScrollToTop.ts'
 
 export function useAddMessage(

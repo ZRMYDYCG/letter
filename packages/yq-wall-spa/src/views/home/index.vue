@@ -22,7 +22,8 @@ import {
   useScrollToTop,
   useAddMessage,
   useResetOnChange,
-  useScrollHeight
+  useScrollHeight,
+  useLabelFilter
 } from '@/hook'
 import type { IResetOnChange } from '@/hook/useResetOnChange'
 
@@ -79,39 +80,10 @@ const { scrollTop, clientHeight, scrollHeight } = useScrollHeight(async () => {
     addBtnBottom.value = '30px'
   }
 })
-
-/**
- * @description: 标签筛选
- * */
-const changeLabelItem = (index: any) => {
-  // 开启Loading
-  isLoading.value = true
-
-  // 基于当前墙体重置结果列表和搜索条件
-  const resetListsAndParams = () => {
-    if (currentWall.value === 0) {
-      textList.value = []
-    } else if (currentWall.value === 1) {
-      photoList.value = []
-    }
-
-    messageParams.page = 1
-    messageParams.pageSize = 10
-    messageParams.tag = index
-  }
-
-  const fetchMessagesAndCloseDrawer = async () => {
-    await fetchMessages()
-    toWallTop()
-    // 关闭右侧弹窗
-    isDrawerShow.value = false
-    // 重置激活状态
-    currentIndex.value = -1
-  }
-
-  resetListsAndParams()
-  fetchMessagesAndCloseDrawer()
-}
+const { changeLabelItem } = useLabelFilter(isLoading, textList, photoList, messageParams, () => {
+  toWallTop()
+  fetchMessages()
+})
 
 /**
  * @description: 留言抽屉状态切换需要产生的副作用
@@ -131,7 +103,7 @@ const openDrawer = () => {
 }
 
 /**
- * @description: 支持选择不同类型留言
+ * @description: 支持选择不同类型留言、进行详情预览 TODO: perf: 抽取封装
  * */
 const selectMessage = (index: number, type: 'text' | 'photo' | 'video' | 'audio' | 'link') => {
   currentDrawerState.value = DrawerState.MESSAGE_DETAIL
@@ -234,13 +206,13 @@ onMounted(async () => {
     ></message-photo-wall>
     <!--  Loading messageParams.page > 1 防止第一次渲染页面时打开 Loading -->
     <yq-loading v-if="isLoading && messageParams.page > 1"></yq-loading>
-    <!-- 添加按钮 -->
+    <!-- 按钮 -->
     <div
       class="add w-[56px] h-[56px] bg-[#202020] shadow-lg rounded-[28px] fixed right-[30px] bottom-[30px] flex justify-center items-center text-[#ffffff] transition-all duration-300 cursor-pointer"
       @click="openDrawer"
       v-show="!isDrawerShow"
     >
-      <span>添加</span>
+      <span>+</span>
     </div>
   </div>
   <ChatPanel v-if="currentWall === -1"></ChatPanel>
