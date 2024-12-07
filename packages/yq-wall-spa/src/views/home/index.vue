@@ -84,6 +84,7 @@ const { scrollTop, clientHeight, scrollHeight } = useScrollHeight(async () => {
 const { changeLabelItem } = useLabelFilter(isLoading, textList, photoList, messageParams, () => {
   toWallTop()
   fetchMessages()
+  isDrawerShow.value = false
 })
 
 /**

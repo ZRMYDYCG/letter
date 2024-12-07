@@ -8,7 +8,7 @@ import { useTheme, useChangeTitle } from '@/hook'
 const commonStore = useCommonStore()
 const { currentWall, themeType } = storeToRefs(commonStore)
 useTheme()
-const { title, changeTitle } = useChangeTitle('留言墙')
+const { title, changeTitle } = useChangeTitle('通义小助')
 
 const currentViewId = computed(() => {
   return currentWall.value
@@ -16,7 +16,21 @@ const currentViewId = computed(() => {
 
 const changeWall = (id: number) => {
   commonStore.changeWall(id)
-  changeTitle(id === -1 ? 'AI会话' : id === 0 ? '留言墙' : '照片墙')
+  changeTitle(
+    id === -1
+      ? '通义小助'
+      : id === 0
+        ? '留言墙'
+        : id === 1
+          ? '照片墙'
+          : id === 2
+            ? '视频墙'
+            : id === 3
+              ? '问答墙'
+              : id === 4
+                ? '公告墙'
+                : '未知墙体'
+  )
   toWallTop()
 }
 
@@ -48,7 +62,7 @@ watch(
         class="menu-message mr-6"
         @click="changeWall(-1)"
         :type="currentViewId === -1 ? 'c-primary' : 'c-secondary'"
-        >AI会话</YiButton
+        >通义小助</YiButton
       >
       <YiButton
         class="menu-message mr-6"
@@ -57,16 +71,28 @@ watch(
         >留言墙</YiButton
       >
       <YiButton
-        class="menu-photo"
+        class="menu-photo mr-6"
         @click="changeWall(1)"
         :type="currentViewId === 1 ? 'c-primary' : 'c-secondary'"
         >照片墙</YiButton
       >
       <YiButton
-        class="menu-photo"
-        @click="changeWall(1)"
-        :type="currentViewId === 1 ? 'c-primary' : 'c-secondary'"
+        class="menu-photo mr-6"
+        @click="changeWall(2)"
+        :type="currentViewId === 2 ? 'c-primary' : 'c-secondary'"
         >视频墙</YiButton
+      >
+      <YiButton
+        class="menu-photo mr-6"
+        @click="changeWall(3)"
+        :type="currentViewId === 3 ? 'c-primary' : 'c-secondary'"
+        >问答墙</YiButton
+      >
+      <YiButton
+        class="menu-photo"
+        @click="changeWall(4)"
+        :type="currentViewId === 4 ? 'c-primary' : 'c-secondary'"
+        >公告墙</YiButton
       >
     </div>
     <div class="user w-[200px] flex items-center justify-end">
