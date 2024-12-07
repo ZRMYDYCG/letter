@@ -9,13 +9,13 @@ export interface IGetMessageParams {
   type: number
 }
 
-export function useGetMessages(currentWall: any) {
+export function useGetMessages(currentWall: number) {
   const isLoading = ref(false) // 加载状态
 
   const messageParams = reactive<IGetMessageParams>({
     userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id || 0,
     page: 1,
-    pageSize: 10,
+    pageSize: 8,
     tag: null,
     type: currentWall
   })
@@ -28,7 +28,7 @@ export function useGetMessages(currentWall: any) {
     try {
       isLoading.value = true
 
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      // await new Promise((resolve) => setTimeout(resolve, 1000))
 
       const res = await getMessages(messageParams)
       /**
@@ -68,7 +68,6 @@ export function useGetMessages(currentWall: any) {
           console.warn('未知的留言墙类型')
           break
       }
-
       messageTotal.value = (res as any).meta.total
     } catch (error) {
       console.error(error)

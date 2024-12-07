@@ -2,12 +2,15 @@
 import { computed, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCommonStore } from '@/stores/modules/common.ts'
+import { useFilterNumberStore } from '@/stores/modules/filterNumber.ts'
 import YiButton from '@/components/yq-button/index.vue'
 import YiSwitch from '@/components/yq-switch/index.vue'
 import { useTheme, useChangeTitle } from '@/hook'
 
 const commonStore = useCommonStore()
+const filterNumberStore = useFilterNumberStore()
 const { currentWall, themeType } = storeToRefs(commonStore)
+
 useTheme()
 const { title, changeTitle } = useChangeTitle('通义小助')
 
@@ -33,6 +36,7 @@ const changeWall = (id: number) => {
                 : '未知墙体'
   )
   toWallTop()
+  filterNumberStore.changeFilterNumber(null)
 }
 
 function toWallTop() {

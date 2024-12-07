@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { label } from '@/config'
 import { useCommonStore } from '@/stores/modules/common.ts'
+import { useFilterNumberStore } from '@/stores/modules/filterNumber.ts'
+import { storeToRefs } from 'pinia'
 
 const emits = defineEmits(['filter-by-label'])
-const selectedLabel = ref<number | null>(null)
-
 const commonStore = useCommonStore()
+const filterNumberStore = useFilterNumberStore()
+const { filterNumber } = storeToRefs(filterNumberStore)
 
 const handleLabelClick = (label: number | null) => {
-  selectedLabel.value = label as any
+  filterNumberStore.changeFilterNumber(label === null ? null : label)
   emits('filter-by-label', label === null ? null : label)
 }
 </script>
@@ -19,8 +20,7 @@ const handleLabelClick = (label: number | null) => {
     <li
       class="item px-[15px] my-[6px] text-[#5b5b5b] cursor-pointer"
       :class="{
-        'text-[#202020] font-semibold border border-[#202020] rounded-[14px]':
-          selectedLabel === null
+        'text-[#202020] font-semibold border border-[#202020] rounded-[14px]': filterNumber === null
       }"
       @click="handleLabelClick(null)"
     >
@@ -31,7 +31,7 @@ const handleLabelClick = (label: number | null) => {
         class="item px-[15px] my-[6px] text-[#5b5b5b] cursor-pointer transition-all duration-200"
         :class="{
           'text-[#202020] font-semibold border border-[#202020] rounded-[14px]':
-            selectedLabel === index
+            filterNumber === index
         }"
         @click="handleLabelClick(index as number)"
       >
