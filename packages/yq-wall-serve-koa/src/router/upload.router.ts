@@ -1,6 +1,7 @@
 import Router from "koa-router";
 import uploadMiddleware from "../middleware/upload.middleware";
 import messageModel from "../models/message.model";
+import send from "koa-send";
 
 interface CreateMessageBody {
   content: string; // 留言内容
@@ -67,9 +68,5 @@ uploadRouter.post(
     };
   },
 );
-
-/**
- * @dencription 文件下载
- * */
 
 export default uploadRouter;
