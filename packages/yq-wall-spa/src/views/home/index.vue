@@ -17,6 +17,7 @@ import lightVideo from '@/assets/images/light.webm'
 import YqLoading from '@/components/yq-loading/index.vue'
 import ChatPanel from './components/chat-panel/index.vue'
 import MessageVideoWall from './components/message-video-wall/index.vue'
+import MessageAnnouncementWall from './components/message-announcement-wall/index.vue'
 
 import {
   useGetMessages,
@@ -208,6 +209,8 @@ onMounted(async () => {
     ></message-photo-wall>
     <!--  视频留言墙  -->
     <message-video-wall v-if="currentWall === 2"></message-video-wall>
+    <!--  公告墙  -->
+    <message-announcement-wall></message-announcement-wall>
     <!--  Loading messageParams.page > 1 防止第一次渲染页面时打开 Loading -->
     <yq-loading v-if="isLoading && messageParams.page > 1"></yq-loading>
     <!-- 按钮 -->
