@@ -27,10 +27,6 @@ const handleSwitchImg = (row: string) => {
 const handlePreview = (index: number) => {
   emits('on-preview', index)
 }
-
-onMounted(() => {
-  console.log('mounted', props.photoList)
-})
 </script>
 
 <template>

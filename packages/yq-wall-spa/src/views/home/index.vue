@@ -230,7 +230,7 @@ onMounted(async () => {
   <!-- 通义小助 -->
   <ChatPanel v-if="currentWall === -1"></ChatPanel>
   <!-- 页脚 -->
-  <yq-footer v-if="currentWall === 0 || currentWall === 1 || currentWall === 2"></yq-footer>
+  <yq-footer v-if="currentWall === 0 || currentWall === 1"></yq-footer>
   <!-- 创建、详情 抽屉 -->
   <yq-drawer
     @change-modal="changeDrawer"
