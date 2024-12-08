@@ -18,6 +18,7 @@ import YqLoading from '@/components/yq-loading/index.vue'
 import ChatPanel from './components/chat-panel/index.vue'
 import MessageVideoWall from './components/message-video-wall/index.vue'
 import MessageAnnouncementWall from './components/message-announcement-wall/index.vue'
+import MessageIssueWall from './components/message-issue-wall/index.vue'
 
 import {
   useGetMessages,
@@ -64,23 +65,25 @@ useResetOnChange<IResetOnChange>(currentWall, async () => {
 })
 const { scrollTop, clientHeight, scrollHeight } = useScrollHeight(async () => {
   // 判断是否到达底部
-  if (scrollTop.value + clientHeight.value + 260 >= scrollHeight.value) {
-    // 按钮移动
-    addBtnBottom.value = `${scrollTop.value + clientHeight.value + 300 - scrollHeight.value}px`
+  await nextTick(async () => {
+    if (scrollTop.value + clientHeight.value + 260 >= scrollHeight.value) {
+      // 按钮移动
+      addBtnBottom.value = `${scrollTop.value + clientHeight.value + 300 - scrollHeight.value}px`
 
-    // 分页加载更多，只在未加载数据时触发
-    if (
-      (currentWall.value === 0 || currentWall.value === 1) &&
-      messageParams.page * messageParams.pageSize < messageTotal.value &&
-      !isLoading.value
-    ) {
-      isLoading.value = true
-      messageParams.page++
-      await fetchMessages()
+      // 分页加载更多，只在未加载数据时触发
+      if (
+        (currentWall.value === 0 || currentWall.value === 1) &&
+        messageParams.page * messageParams.pageSize < messageTotal.value &&
+        !isLoading.value
+      ) {
+        isLoading.value = true
+        messageParams.page++
+        await fetchMessages()
+      }
+    } else {
+      addBtnBottom.value = '30px'
     }
-  } else {
-    addBtnBottom.value = '30px'
-  }
+  })
 })
 const { changeLabelItem } = useLabelFilter(isLoading, textList, photoList, messageParams, () => {
   toWallTop()
@@ -207,10 +210,6 @@ onMounted(async () => {
       @switch-img="handleSwitchImg"
       :is-loading="isLoading"
     ></message-photo-wall>
-    <!--  视频留言墙  -->
-    <message-video-wall v-if="currentWall === 2"></message-video-wall>
-    <!--  公告墙  -->
-    <message-announcement-wall></message-announcement-wall>
     <!--  Loading messageParams.page > 1 防止第一次渲染页面时打开 Loading -->
     <yq-loading v-if="isLoading && messageParams.page > 1"></yq-loading>
     <!-- 按钮 -->
@@ -222,9 +221,16 @@ onMounted(async () => {
       <span>+</span>
     </div>
   </div>
+  <!--  视频留言墙  -->
+  <message-video-wall v-if="currentWall === 2"></message-video-wall>
+  <!--  问题墙  -->
+  <message-issue-wall v-if="currentWall === 3"></message-issue-wall>
+  <!--  公告墙  -->
+  <message-announcement-wall v-if="currentWall === 4"></message-announcement-wall>
+  <!-- 通义小助 -->
   <ChatPanel v-if="currentWall === -1"></ChatPanel>
   <!-- 页脚 -->
-  <yq-footer v-if="currentWall === 0 || currentWall === 1"></yq-footer>
+  <yq-footer v-if="currentWall === 0 || currentWall === 1 || currentWall === 2"></yq-footer>
   <!-- 创建、详情 抽屉 -->
   <yq-drawer
     @change-modal="changeDrawer"

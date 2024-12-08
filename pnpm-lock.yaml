@@ -253,6 +253,9 @@ importers:
       axios:
         specifier: ^1.7.2
         version: 1.7.7
+      dplayer:
+        specifier: ^1.27.1
+        version: 1.27.1
       element-plus:
         specifier: ^2.8.8
         version: 2.8.8(vue@3.5.13(typescript@5.4.5))
@@ -278,6 +281,12 @@ importers:
       '@tsconfig/node20':
         specifier: ^20.1.4
         version: 20.1.4
+      '@types/dplayer':
+        specifier: ^1.25.5
+        version: 1.25.5
+      '@types/hls.js':
+        specifier: ^1.0.0
+        version: 1.0.0
       '@types/node':
         specifier: ^20.12.5
         version: 20.17.6
@@ -2244,6 +2253,9 @@ packages:
   '@types/cookies@0.9.0':
     resolution: {integrity: sha512-40Zk8qR147RABiQ7NQnBzWzDcjKzNrntB5BAmeGCb2p/MIyOE+4BVvc17wumsUqUw00bJYqoXFHYygQnEFh4/Q==}
 
+  '@types/dplayer@1.25.5':
+    resolution: {integrity: sha512-p/7O94dHDo0Irn2KWIqFE+fBCA4DS7QL3jfCOjCUPBAOgppyyTjmNZjKEfiJa1M3n1oVQqG7xnPwhiIuCqOzkQ==}
+
   '@types/eslint-scope@3.7.7':
     resolution: {integrity: sha512-MzMFlSLBqNF2gcHWO0G1vP/YQyfvrxZ0bF+u7mzUdZ1/xK4A4sru+nraZz5i3iEIk1l1uyicaDVTB4QbbEkAYg==}
 
@@ -2264,6 +2276,10 @@ packages:
 
   '@types/hast@3.0.4':
     resolution: {integrity: sha512-WPs+bbQw5aCj+x6laNGWLH3wviHtoCv/P3+otBhbOhJgG8qtpdAMlTCxLtsTWA7LH1Oh/bFCHsBn0TPS5m30EQ==}
+
+  '@types/hls.js@1.0.0':
+    resolution: {integrity: sha512-EGY2QJefX+Z9XH4PAxI7RFoNqBlQEk16UpYR3kbr82CIgMX5SlMe0PjFdFV0JytRhyVPQCiwSyONuI6S1KdSag==}
+    deprecated: This is a stub types definition. hls.js provides its own type definitions, so you do not need this installed.
 
   '@types/http-assert@1.5.6':
     resolution: {integrity: sha512-TTEwmtjgVbYAzZYWyeHPrrtWnfVkm8tQkP8P21uQifPgMRgjrow3XDEYqucuC8SKZJT7pUnhU/JymvjggxO9vw==}
@@ -2964,6 +2980,9 @@ packages:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
     engines: {node: '>= 0.4'}
 
+  axios@1.2.3:
+    resolution: {integrity: sha512-pdDkMYJeuXLZ6Xj/Q5J3Phpe+jbGdsSzlQaFVkMQzRUL05+6+tetX8TV3p4HrU4kzuO9bt+io/yGQxuyxA/xcw==}
+
   axios@1.7.7:
     resolution: {integrity: sha512-S4kL7XrjgBmvdGut0sN3yJxqYzrDOnivkBiN0OFs6hLiUam3UPvswUo0kqGyhqUZGEOytHyumEdXsAkgCOUf3Q==}
 
@@ -3009,6 +3028,9 @@ packages:
 
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
+
+  balloon-css@1.2.0:
+    resolution: {integrity: sha512-urXwkHgwp6GsXVF+it01485Z2Cj4pnW02ICnM0TemOlkKmCNnDLmyy+ZZiRXBpwldUXO+aRNr7Hdia4CBvXJ5A==}
 
   base64-arraybuffer@1.0.2:
     resolution: {integrity: sha512-I3yl4r9QB5ZRY3XuJVEPfc2XhZO6YweFPI+UovAzn+8/hb3oJ6lnysaFcjVpkCPfVWFUDvoZ8kmVDP7WyRtYtQ==}
@@ -3661,6 +3683,9 @@ packages:
   dotenv@16.4.5:
     resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
     engines: {node: '>=12'}
+
+  dplayer@1.27.1:
+    resolution: {integrity: sha512-2laBMXs5V1B9zPwJ7eAIw/OBo+Xjvy03i4GHTk3Cg+IWbrq8rKMFO0fFr6ClAYotYOCcFGOvaJDkOZcgKllsCA==}
 
   dynamic-dedupe@0.3.0:
     resolution: {integrity: sha512-ssuANeD+z97meYOqd50e04Ze5qp4bPqo8cCkI4TRjZkzAUgIDTrXV1R8QCdINpiI+hw14+rYazvTRdQrz0/rFQ==}
@@ -4367,6 +4392,9 @@ packages:
   he@1.2.0:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
+
+  hls.js@1.5.17:
+    resolution: {integrity: sha512-wA66nnYFvQa1o4DO/BFgLNRKnBTVXpNeldGRBJ2Y0SvFtdwvFKCbqa9zhHoZLoxHhZ+jYsj3aIBkWQQCPNOhMw==}
 
   hookable@5.5.3:
     resolution: {integrity: sha512-Yc+BQe8SvoXH1643Qez1zqLRmbA5rCL+sSmk6TVos0LWVfNIB7PGncdlId77WzLGSIB5KaWgTaNTs2lNVEI6VQ==}
@@ -5998,6 +6026,9 @@ packages:
   process@0.11.10:
     resolution: {integrity: sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==}
     engines: {node: '>= 0.6.0'}
+
+  promise-polyfill@8.3.0:
+    resolution: {integrity: sha512-H5oELycFml5yto/atYqmjyigJoAo3+OXwolYiH7OfQuYlAqhxNvTfiNMbV9hsC6Yp83yE5r2KTVmtrG6R9i6Pg==}
 
   prompts@2.4.2:
     resolution: {integrity: sha512-NxNv/kLguCA7p3jE8oL2aEBsrJWgAakBpgmgK6lpPWV+WuOmY6r2/zbAVnP+T8bQlA0nzHXSJSJW0Hq7ylaD2Q==}
@@ -10011,6 +10042,8 @@ snapshots:
       '@types/keygrip': 1.0.6
       '@types/node': 20.17.6
 
+  '@types/dplayer@1.25.5': {}
+
   '@types/eslint-scope@3.7.7':
     dependencies:
       '@types/eslint': 9.6.1
@@ -10044,6 +10077,10 @@ snapshots:
   '@types/hast@3.0.4':
     dependencies:
       '@types/unist': 3.0.3
+
+  '@types/hls.js@1.0.0':
+    dependencies:
+      hls.js: 1.5.17
 
   '@types/http-assert@1.5.6': {}
 
@@ -10954,6 +10991,14 @@ snapshots:
     dependencies:
       possible-typed-array-names: 1.0.0
 
+  axios@1.2.3:
+    dependencies:
+      follow-redirects: 1.15.9
+      form-data: 4.0.1
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+
   axios@1.7.7:
     dependencies:
       follow-redirects: 1.15.9
@@ -11043,6 +11088,8 @@ snapshots:
       babel-preset-current-node-syntax: 1.1.0(@babel/core@7.26.0)
 
   balanced-match@1.0.2: {}
+
+  balloon-css@1.2.0: {}
 
   base64-arraybuffer@1.0.2: {}
 
@@ -11675,6 +11722,14 @@ snapshots:
       domhandler: 4.3.1
 
   dotenv@16.4.5: {}
+
+  dplayer@1.27.1:
+    dependencies:
+      axios: 1.2.3
+      balloon-css: 1.2.0
+      promise-polyfill: 8.3.0
+    transitivePeerDependencies:
+      - debug
 
   dynamic-dedupe@0.3.0:
     dependencies:
@@ -12580,6 +12635,8 @@ snapshots:
       '@types/hast': 3.0.4
 
   he@1.2.0: {}
+
+  hls.js@1.5.17: {}
 
   hookable@5.5.3: {}
 
@@ -14420,6 +14477,8 @@ snapshots:
   process-nextick-args@2.0.1: {}
 
   process@0.11.10: {}
+
+  promise-polyfill@8.3.0: {}
 
   prompts@2.4.2:
     dependencies:

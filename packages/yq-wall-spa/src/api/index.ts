@@ -10,7 +10,7 @@ import { ElMessage } from 'element-plus'
 import type { ResultData } from './interface'
 import useAuthStore from '../stores/modules/auth'
 
-const URL: string = 'http://localhost:5174'
+const URL: string = '/api'
 
 enum RequestEnums {
   TIMEOUT = 20000, // 请求超时时间
