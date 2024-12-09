@@ -7,6 +7,7 @@ import { useFilterNumberStore } from '@/stores/modules/filterNumber.ts'
 import YiButton from '@/components/yq-button/index.vue'
 import YiSwitch from '@/components/yq-switch/index.vue'
 import { useTheme, useChangeTitle } from '@/hook'
+import { login } from '@/api/modules'
 
 useTheme()
 
@@ -15,6 +16,8 @@ const filterNumberStore = useFilterNumberStore()
 const { currentWall, themeType } = storeToRefs(commonStore)
 
 const router = useRouter()
+
+const emits = defineEmits(['visitor-login', 'open-setting'])
 
 const { changeTitle } = useChangeTitle('通义小助')
 const currentViewId = computed(() => currentWall.value)
@@ -35,25 +38,26 @@ const changeWall = (id: number) => {
   filterNumberStore.changeFilterNumber(null)
 }
 
-const handleCommand = (command: string) => {
+const handleCommand = async (command: string) => {
   switch (command) {
     case 'visitor':
-      // 处理游客登录
-      console.log('处理游客登录')
+      const res = await login({ identity: 0 })
+      localStorage.setItem('userInfo', JSON.stringify(res.data))
+      // 刷新数据
+      emits('visitor-login', res.data)
       break
     case 'account':
-      // 处理账号登录
       console.log('处理账号登录')
       break
     case 'register':
-      // 处理注册账号
+      await router.push('/register')
       console.log('处理注册账号')
       break
     case 'logout':
-      router.push('/login')
+      await router.push('/login')
       break
     case 'profile':
-      router.push('/profile')
+      await router.push('/profile')
       break
     default:
       console.warn('未知命令:', command)

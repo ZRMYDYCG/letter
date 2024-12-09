@@ -1,18 +1,18 @@
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { portrait } from '@/config'
 import ImgCutter from 'vue-img-cutter'
 import YqButton from '@/components/yq-button/index.vue'
+import { getUserInfo } from '@/api/modules'
 
 const router = useRouter()
 
-// 修改
 const loading = ref(false)
 const imgFile = ref(null)
 const params = reactive({})
+const userInfo = ref({})
 
-// 裁剪图片
 const onCutDownImg = (res) => {
   const file = res.file
   imgFile.value = file
@@ -24,6 +24,16 @@ const onCutDownImg = (res) => {
   }
   reader.readAsDataURL(file)
 }
+
+onMounted(async () => {
+  const userId = JSON.parse(localStorage.getItem('userInfo'))._id
+  try {
+    const res = await getUserInfo(userId)
+    userInfo.value = res.data
+  } catch (e) {
+    console.error(e)
+  }
+})
 </script>
 
 <template>
