@@ -13,29 +13,21 @@ const commonStore = useCommonStore()
 const filterNumberStore = useFilterNumberStore()
 const { currentWall, themeType } = storeToRefs(commonStore)
 
-const { title, changeTitle } = useChangeTitle('通义小助')
+const { changeTitle } = useChangeTitle('通义小助')
+const currentViewId = computed(() => currentWall.value)
 
-const currentViewId = computed(() => {
-  return currentWall.value
-})
+const walls = [
+  { id: -1, name: '通义小助' },
+  { id: 0, name: '留言墙' },
+  { id: 1, name: '照片墙' },
+  { id: 2, name: '视频墙' },
+  { id: 3, name: '问答墙' },
+  { id: 4, name: '公告墙' }
+]
 
 const changeWall = (id: number) => {
   commonStore.changeWall(id)
-  changeTitle(
-    id === -1
-      ? '通义小助'
-      : id === 0
-        ? '留言墙'
-        : id === 1
-          ? '照片墙'
-          : id === 2
-            ? '视频墙'
-            : id === 3
-              ? '问答墙'
-              : id === 4
-                ? '公告墙'
-                : '未知墙体'
-  )
+  changeTitle(walls.find((wall) => wall.id === id)?.name || '未知墙体')
   toWallTop()
   filterNumberStore.changeFilterNumber(null)
 }
@@ -44,79 +36,55 @@ function toWallTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
-watch(
-  () => themeType.value,
-  () => {
-    commonStore.changeThemeType(themeType.value)
-  }
-)
+watch(themeType, () => {
+  commonStore.changeThemeType(themeType.value)
+})
 </script>
 
 <template>
-  <div
+  <header
     class="YiHeader w-full h-[52px] bg-white bg-opacity-80 shadow-md backdrop-blur-md fixed top-0 left-0 z-[9999] flex items-center justify-between px-8 dark:bg-opacity-10"
   >
-    <div class="logo flex items-center w-[200px]">
+    <div class="logo w-[200px] flex items-center">
       <img
         src="../../../../assets/images/logo.svg"
+        alt="Logo"
         class="logo-img w-[40px] h-[40px] shadow rounded-full transition-transform duration-500 cursor-pointer"
-        alt="#"
       />
     </div>
-    <div class="menu">
+    <nav class="menu flex">
       <YiButton
+        v-for="(wall, index) in walls"
+        :key="index"
         class="menu-message mr-6"
-        @click="changeWall(-1)"
-        :type="currentViewId === -1 ? 'c-primary' : 'c-secondary'"
-        >通义小助
+        @click="changeWall(wall.id)"
+        :type="currentViewId === wall.id ? 'c-primary' : 'c-secondary'"
+      >
+        {{ wall.name }}
       </YiButton>
-      <YiButton
-        class="menu-message mr-6"
-        @click="changeWall(0)"
-        :type="currentViewId === 0 ? 'c-primary' : 'c-secondary'"
-        >留言墙
-      </YiButton>
-      <YiButton
-        class="menu-photo mr-6"
-        @click="changeWall(1)"
-        :type="currentViewId === 1 ? 'c-primary' : 'c-secondary'"
-        >照片墙
-      </YiButton>
-      <YiButton
-        class="menu-photo mr-6"
-        @click="changeWall(2)"
-        :type="currentViewId === 2 ? 'c-primary' : 'c-secondary'"
-        >视频墙
-      </YiButton>
-      <YiButton
-        class="menu-photo mr-6"
-        @click="changeWall(3)"
-        :type="currentViewId === 3 ? 'c-primary' : 'c-secondary'"
-        >问答墙
-      </YiButton>
-      <YiButton
-        class="menu-photo"
-        @click="changeWall(4)"
-        :type="currentViewId === 4 ? 'c-primary' : 'c-secondary'"
-        >公告墙
-      </YiButton>
-    </div>
+    </nav>
     <div class="user w-[200px] flex items-center justify-end">
       <iconpark-icon
         name="setting"
         class="mr-6 cursor-pointer"
         size="18"
         @click="$emit('open-setting')"
-      ></iconpark-icon>
-      <YiSwitch
-        class="mr-6"
-        v-model="themeType"
-        active-value="dark"
-        inactive-value="light"
-      ></YiSwitch>
-      <div
-        class="user-head rounded-full h-[36px] w-[36px] bg-gradient-to-b from-[#7be7ff] to-[#1e85e2] float-right"
-      ></div>
+      />
+      <YiSwitch class="mr-6" v-model="themeType" active-value="dark" inactive-value="light" />
+      <el-dropdown>
+        <div
+          class="user-head rounded-full h-[36px] w-[36px] bg-gradient-to-b from-[#7be7ff] to-[#1e85e2] float-right"
+        ></div>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>游客登录</el-dropdown-item>
+            <el-dropdown-item>账号登录</el-dropdown-item>
+            <el-dropdown-item>注册账号</el-dropdown-item>
+            <el-dropdown-item>退出登录</el-dropdown-item>
+            <el-dropdown-item divided>个人资料</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
     </div>
-  </div>
+  </header>
 </template>
