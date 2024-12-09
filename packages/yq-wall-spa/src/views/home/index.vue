@@ -192,7 +192,7 @@ const clickLoadMore = async () => {
  * @description: 页面加载完成后，默认加载第一页数据
  * */
 onMounted(async () => {
-  if (currentWall.value === 0) {
+  if (currentWall.value === 0 || currentWall.value === 1) {
     await fetchMessages()
   }
 })
