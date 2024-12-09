@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useCommonStore } from '@/stores/modules/common.ts'
 import { useFilterNumberStore } from '@/stores/modules/filterNumber.ts'
@@ -12,6 +13,8 @@ useTheme()
 const commonStore = useCommonStore()
 const filterNumberStore = useFilterNumberStore()
 const { currentWall, themeType } = storeToRefs(commonStore)
+
+const router = useRouter()
 
 const { changeTitle } = useChangeTitle('通义小助')
 const currentViewId = computed(() => currentWall.value)
@@ -30,6 +33,31 @@ const changeWall = (id: number) => {
   changeTitle(walls.find((wall) => wall.id === id)?.name || '未知墙体')
   toWallTop()
   filterNumberStore.changeFilterNumber(null)
+}
+
+const handleCommand = (command: string) => {
+  switch (command) {
+    case 'visitor':
+      // 处理游客登录
+      console.log('处理游客登录')
+      break
+    case 'account':
+      // 处理账号登录
+      console.log('处理账号登录')
+      break
+    case 'register':
+      // 处理注册账号
+      console.log('处理注册账号')
+      break
+    case 'logout':
+      router.push('/login')
+      break
+    case 'profile':
+      router.push('/profile')
+      break
+    default:
+      console.warn('未知命令:', command)
+  }
 }
 
 function toWallTop() {
@@ -71,20 +99,22 @@ watch(themeType, () => {
         @click="$emit('open-setting')"
       />
       <YiSwitch class="mr-6" v-model="themeType" active-value="dark" inactive-value="light" />
-      <el-dropdown>
+      <el-dropdown @command="handleCommand">
         <div
           class="user-head rounded-full h-[36px] w-[36px] bg-gradient-to-b from-[#7be7ff] to-[#1e85e2] float-right"
         ></div>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item>游客登录</el-dropdown-item>
-            <el-dropdown-item>账号登录</el-dropdown-item>
-            <el-dropdown-item>注册账号</el-dropdown-item>
-            <el-dropdown-item>退出登录</el-dropdown-item>
-            <el-dropdown-item divided>个人资料</el-dropdown-item>
+            <el-dropdown-item command="visitor">游客登录</el-dropdown-item>
+            <el-dropdown-item command="account">账号登录</el-dropdown-item>
+            <el-dropdown-item command="register">注册账号</el-dropdown-item>
+            <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+            <el-dropdown-item divided command="profile">个人资料</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
     </div>
   </header>
 </template>
+
+<style></style>
