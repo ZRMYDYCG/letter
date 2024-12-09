@@ -7,22 +7,23 @@ const router = useRouter()
 
 const loading = ref(false)
 const params = ref({ username: '', password: '' })
+const rePassword = ref('')
 
 const onSubmit = async () => {}
 </script>
 
 <template>
-  <div class="login flex h-screen w-screen justify-center items-center bg-gray-100">
+  <div class="h-screen w-screen flex justify-center items-center bg-gray-100">
     <div class="flex flex-col items-center bg-gray-100">
       <!-- 顶部 -->
       <div class="flex items-center mb-8">
         <img class="w-12 h-12" src="@/assets/images/logo.svg" alt="" />
-        <span class="text-2xl font-semibold text-gray-800 ml-2">通义知语</span>
+        <span class="text-2xl font-semibold text-gray-800 ml-2">知语拾光</span>
       </div>
 
       <!-- main -->
       <div class="w-96 bg-white rounded-lg p-10 shadow-md">
-        <p class="text-lg font-semibold mb-8">账号登录</p>
+        <p class="text-lg font-semibold mb-8">账号注册</p>
 
         <div class="mb-5">
           <div class="mb-2">用户名</div>
@@ -44,18 +45,28 @@ const onSubmit = async () => {}
           />
         </div>
 
+        <div class="mb-5">
+          <div class="mb-2">确认密码</div>
+          <input
+            v-model="rePassword"
+            type="password"
+            placeholder="再次输入密码"
+            class="w-full h-12 p-4 bg-gray-200 rounded outline-none"
+          />
+        </div>
+
         <!-- 提交 -->
         <yq-button
           class="w-full h-12 bg-gray-800 text-white rounded transition duration-200 hover:bg-gray-700"
           :loading="loading"
           @click="onSubmit"
-          >登录</yq-button
+          >注册</yq-button
         >
 
         <!-- 返回首页 -->
         <div class="mt-3 flex justify-between">
           <p class="text-blue-500 cursor-pointer" @click="router.push('/')">返回首页</p>
-          <p class="text-blue-500 cursor-pointer" @click="router.push('/register')">注册</p>
+          <p class="text-blue-500 cursor-pointer" @click="router.push('/login')">登录</p>
         </div>
       </div>
 
@@ -66,3 +77,5 @@ const onSubmit = async () => {}
     </div>
   </div>
 </template>
+
+<style scoped></style>

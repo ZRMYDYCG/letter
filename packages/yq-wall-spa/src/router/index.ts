@@ -19,6 +19,11 @@ const router = createRouter({
       component: () => import('@/views/profile/index.vue') // 个人资料页面
     },
     {
+      path: '/register',
+      name: 'Register',
+      component: () => import('@/views/register/index.vue') // 注册页面
+    },
+    {
       path: '/:catchAll(.*)', // Vue Router 4.x 版本支持 catchAll
       name: 'NotFound',
       component: () => import('@/views/error/index.vue') // 404 页面
