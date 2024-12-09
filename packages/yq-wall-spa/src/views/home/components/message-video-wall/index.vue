@@ -8,7 +8,7 @@
           :title="video.title"
           :description="video.description"
           :videoUrl="video.url"
-          @click="playVideo('api/test.mp4')"
+          @click="playVideo('/api/test.mp4')"
         />
       </div>
     </div>

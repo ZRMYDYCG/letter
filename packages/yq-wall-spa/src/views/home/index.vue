@@ -237,6 +237,7 @@ onMounted(async () => {
           settings?.otherSettings?.loadingMethod === 'click' &&
           messageParams.page * messageParams.pageSize <= messageTotal
         "
+        class="mt-[20px]"
       >
         <span
           class="dark:text-white dark:border-white w-[130px] h-[40px] flex items-center justify-center leading-[40px] shadow-lg border border-black rounded-lg mx-auto cursor-pointer"
