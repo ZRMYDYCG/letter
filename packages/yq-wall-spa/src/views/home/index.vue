@@ -19,6 +19,7 @@ import ChatPanel from './components/chat-panel/index.vue'
 import MessageVideoWall from './components/message-video-wall/index.vue'
 import MessageAnnouncementWall from './components/message-announcement-wall/index.vue'
 import MessageIssueWall from './components/message-issue-wall/index.vue'
+import UseSetting from './components/use-setting/index.vue'
 
 import {
   useGetMessages,
@@ -32,11 +33,12 @@ import type { IResetOnChange } from '@/hook/useResetOnChange'
 
 const DrawerState = {
   CREATE_MESSAGE: 'CREATE_MESSAGE',
-  MESSAGE_DETAIL: 'MESSAGE_DETAIL'
+  MESSAGE_DETAIL: 'MESSAGE_DETAIL',
+  PROJECT_SETTING: 'PROJECT_SETTING'
 }
 
 const commonStore = useCommonStore()
-const { currentWall, themeType } = storeToRefs(commonStore)
+const { currentWall, themeType, settings } = storeToRefs(commonStore)
 
 let isDrawerShow = ref(false) // 右侧抽屉的展示状态
 let currentDrawerState = ref(DrawerState.CREATE_MESSAGE) // 当前抽屉状态
@@ -66,22 +68,25 @@ useResetOnChange<IResetOnChange>(currentWall, async () => {
 const { scrollTop, clientHeight, scrollHeight } = useScrollHeight(async () => {
   // 判断是否到达底部
   await nextTick(async () => {
-    if (scrollTop.value + clientHeight.value + 260 >= scrollHeight.value) {
-      // 按钮移动
-      addBtnBottom.value = `${scrollTop.value + clientHeight.value + 300 - scrollHeight.value}px`
+    // 滚动模式下，判断是否到达底部
+    if (commonStore.settings?.otherSettings?.loadingMethod === 'scroll') {
+      if (scrollTop.value + clientHeight.value + 260 >= scrollHeight.value) {
+        // 按钮移动
+        addBtnBottom.value = `${scrollTop.value + clientHeight.value + 300 - scrollHeight.value}px`
 
-      // 分页加载更多，只在未加载数据时触发
-      if (
-        (currentWall.value === 0 || currentWall.value === 1) &&
-        messageParams.page * messageParams.pageSize < messageTotal.value &&
-        !isLoading.value
-      ) {
-        isLoading.value = true
-        messageParams.page++
-        await fetchMessages()
+        // 分页加载更多，只在未加载数据时触发
+        if (
+          (currentWall.value === 0 || currentWall.value === 1) &&
+          messageParams.page * messageParams.pageSize < messageTotal.value &&
+          !isLoading.value
+        ) {
+          isLoading.value = true
+          messageParams.page++
+          await fetchMessages()
+        }
+      } else {
+        addBtnBottom.value = '30px'
       }
-    } else {
-      addBtnBottom.value = '30px'
     }
   })
 })
@@ -101,10 +106,10 @@ const changeDrawer = () => {
 }
 
 /**
- * @description: 打开留言抽屉
+ * @description: 打开右侧抽屉
  * */
-const openDrawer = () => {
-  currentDrawerState.value = DrawerState.CREATE_MESSAGE
+const openDrawer = (type: any) => {
+  currentDrawerState.value = type
   isDrawerShow.value = !isDrawerShow.value
 }
 
@@ -176,6 +181,14 @@ const handleSwitchImg = (row: string) => {
 }
 
 /**
+ * @description: 点击加载更多
+ * */
+const clickLoadMore = async () => {
+  messageParams.page++
+  await fetchMessages()
+}
+
+/**
  * @description: 页面加载完成后，默认加载第一页数据
  * */
 onMounted(async () => {
@@ -187,7 +200,7 @@ onMounted(async () => {
 
 <template>
   <!-- 头部 -->
-  <yq-header></yq-header>
+  <yq-header @open-setting="openDrawer(DrawerState.PROJECT_SETTING)"></yq-header>
   <div class="wall-message min-h-[900px] pt-[52px]" v-if="currentWall === 0 || currentWall === 1">
     <!--  墙标题  -->
     <wall-title></wall-title>
@@ -210,15 +223,44 @@ onMounted(async () => {
       @switch-img="handleSwitchImg"
       :is-loading="isLoading"
     ></message-photo-wall>
-    <!--  Loading messageParams.page > 1 防止第一次渲染页面时打开 Loading -->
-    <yq-loading v-if="isLoading && messageParams.page > 1"></yq-loading>
+    <!--  加载模式  -->
+    <div>
+      <!--  Loading messageParams.page > 1 防止第一次渲染页面时打开 Loading -->
+      <yq-loading
+        v-if="
+          isLoading && messageParams.page > 1 && settings?.otherSettings?.loadingMethod === 'scroll'
+        "
+      ></yq-loading>
+      <div
+        @click="clickLoadMore"
+        v-if="
+          settings?.otherSettings?.loadingMethod === 'click' &&
+          messageParams.page * messageParams.pageSize <= messageTotal
+        "
+      >
+        <span
+          class="dark:text-white dark:border-white w-[130px] h-[40px] flex items-center justify-center leading-[40px] shadow-lg border border-black rounded-lg mx-auto cursor-pointer"
+          v-if="!isLoading"
+          >点击加载更多...</span
+        >
+        <yq-loading v-if="isLoading && messageParams.page > 1"></yq-loading>
+      </div>
+      <div
+        class="text-center text-gray-400"
+        v-else-if="
+          messageTotal !== 0 && messageParams.page * messageParams.pageSize >= messageTotal
+        "
+      >
+        —-—没有更多了—-—
+      </div>
+    </div>
     <!-- 按钮 -->
     <div
       class="add w-[56px] h-[56px] bg-[#202020] shadow-lg rounded-[28px] fixed right-[30px] bottom-[30px] flex justify-center items-center text-[#ffffff] transition-all duration-300 cursor-pointer"
-      @click="openDrawer"
+      @click="openDrawer(DrawerState.CREATE_MESSAGE)"
       v-show="!isDrawerShow"
     >
-      <span>+</span>
+      <span>添加</span>
     </div>
   </div>
   <!--  视频留言墙  -->
@@ -248,6 +290,7 @@ onMounted(async () => {
       :item="messageDetailData"
       @share-url="handleShareUrl"
     ></message-detail>
+    <use-setting v-if="currentDrawerState === DrawerState.PROJECT_SETTING"></use-setting>
   </yq-drawer>
   <!-- 留言墙视频背景 -->
   <video

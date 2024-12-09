@@ -13,7 +13,7 @@ const slots = useSlots()
 
 <template>
   <el-switch
-    :slot="$attrs"
+    v-bind="$attrs"
     style="
       --el-switch-on-color: #000;
       --el-switch-off-color: #ccc;

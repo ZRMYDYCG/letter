@@ -7,11 +7,12 @@ import YiButton from '@/components/yq-button/index.vue'
 import YiSwitch from '@/components/yq-switch/index.vue'
 import { useTheme, useChangeTitle } from '@/hook'
 
+useTheme()
+
 const commonStore = useCommonStore()
 const filterNumberStore = useFilterNumberStore()
 const { currentWall, themeType } = storeToRefs(commonStore)
 
-useTheme()
 const { title, changeTitle } = useChangeTitle('通义小助')
 
 const currentViewId = computed(() => {
@@ -101,6 +102,12 @@ watch(
       </YiButton>
     </div>
     <div class="user w-[200px] flex items-center justify-end">
+      <iconpark-icon
+        name="setting"
+        class="mr-6 cursor-pointer"
+        size="18"
+        @click="$emit('open-setting')"
+      ></iconpark-icon>
       <YiSwitch
         class="mr-6"
         v-model="themeType"

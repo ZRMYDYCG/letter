@@ -77,3 +77,85 @@ export const portrait = [
   'linear-gradient(180deg, #FFDC83 0%, #F88816 100%)',
   'linear-gradient(180deg, #FFBA8D 1%, #EB6423 100%)'
 ]
+
+/**
+ * 项目默认配置项
+ */
+// interface OtherSettings {
+//   weakMode: boolean
+//   border: boolean
+//   headerFixed: boolean
+//   sidebarFixed: boolean
+//   footerRequired: boolean
+//   breadcrumbEnabled: boolean
+//   loadingMethod: string
+// }
+//
+// interface Settings {
+//   overallStyle: any
+//   themeColors: string[]
+//   websiteFont: string
+//   navigationMode: any
+//   otherSettings: OtherSettings
+// }
+export const defaultSettings = {
+  // 整体风格设置
+  overallStyle: {
+    optionOne: {
+      backgroundColor: '#E5E7EB', // 背景颜色 (灰色)
+      subOption: [
+        {
+          width: '33.33%', // 子选项宽度
+          backgroundColor: '#FFFFFF' // 子选项背景色 (白色)
+        },
+        {
+          height: '33.33%', // 子选项高度
+          backgroundColor: '#FFFFFF' // 子选项背景色 (白色)
+        }
+      ]
+    },
+    optionTwo: {
+      backgroundColor: '#E5E7EB', // 背景颜色 (灰色)
+      subOption: {
+        width: '33.33%', // 子选项宽度
+        backgroundColor: '#1F2937' // 子选项背景色 (深灰色)
+      }
+    },
+    optionThree: {
+      backgroundColor: '#1F2937' // 背景颜色 (深灰色)
+    },
+    optionFour: {
+      backgroundColor: '#FFFFFF' // 背景颜色 (白色)
+    }
+  },
+
+  // 主题颜色设置
+  themeColors: [
+    '#F87171', // 红色
+    '#FBBF24', // 橙色
+    '#34D399', // 绿色
+    '#3B82F6', // 蓝色
+    '#A855F7' // 紫色
+  ],
+
+  // 网站字体设置
+  websiteFont: 'sans-serif',
+
+  // 导航模式
+  navigationMode: {
+    optionOne: '#1F2937',
+    optionTwo: '#1F2937',
+    optionThree: '#1F2937'
+  },
+
+  // 其他设置
+  otherSettings: {
+    weakMode: false, // 是否启用弱模式
+    border: true, // 是否带边框
+    headerFixed: false, // 头部是否固定
+    sidebarFixed: false, // 侧边栏是否固定
+    footerRequired: true, // 是否需要 Footer
+    breadcrumbEnabled: true, // 是否开启面包屑
+    loadingMethod: 'scroll' // 加载方式 (点击加载:click / 滚动刷新scroll)
+  }
+}

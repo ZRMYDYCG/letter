@@ -1,10 +1,12 @@
-import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { defineStore } from 'pinia'
+import { defaultSettings } from '@/config'
 
 export const useCommonStore = defineStore('common', () => {
+  /**
+   * 当前墙体
+   * */
   const currentWall = ref(2)
-  const themeType = ref(localStorage.getItem('themeType') || 'light')
-
   /**
    * 墙体切换
    * */
@@ -13,6 +15,10 @@ export const useCommonStore = defineStore('common', () => {
   }
 
   /**
+   * 黑夜、白天模式
+   * */
+  const themeType = ref(localStorage.getItem('themeType') || 'light')
+  /**
    * 主题切换
    * */
   const changeThemeType = (newThemeType: string) => {
@@ -20,10 +26,18 @@ export const useCommonStore = defineStore('common', () => {
     localStorage.setItem('themeType', newThemeType)
   }
 
+  /**
+   * 项目配置
+   * */
+  const settings = ref<any>(
+    JSON.parse(localStorage.getItem('settings') || JSON.stringify(defaultSettings))
+  )
+
   return {
     currentWall,
     changeWall,
     themeType,
-    changeThemeType
+    changeThemeType,
+    settings
   }
 })
