@@ -3,7 +3,7 @@ export interface IUser {
   password: string;
   nickname: string;
   avatar: string;
-  identity: number;
+  identity?: number;
 }
 
 export interface IUserQueryResult {

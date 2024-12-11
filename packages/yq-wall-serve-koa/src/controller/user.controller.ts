@@ -58,13 +58,20 @@ class UserController {
 
   // 新增用户
   async createUser(ctx: Context) {
-    const { username, password, nickname, avatar } = ctx.request.body as IUser;
+    const {
+      username,
+      password,
+      nickname,
+      avatar,
+      identity = 1,
+    } = ctx.request.body as IUser;
     try {
       const res = await userService.createUser({
         username,
         password,
         nickname,
         avatar,
+        identity,
       });
 
       ctx.body = {
