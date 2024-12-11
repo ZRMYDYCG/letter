@@ -1,5 +1,5 @@
 import userModel from "../models/users.model";
-import type { IUser, IUserQueryResult } from "../types";
+import type { IUser } from "../types";
 
 class UserService {
   // 获取用户列表或单个用户

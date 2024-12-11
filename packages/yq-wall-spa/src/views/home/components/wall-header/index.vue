@@ -7,7 +7,7 @@ import { useFilterNumberStore } from '@/stores/modules/filterNumber.ts'
 import YiButton from '@/components/yq-button/index.vue'
 import YiSwitch from '@/components/yq-switch/index.vue'
 import { useTheme, useChangeTitle } from '@/hook'
-import { login } from '@/api/modules'
+import { register } from '@/api/modules'
 
 useTheme()
 
@@ -41,7 +41,7 @@ const changeWall = (id: number) => {
 const handleCommand = async (command: string) => {
   switch (command) {
     case 'visitor':
-      const res = await login({ identity: 0 })
+      const res = await register({ identity: 0 })
       localStorage.setItem('userInfo', JSON.stringify(res.data))
       // 刷新数据
       emits('visitor-login', res.data)

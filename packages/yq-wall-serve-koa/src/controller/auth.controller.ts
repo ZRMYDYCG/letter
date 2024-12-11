@@ -76,7 +76,7 @@ class authController {
       ctx.body = {
         code: 200,
         message: "游客注册成功",
-        username: "游客" + ip,
+        username: ip,
       };
 
       await userModel.create({ username: ip, identity: 0 });

@@ -2,13 +2,20 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import YqButton from '@/components/yq-button/index.vue'
+import { login } from '@/api/modules'
 
 const router = useRouter()
 
 const loading = ref(false)
 const params = ref({ username: '', password: '' })
 
-const onSubmit = async () => {}
+const onSubmit = async () => {
+  const res = await login(params.value)
+  if (res.code === 200) {
+    localStorage.setItem('userInfo', JSON.stringify(res.data))
+    await router.push('/')
+  }
+}
 </script>
 
 <template>
