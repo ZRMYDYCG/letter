@@ -1,45 +1,38 @@
-import Koa from "koa";
-import bodyParser from "koa-bodyparser";
-import Database from "./db/index";
-import cors from "koa2-cors";
-import router from "./router";
-// import { corsHandler } from "./config/cors";
-import serve from "koa-static";
-import path from "path";
-/**
- * koa-jwt 中间件会自动检查请求头中是否携带有效的 JWT
- *
- * 提取 Token：当请求到达时，koa-jwt 会查找请求头中的 Authorization 字段，通常格式为 Bearer <token>。它会提取出 <token> 部分。
- *
- * 验证 Token：提取出 token 后，koa-jwt 会使用你提供的密钥（'yq-yq-message-wall-server-jwt'）来验证这个 token 的有效性。
- *
- * 处理结果：
- *
- * 如果 token 有效，koa-jwt 会将解码后的 token 放入 ctx.state.user 中，供后续的中间件或路由处理函数使用。
- * 如果 token 无效或缺失，koa-jwt 会返回一个 401 Unauthorized 的响应，表示请求未被授权。
- * */
-import koajwt from "koa-jwt";
+import Koa from "koa"; // 引入 Koa 框架
+import bodyParser from "koa-bodyparser"; // 引入解析请求体的中间件
+import Database from "./db/index"; // 引入数据库连接模块
+import router from "./router"; // 引入路由模块
+import serve from "koa-static"; // 引入静态文件服务中间件
+import path from "path"; // 引入 path 模块，用于处理文件路径
+import koajwt from "koa-jwt"; // 引入 JWT 认证中间件
 
-const app = new Koa();
+const app = new Koa(); // 创建一个 Koa 应用实例
 
-// 提供 'public' 目录的静态文件
+// 配置静态文件服务，将 public/uploads 目录挂载到服务器上
 app.use(serve(path.join(__dirname, "public/uploads")));
 
-// app.use(cors(corsHandler));
+// 连接数据库
 Database.connect();
+
+// 使用 bodyParser 中间件，解析请求体
 app.use(bodyParser());
 
+// 配置 JWT 认证中间件，确保用户需要登录才能访问特定路由
 app.use(
   koajwt({
-    secret: "yq-yq-message-wall-server-jwt",
+    secret: "yq-yq-message-wall-server-jwt", // JWT 密钥
   }).unless({
-    path: [/^\/auth\/login/, /^\/auth\/register/],
+    path: [/^\/auth\/login/, /^\/auth\/register/], // 允许访问的路径，不需要认证
   }),
 );
 
+// 配置路由方法的允许类型
 app.use(router.allowedMethods());
+
+// 使用定义好的路由
 app.use(router.routes());
 
+// 启动服务器，监听 5174 端口
 app.listen(5174, () => {
-  console.log("Server is running on http://localhost:5174");
+  console.log("Server is running on http://localhost:5174"); // 控制台输出服务器启动信息
 });
