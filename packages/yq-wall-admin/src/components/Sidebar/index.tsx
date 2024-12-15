@@ -244,10 +244,21 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           name: '个人资料',
         },
         {
-          to: '/setting',
-          path: 'setting',
+          to: '/privacy',
+          path: 'privacy',
           icon: <BiBug className="text-[22px]" />,
           name: '隐私设置',
+        },
+      ],
+    },
+    {
+      group: '系统配置',
+      list: [
+        {
+          to: '/setup',
+          path: 'setup',
+          icon: <BiBug className="text-[22px]" />,
+          name: '使用设置',
         },
       ],
     },
@@ -269,10 +280,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       className={`absolute left-0 top-0 z-9999 flex h-screen w-64 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
     >
       <div className="flex justify-center items-center gap-2 px-6 py-5.5 pb-2 lg:pt-6">
-        <NavLink
-          to="/"
-          className="flex items-center text-                     white"
-        >
+        <NavLink to="/" className="flex items-center text-white">
           <img src={logo} alt="logo" className="w-8 mr-2.5" />
           <div>Letter 后台管理系统</div>
         </NavLink>

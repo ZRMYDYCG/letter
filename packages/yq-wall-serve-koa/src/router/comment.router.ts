@@ -1,12 +1,14 @@
-import Router from 'koa-router'
-import commentController from "../controller/comment.controller"
+import Router from "koa-router";
+import commentController from "../controller/comment.controller";
 
 const commentRouter = new Router({
-    prefix: '/comment'
-})
+  prefix: "/comment",
+});
 
-commentRouter.post('/', commentController.createComment)
+// @ts-ignore
+commentRouter.post("/", commentController.createComment);
 
-commentRouter.get('/', commentController.getCommentsByMessageId)
+// @ts-ignore
+commentRouter.get("/", commentController.getCommentsByMessageId);
 
-export default commentRouter
+export default commentRouter;

@@ -37,6 +37,10 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  permissions: {
+    type: [String],
+    default: [],
+  },
   // 更新时间
   updatedAt: {
     type: Date,

@@ -5,6 +5,7 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import Iterative from '@/pages/announcement/Iterative';
 import Login from '@/pages/Login';
 import Dashborad from '@/pages/dashboard';
+import Setup from '@/pages/Setup';
 
 import PageTitle from '../PageTitle';
 
@@ -19,6 +20,7 @@ export default () => {
   const routesAll = [
     { path: '/iter', title: '项目更新记录', component: <Iterative /> },
     { path: '/dashboard', title: '主控台', component: <Dashborad /> },
+    { path: '/setup', title: '系统配置', component: <Setup /> },
   ];
 
   const [routes, setRoutes] = useState<typeof routesAll | null>(null);
