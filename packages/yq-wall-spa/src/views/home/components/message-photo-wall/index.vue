@@ -96,6 +96,10 @@ const handleSwitchImg = (row: string) => {
 const handlePreview = (index: number) => {
   emits('on-preview', index)
 }
+
+defineExpose({
+  YqImgView
+})
 </script>
 
 <template>
@@ -112,10 +116,7 @@ const handlePreview = (index: number) => {
       </template>
     </Waterfall>
   </div>
-  <div
-    class="flex w-full justify-center items-center"
-    v-if="photoList.length <= 0 && !isLoading"
-  >
+  <div class="flex w-full justify-center items-center" v-if="photoList.length <= 0 && !isLoading">
     <Error :type="1" text="快来留下照片吧~" />
   </div>
   <!-- 大图预览 -->
