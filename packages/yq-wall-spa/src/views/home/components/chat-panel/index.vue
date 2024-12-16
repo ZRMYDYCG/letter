@@ -17,18 +17,20 @@
         </div>
       </div>
     </div>
-    <div class="input-box fixed bottom-[18px] left-1/2 transform -translate-x-1/2 p-2 flex flex-col justify-center items-center gap-2 w-full max-w-3xl">
+    <div
+      class="input-box fixed bottom-[18px] left-1/2 transform -translate-x-1/2 p-2 flex flex-col justify-center items-center gap-2 w-full max-w-3xl"
+    >
       <div class="flex gap-2 items-center w-full">
-          <textarea
-              v-model="userInput"
-              placeholder="请输入您的问题..."
-              @keyup.enter="sendMessage"
-              class="flex-1 p-2 border border-gray-300 rounded-lg resize-none bg-white text-gray-800 shadow-inner focus:border-blue-500 focus:shadow-inner-md outline-none"
-              rows="1"
-          ></textarea>
+        <textarea
+          v-model="userInput"
+          placeholder="请输入您的问题..."
+          @keyup.enter="sendMessage"
+          class="flex-1 p-2 border border-gray-300 rounded-lg resize-none bg-white text-gray-800 shadow-inner focus:border-blue-500 focus:shadow-inner-md outline-none"
+          rows="1"
+        ></textarea>
         <button
-            @click="sendMessage"
-            class="p-2 bg-blue-500 w-20 text-white rounded-lg shadow-md transition-colors duration-300 hover:bg-blue-700 active:bg-blue-800"
+          @click="sendMessage"
+          class="p-2 bg-blue-500 w-20 text-white rounded-lg shadow-md transition-colors duration-300 hover:bg-blue-700 active:bg-blue-800"
         >
           发送
         </button>

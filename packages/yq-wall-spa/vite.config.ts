@@ -31,6 +31,10 @@ export default defineConfig({
     }
   },
   server: {
+    open: true, // 启动时自动打开浏览器
+    hmr: true, // 热更新
+    host: '192.168.93.45', // 支持真机调试
+    port: 5173, // 端口号
     proxy: {
       '/api': {
         target: 'http://localhost:5174',
