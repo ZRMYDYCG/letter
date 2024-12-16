@@ -9,7 +9,11 @@ import websocket from "koa-websocket";
 import OpenAI from "openai";
 import "dotenv/config";
 
-const app = websocket(new Koa()); // 创建一个 Koa 应用实例
+interface WebSocketKoa extends Koa {
+  ws: any;
+}
+
+const app = websocket(new Koa()) as WebSocketKoa;
 // -----------
 // 配置 Moonshot AI 客户端
 const client = new OpenAI({
@@ -18,7 +22,7 @@ const client = new OpenAI({
 });
 
 // WebSocket 路由
-app.ws.use((ctx) => {
+app.ws.use((ctx: any) => {
   console.log("WebSocket 连接已建立");
 
   // 初始化上下文消息

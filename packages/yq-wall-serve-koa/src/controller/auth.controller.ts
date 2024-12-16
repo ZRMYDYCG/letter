@@ -1,4 +1,4 @@
-import type { Context } from "koa";
+import type { Context, Next } from "koa";
 import authService from "../service/auth.service";
 import userModel from "../models/users.model";
 import jwt from "jsonwebtoken";
