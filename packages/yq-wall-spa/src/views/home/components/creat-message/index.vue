@@ -137,7 +137,7 @@ const handleAddMessage = async () => {
   if (props.id === 0) {
     addMessage({
       type: props.id,
-      userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id,
+      userId: JSON.parse(localStorage.getItem('userInfo') || '{}').user._id,
       nickName: nickName.value,
       content: content.value,
       tag: tagSelected.value,
@@ -161,7 +161,7 @@ const handleAddMessage = async () => {
       // 将其他数据添加到 FormData, 注意将对象转换为字符串
       const DTO = {
         type: props.id,
-        userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id,
+        userId: JSON.parse(localStorage.getItem('userInfo') || '{}').user._id,
         nickName: nickName.value,
         content: content.value,
         tag: tagSelected.value,

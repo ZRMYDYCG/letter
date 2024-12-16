@@ -99,7 +99,7 @@ const handlePreview = (index: number) => {
 </script>
 
 <template>
-  <div ref="waterFallRef">
+  <div ref="waterFallRef" v-if="photoList.length > 0 && !isLoading">
     <Waterfall :list="photoList" v-bind="options" @after-render="afterRender">
       <!-- fix: 新版插槽数据获取 -->
       <template #default="{ item, index }">
@@ -113,7 +113,7 @@ const handlePreview = (index: number) => {
     </Waterfall>
   </div>
   <div
-    class="flex w-full h-full justify-center items-center"
+    class="flex w-full justify-center items-center"
     v-if="photoList.length <= 0 && !isLoading"
   >
     <Error :type="1" text="快来留下照片吧~" />

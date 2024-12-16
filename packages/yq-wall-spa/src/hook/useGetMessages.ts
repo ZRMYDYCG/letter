@@ -13,7 +13,7 @@ export function useGetMessages(currentWall: number) {
   const isLoading = ref(false) // 加载状态
 
   const messageParams = reactive<IGetMessageParams>({
-    userId: 0,
+    userId: JSON.parse(localStorage.getItem('userInfo') || '{}').user._id || 0,
     page: 1,
     pageSize: 8,
     tag: null,

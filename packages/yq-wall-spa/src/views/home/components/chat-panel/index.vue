@@ -1,5 +1,6 @@
 <template>
-  <div class="chat-container mt-[60px] overflow-hidden">
+  <div class="chat-container mt-[100px] overflow-hidden">
+    <chat-start-card></chat-start-card>
     <div class="chat-box p-4 overflow-y-auto">
       <div class="messages flex flex-col gap-3">
         <div
@@ -16,20 +17,23 @@
         </div>
       </div>
     </div>
-    <div class="input-box h-15 flex items-center gap-2 bg-gray-300 border-t border-gray-300 p-2">
-      <textarea
-        v-model="userInput"
-        placeholder="请输入您的问题..."
-        @keyup.enter="sendMessage"
-        class="flex-1 p-2 border border-gray-300 rounded-lg resize-none bg-white text-gray-800 shadow-inner focus:border-blue-500 focus:shadow-inner-md"
-        rows="1"
-      ></textarea>
-      <button
-        @click="sendMessage"
-        class="p-2 bg-blue-500 text-white rounded-lg shadow-md transition-colors duration-300 hover:bg-blue-700 active:bg-blue-800"
-      >
-        发送
-      </button>
+    <div class="input-box fixed bottom-[18px] left-1/2 transform -translate-x-1/2 p-2 flex flex-col justify-center items-center gap-2 w-full max-w-3xl">
+      <div class="flex gap-2 items-center w-full">
+          <textarea
+              v-model="userInput"
+              placeholder="请输入您的问题..."
+              @keyup.enter="sendMessage"
+              class="flex-1 p-2 border border-gray-300 rounded-lg resize-none bg-white text-gray-800 shadow-inner focus:border-blue-500 focus:shadow-inner-md outline-none"
+              rows="1"
+          ></textarea>
+        <button
+            @click="sendMessage"
+            class="p-2 bg-blue-500 w-20 text-white rounded-lg shadow-md transition-colors duration-300 hover:bg-blue-700 active:bg-blue-800"
+        >
+          发送
+        </button>
+      </div>
+      <div class="text-center text-gray-500 text-sm">内容由 AI 大模型生成，请仔细甄别</div>
     </div>
   </div>
 </template>
@@ -39,6 +43,7 @@ import { ref } from 'vue'
 import MarkdownIt from 'markdown-it'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/github.css' // 引入代码高亮样式
+import chatStartCard from './components/chat-start-card.vue'
 
 // 初始化 Markdown-it，并配置代码高亮
 const md = new MarkdownIt({

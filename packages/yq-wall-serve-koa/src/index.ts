@@ -7,13 +7,8 @@ import path from "path"; // 引入 path 模块，用于处理文件路径
 import koajwt from "koa-jwt"; // 引入 JWT 认证中间件
 import websocket from "koa-websocket";
 import OpenAI from "openai";
-import "dotenv/config";
 
-interface WebSocketKoa extends Koa {
-  ws: any;
-}
-
-const app = websocket(new Koa()) as WebSocketKoa;
+const app = websocket(new Koa());
 // -----------
 // 配置 Moonshot AI 客户端
 const client = new OpenAI({
@@ -22,7 +17,7 @@ const client = new OpenAI({
 });
 
 // WebSocket 路由
-app.ws.use((ctx: any) => {
+app.ws.use((ctx) => {
   console.log("WebSocket 连接已建立");
 
   // 初始化上下文消息

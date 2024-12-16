@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { register } from '@/api/modules/auth'
 import YqButton from '@/components/yq-button/index.vue'
 
 const router = useRouter()
@@ -9,7 +10,14 @@ const loading = ref(false)
 const params = ref({ username: '', password: '' })
 const rePassword = ref('')
 
-const onSubmit = async () => {}
+const onSubmit = async () => {
+  await register({
+    username: params.value.username,
+    password: params.value.password,
+  })
+
+  await router.push('/login')
+}
 </script>
 
 <template>

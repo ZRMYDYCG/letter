@@ -28,7 +28,7 @@ function handleAddMessageComment() {
     messageId: props.item._id,
     content: content.value,
     nickName: nickName.value,
-    userId: JSON.parse(localStorage.getItem('userInfo') || '{}')._id
+    userId: JSON.parse(localStorage.getItem('userInfo') || '{}').user._id,
   }).then((res) => {
     if (res) {
       commentList.value.push(res.data)

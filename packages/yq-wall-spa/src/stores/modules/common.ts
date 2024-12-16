@@ -6,7 +6,7 @@ export const useCommonStore = defineStore('common', () => {
   /**
    * 当前墙体
    * */
-  const currentWall = ref(1)
+  const currentWall = ref(-1)
   /**
    * 墙体切换
    * */

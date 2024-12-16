@@ -16,24 +16,24 @@ const handleLabelClick = (label: number | null) => {
 </script>
 
 <template>
-  <ul class="label flex justify-center mt-[40px] text-[18px]">
+  <ul class="label flex flex-wrap justify-center mt-[40px] text-[16px] sm:text-[18px]">
     <li
-      class="item px-[15px] my-[6px] text-[#5b5b5b] cursor-pointer"
-      :class="{
+        class="item px-[10px] sm:px-[15px] py-[6px] my-[6px] text-[#5b5b5b] cursor-pointer whitespace-nowrap"
+        :class="{
         'text-[#202020] font-semibold border border-[#202020] rounded-[14px]': filterNumber === null
       }"
-      @click="handleLabelClick(null)"
+        @click="handleLabelClick(null)"
     >
       全部
     </li>
     <template v-for="(item, index) in label[commonStore.currentWall]" :key="index">
       <li
-        class="item px-[15px] my-[6px] text-[#5b5b5b] cursor-pointer transition-all duration-200"
-        :class="{
+          class="item px-[10px] sm:px-[15px] py-[6px] my-[6px] text-[#5b5b5b] cursor-pointer transition-all duration-200 whitespace-nowrap"
+          :class="{
           'text-[#202020] font-semibold border border-[#202020] rounded-[14px]':
             filterNumber === index
         }"
-        @click="handleLabelClick(index as number)"
+          @click="handleLabelClick(index as number)"
       >
         {{ item }}
       </li>

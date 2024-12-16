@@ -18,28 +18,33 @@ class authController {
   }
 
   async register(ctx: Context) {
-    const { username, password, identity } = ctx.request.body as {
+    const { username, password } = ctx.request.body as {
       username?: string;
       password?: string;
-      identity: number;
     };
 
-    /**
-     * identity: 1 代表注册普通用户，0 代表游客注册
-     */
-    if (identity === 1) {
-      // 查询当前的用户注册的用户名是否存在
-      const user = await userModel.findOne({ username });
+    // 检查用户名和密码是否提供
+    if (!username || !password) {
+      ctx.body = {
+        code: 400,
+        message: "用户名和密码是必填项",
+      };
+      return;
+    }
 
-      if (user) {
-        ctx.body = {
-          code: 500,
-          message: "该用户名已被注册",
-        };
-        return;
-      }
-      await userModel
-        .create({ username, password, identity: 1 })
+    // 查询当前的用户注册的用户名是否存在
+    const user = await userModel.findOne({ username });
+
+    if (user) {
+      ctx.body = {
+        code: 500,
+        message: "该用户名已被注册",
+      };
+      return;
+    }
+
+    await userModel
+        .create({ username, password, identity: 1 }) // 默认身份为 1
         .then((res) => {
           if (res) {
             ctx.body = {
@@ -61,27 +66,8 @@ class authController {
             data: err,
           };
         });
-    } else if (identity === 0) {
-      const ip = ctx.request.ip;
-      console.log(ip);
-      const user = await userModel.findOne({ username: ip });
-      if (user) {
-        ctx.body = {
-          code: 500,
-          message: "该ip地址已被注册",
-        };
-        return;
-      }
-
-      ctx.body = {
-        code: 200,
-        message: "游客注册成功",
-        username: ip,
-      };
-
-      await userModel.create({ username: ip, identity: 0 });
-    }
   }
+
 
   /**
    * @desc 验证用户登录

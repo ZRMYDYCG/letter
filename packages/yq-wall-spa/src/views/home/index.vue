@@ -44,13 +44,12 @@ let isDrawerShow = ref(false) // 右侧抽屉的展示状态
 let currentDrawerState = ref(DrawerState.CREATE_MESSAGE) // 当前抽屉状态
 let currentIndex = ref(-1) // 当前激活展示的留言
 let messageDetailData = ref({}) // 当前展示的留言详情
-let addBtnBottom = ref('30px') // 添加按钮距离底部的距离
 const bigPhotoPreview = ref(false) // 大图预览状态是否打开
 const DownloadImgUrl = ref('') // 预览图片的下载链接
 const messageDetailRef = ref<InstanceType<typeof MessageDetail> | null>(null)
 
 const { isLoading, textList, photoList, messageTotal, fetchMessages, messageParams } =
-  useGetMessages(currentWall.value)
+    useGetMessages(currentWall.value)
 const { toWallTop } = useScrollToTop()
 const { handleAddSuccess } = useAddMessage(isDrawerShow, textList, photoList, () => textSelect(0))
 useResetOnChange<IResetOnChange>(currentWall, async () => {
@@ -71,21 +70,16 @@ const { scrollTop, clientHeight, scrollHeight } = useScrollHeight(async () => {
     // 滚动模式下，判断是否到达底部
     if (commonStore.settings?.otherSettings?.loadingMethod === 'scroll') {
       if (scrollTop.value + clientHeight.value + 260 >= scrollHeight.value) {
-        // 按钮移动
-        addBtnBottom.value = `${scrollTop.value + clientHeight.value + 300 - scrollHeight.value}px`
-
         // 分页加载更多，只在未加载数据时触发
         if (
-          (currentWall.value === 0 || currentWall.value === 1) &&
-          messageParams.page * messageParams.pageSize < messageTotal.value &&
-          !isLoading.value
+            (currentWall.value === 0 || currentWall.value === 1) &&
+            messageParams.page * messageParams.pageSize < messageTotal.value &&
+            !isLoading.value
         ) {
           isLoading.value = true
           messageParams.page++
           await fetchMessages()
         }
-      } else {
-        addBtnBottom.value = '30px'
       }
     }
   })
@@ -201,54 +195,55 @@ onMounted(async () => {
 <template>
   <!-- 头部 -->
   <yq-header @open-setting="openDrawer(DrawerState.PROJECT_SETTING)"></yq-header>
-  <div class="wall-message min-h-[900px] pt-[52px]" v-if="currentWall === 0 || currentWall === 1">
-    <!--  墙标题  -->
+  <div class="wall-message pt-14 md:pt-16" v-if="currentWall === 0 || currentWall === 1">
+    <!-- 墙标题 -->
     <wall-title></wall-title>
-    <!-- 文本留言墙及图片留言墙筛选器  -->
+    <!-- 文本留言墙及图片留言墙筛选器 -->
     <label-filter @filter-by-label="changeLabelItem"></label-filter>
     <!-- 文本留言墙 -->
     <message-text-wall
-      v-if="currentWall === 0"
-      :message-list="textList"
-      :is-loading="isLoading"
-      @on-preview="textSelect"
-      :activeTextIndex="currentIndex"
+        v-if="currentWall === 0"
+        :message-list="textList"
+        :is-loading="isLoading"
+        @on-preview="textSelect"
+        :activeTextIndex="currentIndex"
     ></message-text-wall>
     <!-- 照片留言墙 -->
     <message-photo-wall
-      v-if="currentWall === 1"
-      :photo-list="photoList"
-      @on-preview="photoSelect"
-      :activePhotoIndex="currentIndex"
-      @switch-img="handleSwitchImg"
-      :is-loading="isLoading"
+        v-if="currentWall === 1"
+        :photo-list="photoList"
+        @on-preview="photoSelect"
+        :activePhotoIndex="currentIndex"
+        @switch-img="handleSwitchImg"
+        :is-loading="isLoading"
     ></message-photo-wall>
-    <!--  加载模式  -->
+    <!-- 加载模式 -->
     <div>
-      <!--  Loading messageParams.page > 1 防止第一次渲染页面时打开 Loading -->
+      <!-- Loading messageParams.page > 1 防止第一次渲染页面时打开 Loading -->
       <yq-loading
-        v-if="
+          v-if="
           isLoading && messageParams.page > 1 && settings?.otherSettings?.loadingMethod === 'scroll'
         "
       ></yq-loading>
       <div
-        @click="clickLoadMore"
-        v-if="
+          @click="clickLoadMore"
+          v-if="
           settings?.otherSettings?.loadingMethod === 'click' &&
           messageParams.page * messageParams.pageSize <= messageTotal
         "
-        class="mt-[20px]"
+          class="mt-5"
       >
         <span
-          class="dark:text-white dark:border-white w-[130px] h-[40px] flex items-center justify-center leading-[40px] shadow-lg border border-black rounded-lg mx-auto cursor-pointer"
-          v-if="!isLoading"
-          >点击加载更多...</span
+            class="dark:text-white dark:border-white w-32 h-10 flex items-center justify-center leading-10 shadow-lg border border-black rounded-lg mx-auto cursor-pointer"
+            v-if="!isLoading"
         >
+          点击加载更多...
+        </span>
         <yq-loading v-if="isLoading && messageParams.page > 1"></yq-loading>
       </div>
       <div
-        class="text-center text-gray-400"
-        v-else-if="
+          class="text-center text-gray-400 mt-4"
+          v-else-if="
           messageTotal !== 0 && messageParams.page * messageParams.pageSize >= messageTotal
         "
       >
@@ -257,18 +252,18 @@ onMounted(async () => {
     </div>
     <!-- 按钮 -->
     <div
-      class="add w-[56px] h-[56px] bg-[#202020] shadow-lg rounded-[28px] fixed right-[30px] bottom-[30px] flex justify-center items-center text-[#ffffff] transition-all duration-300 cursor-pointer"
-      @click="openDrawer(DrawerState.CREATE_MESSAGE)"
-      v-show="!isDrawerShow"
+        class="add w-14 h-14 bg-[#202020] shadow-lg rounded-full fixed right-8 bottom-8 flex justify-center items-center text-white transition-all duration-300 cursor-pointer"
+        @click="openDrawer(DrawerState.CREATE_MESSAGE)"
+        v-show="!isDrawerShow"
     >
       <span>添加</span>
     </div>
   </div>
-  <!--  视频留言墙  -->
+  <!-- 视频留言墙 -->
   <message-video-wall v-if="currentWall === 2"></message-video-wall>
-  <!--  问题墙  -->
+  <!-- 问题墙 -->
   <message-issue-wall v-if="currentWall === 3"></message-issue-wall>
-  <!--  公告墙  -->
+  <!-- 公告墙 -->
   <message-announcement-wall v-if="currentWall === 4"></message-announcement-wall>
   <!-- 通义小助 -->
   <ChatPanel v-if="currentWall === -1"></ChatPanel>
@@ -276,41 +271,43 @@ onMounted(async () => {
   <yq-footer v-if="currentWall === 0 || currentWall === 1"></yq-footer>
   <!-- 创建、详情 抽屉 -->
   <yq-drawer
-    @change-modal="changeDrawer"
-    :isDrawerShow="isDrawerShow"
-    v-if="currentWall === 0 || currentWall === 1"
+      @change-modal="changeDrawer"
+      :isDrawerShow="isDrawerShow"
+      v-if="currentWall === 0 || currentWall === 1"
   >
     <creat-message
-      :id="currentWall"
-      v-if="currentDrawerState === DrawerState.CREATE_MESSAGE"
-      @add-success="handleAddSuccess"
+        :id="currentWall"
+        v-if="currentDrawerState === DrawerState.CREATE_MESSAGE"
+        @add-success="handleAddSuccess"
     ></creat-message>
     <message-detail
-      ref="messageDetailRef"
-      v-if="currentDrawerState === DrawerState.MESSAGE_DETAIL"
-      :item="messageDetailData"
-      @share-url="handleShareUrl"
+        ref="messageDetailRef"
+        v-if="currentDrawerState === DrawerState.MESSAGE_DETAIL"
+        :item="messageDetailData"
+        @share-url="handleShareUrl"
     ></message-detail>
     <use-setting v-if="currentDrawerState === DrawerState.PROJECT_SETTING"></use-setting>
   </yq-drawer>
   <!-- 留言墙视频背景 -->
   <video
-    :src="themeType === 'light' ? lightVideo : darkVideo"
-    class="fixed top-0 left-0 z-[-99] w-full h-full object-cover"
-    autoplay
-    muted
-    loop
+      :src="themeType === 'light' ? lightVideo : darkVideo"
+      class="fixed top-0 left-0 w-full h-full object-cover -z-10"
+      autoplay
+      muted
+      loop
   ></video>
   <!-- 屏幕截屏分享弹窗 -->
   <share-img-mask
-    @close-img-download-mask="DownloadImgUrl = ''"
-    :DownloadImgUrl="DownloadImgUrl"
-    v-if="currentWall === 0 || currentWall === 1"
+      @close-img-download-mask="DownloadImgUrl = ''"
+      :DownloadImgUrl="DownloadImgUrl"
+      v-if="currentWall === 0 || currentWall === 1"
   ></share-img-mask>
 </template>
 
 <style scoped>
-.wall-message .add {
-  bottom: v-bind(addBtnBottom);
+.add {
+  position: fixed;
+  right: 30px;
+  transition: all 0.3s;
 }
 </style>
