@@ -5,7 +5,7 @@ import userModel from "../models/users.model";
 
 class UserController {
   // 获取用户列表或单个用户
-  async getUser(ctx: Context) {
+  async getUser(ctx: any) {
     const {
       page = 1,
       pageSize = 10,
