@@ -1,6 +1,9 @@
 <template>
-  <div class="chat-box p-4 overflow-y-auto w-full max-w-full md:max-w-[50vw] mx-auto">
-    <div class="messages flex flex-col gap-3">
+  <div
+    ref="chatBoxRef"
+    class="chat-box p-4 overflow-y-auto w-full max-w-full md:max-w-[50vw] mx-auto"
+  >
+    <div class="messages flex flex-col gap-3" style="height: calc(100vh - 250px)">
       <div
         v-for="(message, index) in messages"
         :key="index"
@@ -34,8 +37,27 @@
 <script setup>
 import 'highlight.js/styles/github.css'
 import { useAiStore } from '@/stores/modules/ai.ts'
+import { ref, nextTick, watch, onMounted } from 'vue'
 
 const { messages, renderMessageContent } = useAiStore()
+const chatBoxRef = ref(null)
+
+const scrollToBottom = () => {
+  if (chatBoxRef.value) {
+    const boxHeight = chatBoxRef.value.clientHeight // 聊天框的高度
+    const scrollHeight = chatBoxRef.value.scrollHeight // 所有消息的总高度
+    chatBoxRef.value.scrollTop = scrollHeight - boxHeight + 140 // 滚动到底部保持140px的间距
+  }
+}
+
+onMounted(() => {
+  scrollToBottom()
+})
+
+watch(messages, async () => {
+  await nextTick()
+  scrollToBottom()
+})
 </script>
 
 <style scoped></style>

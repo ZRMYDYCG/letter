@@ -1,15 +1,20 @@
 <template>
-  <div class="h-[100vh] flex flex-col justify-center items-center overflow-hidden gap-3">
+  <div class="h-[100vh] flex flex-col items-center overflow-hidden gap-3 mt-[64px]">
     <!--  聊天区域  -->
     <router-view></router-view>
     <!--  Logo  -->
     <img v-if="!isChatPage" src="@/assets/images/kimi.png" alt="logo" class="w-80 h-40 sm:mt-10" />
     <!-- 输入框 -->
-    <chat-input @send="sendMessage"></chat-input>
+    <chat-input @send="sendMessage" :class="isChatPage ? 'fixed bottom-8' : ''"></chat-input>
     <!--  快捷提问  -->
     <chat-start-card v-if="!isChatPage"></chat-start-card>
     <!--  提示信息  -->
-    <div class="text-center text-gray-500 text-sm mt-2">内容由 AI 大模型生成，请仔细甄别</div>
+    <div
+      class="text-center text-gray-500 text-sm mt-2"
+      :class="isChatPage ? 'fixed bottom-1 ' : ''"
+    >
+      内容由 AI 大模型生成，请仔细甄别
+    </div>
   </div>
 </template>
 
