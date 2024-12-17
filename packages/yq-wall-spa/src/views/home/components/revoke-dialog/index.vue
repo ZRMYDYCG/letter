@@ -39,7 +39,7 @@ defineExpose({
 
 <template>
   <div>
-    <el-dialog :title="title" top="30vh" v-model="visible" width="20%" @close="handleCancel">
+    <el-dialog :title="title" top="30vh" v-model="visible" width="80%" @close="handleCancel">
       <div class="dialog-content">
         <el-input
           v-model="content"
@@ -47,6 +47,7 @@ defineExpose({
           resize="none"
           :rows="6"
           placeholder="请输入内容"
+          class="textarea"
         ></el-input>
       </div>
       <template #footer>
@@ -72,5 +73,39 @@ defineExpose({
 :deep(.el-dialog__title) {
   color: #333;
   font-size: 14px;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  :deep(.el-dialog) {
+    width: 90%; /* 对话框宽度设为90% */
+    max-width: 400px; /* 限制最大宽度 */
+    margin: auto; /* 居中显示 */
+    position: fixed;
+    top: 50%; /* 垂直居中 */
+    left: 50%;
+    transform: translate(-50%, -50%); /* 确保完全居中 */
+  }
+
+  :deep(.dialog-content) {
+    padding: 10px; /* 内容区域内边距 */
+  }
+
+  :deep(.el-dialog__footer) {
+    padding: 10px; /* 底部按钮间距 */
+    justify-content: space-between; /* 分散按钮 */
+  }
+
+  :deep(.el-input) {
+    font-size: 16px; /* 增大输入框字体以适应移动端 */
+  }
+}
+
+/* PC大屏适配 */
+@media (min-width: 769px) {
+  :deep(.el-dialog) {
+    width: 60%; /* 对话框在大屏上的宽度 */
+    max-width: 800px; /* 设置最大宽度 */
+  }
 }
 </style>

@@ -28,7 +28,7 @@ function handleAddMessageComment() {
     messageId: props.item._id,
     content: content.value,
     nickName: nickName.value,
-    userId: JSON.parse(localStorage.getItem('userInfo') || '{}').user._id,
+    userId: JSON.parse(localStorage.getItem('userInfo') || '{}').user._id
   }).then((res) => {
     if (res) {
       commentList.value.push(res.data)
@@ -116,6 +116,13 @@ defineExpose({
         <span class="dark:text-white">分享</span>
         <iconpark-icon name="share"></iconpark-icon>
       </div>
+    </div>
+    <!-- 小屏幕显示的图像 -->
+    <div
+      v-if="item.image"
+      class="img-item md:hidden mb-2 overflow-hidden rounded-md shadow-md border border-[#949494]"
+    >
+      <img :src="item.image.replace('localhost:5174', '192.168.93.45:5174')" alt="#" />
     </div>
     <message-text-card ref="messageTextCardRef" class="card-item" :note="item"></message-text-card>
     <div class="form mt-5">
