@@ -1,25 +1,22 @@
 <template>
   <div class="new-card p-5">
     <!-- 照片 -->
-    <div class="add-photo" v-if="id === 1">
+    <div
+      class="add-photo relative flex justify-center items-center w-24 h-24 rounded-full bg-gray-200 mb-3"
+      v-show="id === 1 && url === ''"
+    >
       <input
         type="file"
         name="file"
         id="file"
         multiple
         @change="showPhoto"
-        class="absolute z-10 top-[-10px] opacity-0 cursor-pointer h-[74px] w-[64px]"
+        class="absolute inset-0 opacity-0 cursor-pointer"
       />
-      <div class="add-bt" v-if="url === ''">
-        <span class="text-3xl">+</span>
-      </div>
-      <div class="change-bt" v-if="url !== ''">
-        <span class="text-3xl">+</span>
-      </div>
-      <div class="photo-div max-h-[200px] w-full bg-[#f0f0f0] overflow-hidden flex items-center">
-        <img :src="url" alt="" class="w-full" />
-      </div>
+      <div class="absolute text-3xl cursor-pointer">+</div>
     </div>
+    <img v-if="url" :src="url" alt="" class="w-full h-full object-cover mb-3" />
+
     <!-- 选择留言色彩 -->
     <ul class="color-list flex pb-3 items-center">
       <template v-for="(item, index) in cardColorOptions" :key="index">
@@ -27,16 +24,16 @@
           @click="changeColor(index)"
           class="item w-6 h-6 mr-2 cursor-pointer rounded-full"
           :style="{ background: item }"
-          :class="{ 'border border-[#3b73f0]': index === colorSelected }"
+          :class="{ 'border border-blue-600': index === colorSelected }"
         ></li>
       </template>
     </ul>
+
     <!-- 卡片 -->
     <div class="card-main h-[240px] w-full p-3" :style="{ background: cardColor[colorSelected] }">
       <textarea
-        class="message bg-transparent border-none resize-none h-[172px] w-full p-2 text-lg"
+        class="message bg-transparent border-none resize-none h-[172px] w-full p-2 text-lg outline-none"
         placeholder="留言..."
-        maxlength="96"
         v-model="content"
       ></textarea>
       <input
@@ -46,6 +43,7 @@
         v-model="nickName"
       />
     </div>
+
     <div class="labels mt-5">
       <p class="title text-[#202020] text-lg font-semibold">请选择标签</p>
       <ul class="list flex flex-wrap">
@@ -60,6 +58,7 @@
         </li>
       </ul>
     </div>
+
     <div class="state mt-5">
       <p class="title text-[#202020] text-lg font-semibold">免责声明</p>
       <p class="detail mt-2 text-sm text-[#949494] leading-5">
@@ -75,11 +74,12 @@
         9、含有法律、行政法规禁止的其他内容的信息。
       </p>
     </div>
-    <div class="footer flex py-5 w-full">
+
+    <div class="footer flex py-5 w-full justify-end">
       <yi-button size="max" type="secondary">丢弃</yi-button>
-      <yi-button size="max" type="primary" class="ml-3 flex-2" @click="handleAddMessage"
-        >确定</yi-button
-      >
+      <yi-button size="max" type="primary" class="ml-3 flex-2" @click="handleAddMessage">
+        确定
+      </yi-button>
     </div>
   </div>
 </template>

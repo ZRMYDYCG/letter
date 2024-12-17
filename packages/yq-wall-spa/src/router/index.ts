@@ -6,7 +6,14 @@ const router = createRouter({
     {
       path: '/',
       name: 'Home',
-      component: () => import('@/views/home/index.vue') // 主页面
+      component: () => import('@/views/home/index.vue'), // 主页面
+      children: [
+        {
+          path: 'chat/:id',
+          name: 'Chat',
+          component: () => import('@/views/chat/index.vue') // 聊天页面
+        }
+      ]
     },
     {
       path: '/login',

@@ -122,7 +122,11 @@ defineExpose({
       v-if="item.image"
       class="img-item md:hidden mb-2 overflow-hidden rounded-md shadow-md border border-[#949494]"
     >
-      <img :src="item.image.replace('localhost:5174', '192.168.93.45:5174')" alt="#" />
+      <img
+        :src="item.image.replace('localhost:5174', '192.168.93.45:5174')"
+        alt="#"
+        class="w-full h-full object-cover"
+      />
     </div>
     <message-text-card ref="messageTextCardRef" class="card-item" :note="item"></message-text-card>
     <div class="form mt-5">
