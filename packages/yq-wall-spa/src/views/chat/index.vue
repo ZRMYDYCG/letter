@@ -1,7 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import ChatBox from './components/chat-box.vue'
+</script>
 
 <template>
-  <div>进入聊天区域</div>
+  <chat-box></chat-box>
 </template>
 
 <style scoped></style>
