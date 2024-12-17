@@ -1,16 +1,22 @@
 <template>
-  <div
-    class="chat-start-card bg-transparent shadow-md max-w-[90vw] mx-auto rounded-md md:mt-[10vh] p-5 flex flex-col items-center"
-  >
-    <div class="question-hint flex justify-between items-center w-full">
+  <div class="chat-start-card p-5 max-w-[95vw] mx-auto">
+    <div class="question-hint flex justify-end items-center mb-4">
       <div class="change-btn flex items-center">
         <iconpark-icon
           name="transform"
           :class="{ 'rotate-animation': isRotating }"
-          class="w-7 mx-2"
+          class="mr-1"
         ></iconpark-icon>
         <span @click="rendomData('2')" class="text-indigo-600 cursor-pointer">换一换</span>
       </div>
+    </div>
+
+    <div class="flex flex-wrap justify-center">
+      <template v-for="(item, index) in newData" :key="index">
+        <div class="bg-white m-2 p-2 rounded-md border cursor-pointer max-w-[200px] flex-grow">
+          {{ item.title }}
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -20,12 +26,24 @@ import { ref, onMounted } from 'vue'
 
 const problemData = [
   {
-    icon: 'https://example.com/icon1.png',
+    icon: '',
     title: '农夫山泉新品上市策略'
   },
   {
-    icon: 'https://example.com/icon2.png',
+    icon: '',
     title: '2024电动汽车年中大盘点'
+  },
+  {
+    icon: '',
+    title: '活动方案策划'
+  },
+  {
+    icon: '',
+    title: '申论备考干货汇总'
+  },
+  {
+    icon: '',
+    title: '运用创意思维解决问题'
   }
 ]
 
@@ -40,7 +58,7 @@ const rendomData = (type: string) => {
       isRotating.value = false
     }, 1000)
   }
-  newData.value = [...problemData].sort(() => Math.random() - 0.5).slice(0, 4)
+  newData.value = [...problemData].sort(() => Math.random() - 0.5).slice(0, 5)
 }
 
 onMounted(() => {

@@ -102,7 +102,7 @@ onUnmounted(() => {
       <div class="w-[30px] h-[30px] mr-4 rounded-full overflow-hidden">
         <img class="w-full h-full object-cover" src="@/assets/images/logo.svg" alt="" />
       </div>
-      <iconpark-icon name="application-menu"></iconpark-icon>
+      <iconpark-icon name="application-menu" class="cursor-pointer"></iconpark-icon>
     </div>
     <div class="user w-[150px] flex items-center justify-end">
       <iconpark-icon
