@@ -123,7 +123,7 @@ defineExpose({
       class="img-item md:hidden mb-2 overflow-hidden rounded-md shadow-md border border-[#949494]"
     >
       <img
-        :src="item.image.replace('localhost:5174', '192.168.93.45:5174')"
+        :src="item.image.replace('localhost:5174', '192.168.43.171:5174')"
         alt="#"
         class="w-full h-full object-cover"
       />

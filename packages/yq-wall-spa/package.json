@@ -15,6 +15,7 @@
     "axios": "^1.7.2",
     "dplayer": "^1.27.1",
     "element-plus": "^2.8.8",
+    "highlight.js": "^11.11.0",
     "hljs": "^6.2.3",
     "html2canvas": "^1.4.1",
     "lodash-es": "^4.17.21",

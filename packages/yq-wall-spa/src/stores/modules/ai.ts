@@ -22,7 +22,7 @@ export const useAiStore = defineStore('chat', () => {
   let streamingMessage = ''
 
   // WebSocket 初始化
-  const socket = new WebSocket('ws://192.168.93.45:5174')
+  const socket = new WebSocket('ws://192.168.43.171:5174')
 
   // 渲染消息内容
   const renderMessageContent = (content: any) => {
