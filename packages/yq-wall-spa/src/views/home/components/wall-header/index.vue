@@ -16,7 +16,7 @@ const filterNumberStore = useFilterNumberStore()
 const { currentWall, themeType } = storeToRefs(commonStore)
 
 const router = useRouter()
-const emits = defineEmits(['visitor-login', 'open-setting'])
+const emits = defineEmits(['visitor-login', 'open-setting', 'change-wall'])
 
 const { changeTitle } = useChangeTitle('通义小助')
 const currentViewId = computed(() => currentWall.value)
@@ -34,6 +34,7 @@ const changeWall = (id: number) => {
   commonStore.changeWall(id)
   changeTitle(walls.find((wall) => wall.id === id)?.name || '未知墙体')
   toWallTop()
+  emits('change-wall', id)
   filterNumberStore.changeFilterNumber(null)
 }
 
@@ -76,7 +77,6 @@ const sidebarRef = ref(null)
 
 const toggleSidebar = () => {
   sidebarVisible.value = !sidebarVisible.value
-  console.log('sidebarVisible:', sidebarVisible.value)
 }
 
 const closeSidebar = (event: MouseEvent) => {

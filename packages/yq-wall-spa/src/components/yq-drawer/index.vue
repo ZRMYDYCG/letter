@@ -1,6 +1,7 @@
 <script setup lang="ts">
 interface IProps {
   isDrawerShow: boolean
+  drawerTitle: string
 }
 
 defineProps<IProps>()
@@ -19,7 +20,7 @@ const changeModal = () => {
       v-if="isDrawerShow"
     >
       <div class="flex justify-between items-center p-5 border-b border-gray-200 dark:text-white">
-        <p class="font-semibold text-[17px] text-[#202020] dark:text-white">自定义标题</p>
+        <p class="font-semibold text-[17px] text-[#202020] dark:text-white">{{ drawerTitle }}</p>
         <span class="text-[#5b5b5b] cursor-pointer dark:text-white" @click="changeModal">
           <iconpark-icon size="20" name="close"></iconpark-icon>
         </span>

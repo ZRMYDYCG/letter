@@ -39,8 +39,8 @@ const DrawerState = {
 
 const commonStore = useCommonStore()
 const { currentWall, themeType, settings } = storeToRefs(commonStore)
-
 let isDrawerShow = ref(false) // 右侧抽屉的展示状态
+const drawerTitle = ref('每一篇文字，都能抚慰你的心灵')
 let currentDrawerState = ref(DrawerState.CREATE_MESSAGE) // 当前抽屉状态
 let currentIndex = ref(-1) // 当前激活展示的留言
 let messageDetailData = ref({}) // 当前展示的留言详情
@@ -97,6 +97,13 @@ const changeDrawer = () => {
   isDrawerShow.value = !isDrawerShow.value
   currentIndex.value = -1
   bigPhotoPreview.value = false
+}
+/**
+ * 修改留言墙标题
+ */
+const changeWall = () => {
+  drawerTitle.value =
+    currentWall.value === 0 ? '每一篇文字，都能抚慰你的心灵' : '每一张照片，都能照亮你的美好'
 }
 
 /**
@@ -196,7 +203,7 @@ onMounted(async () => {
 
 <template>
   <!-- 头部 -->
-  <yq-header @open-setting="openDrawer(DrawerState.PROJECT_SETTING)"></yq-header>
+  <yq-header @open-setting="openDrawer(DrawerState.PROJECT_SETTING)" @change-wall="changeWall" />
   <div class="wall-message pt-14 md:pt-16" v-if="currentWall === 0 || currentWall === 1">
     <!-- 墙标题 -->
     <wall-title></wall-title>
@@ -275,6 +282,7 @@ onMounted(async () => {
   <yq-drawer
     @change-modal="changeDrawer"
     :isDrawerShow="isDrawerShow"
+    :drawerTitle="drawerTitle"
     v-if="currentWall === 0 || currentWall === 1"
   >
     <creat-message
