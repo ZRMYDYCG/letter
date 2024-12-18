@@ -107,7 +107,11 @@ defineExpose({
     <Waterfall :list="photoList" v-bind="options" @after-render="afterRender">
       <!-- fix: 新版插槽数据获取 -->
       <template #default="{ item, index }">
-        <div class="card-container relative bg-transparent" @click="handlePreview(index)">
+        <div
+          class="card-container relative bg-transparent"
+          v-hover-up
+          @click="handlePreview(index)"
+        >
           <LazyImg
             :url="item.image.replace('http://localhost:5174', '/api')"
             class="rounded-md cursor-pointer"
