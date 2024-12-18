@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import MarkdownIt from 'markdown-it'
 import hljs from 'highlight.js'
 import { useRouter } from 'vue-router'
+import { HOSTIP } from '@/IPV4/ipv4.ts'
 
 export const useAiStore = defineStore('chat', () => {
   const md = new MarkdownIt({
@@ -22,7 +23,7 @@ export const useAiStore = defineStore('chat', () => {
   let streamingMessage = ''
 
   // WebSocket 初始化
-  const socket = new WebSocket('ws://192.168.43.171:5174')
+  const socket = new WebSocket(`ws://${HOSTIP}:5174`)
 
   // 渲染消息内容
   const renderMessageContent = (content: any) => {

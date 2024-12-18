@@ -8,6 +8,7 @@ import YqButton from '@/components/yq-button/index.vue'
 import RevokeDialog from '../revoke-dialog/index.vue'
 import CardForCanvas from '../message-text-card/card-for-canvas.vue'
 import Error from '@/views/home/components/empty/index.vue'
+import { HOSTIP } from '@/IPV4/ipv4.ts'
 
 const commentList = ref<any[]>([])
 const content = ref('')
@@ -21,6 +22,7 @@ interface IMessageDetail {
 }
 
 const props = defineProps<IMessageDetail>()
+
 const emits = defineEmits(['share-url'])
 
 function handleAddMessageComment() {
@@ -50,7 +52,7 @@ const handleRevokeDialog = () => {
   revokeDialogRef.value.openDialog(props.item)
 }
 
-const handleOnConfirm = (data) => {
+const handleOnConfirm = (data: any) => {
   console.log('data', data)
 }
 
@@ -112,9 +114,9 @@ defineExpose({
           @confirm="handleOnConfirm"
         ></revoke-dialog>
       </div>
-      <div v-if="item.type === 0" class="flex gap-1 cursor-pointer" @click="generateScreenshot">
-        <span class="dark:text-white">分享</span>
-        <iconpark-icon name="share"></iconpark-icon>
+      <div class="flex gap-1 cursor-pointer" @click="generateScreenshot">
+        <span class="dark:text-white">{{ item.type === 0 ? '分享' : '下载' }}</span>
+        <i class="iconfont text-xs" :class="item.type === 0 ? 'icon-fenxiang' : 'icon-xiazai'" />
       </div>
     </div>
     <!-- 小屏幕显示的图像 -->
@@ -123,7 +125,7 @@ defineExpose({
       class="img-item md:hidden mb-2 overflow-hidden rounded-md shadow-md border border-[#949494]"
     >
       <img
-        :src="item.image.replace('localhost:5174', '192.168.43.171:5174')"
+        :src="item.image.replace('localhost:5174', `${HOSTIP}:5174`)"
         alt="#"
         class="w-full h-full object-cover"
       />
