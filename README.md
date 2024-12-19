@@ -29,7 +29,7 @@ UI 部分采用了 YiKe UP 主提供的主题, 十分感谢设计出这么好看
 
 服务端渲染使用 nuxt 开发
 
-后台管理端使用 element-plus + vue3 + ts + tailwindcss 开发
+后台管理端使用 React + Ant + ts + tailwindcss 开发
 
 后端使用 Koa + MongoDB 进行开发
 
