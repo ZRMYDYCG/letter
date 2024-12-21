@@ -1,0 +1,48 @@
+{
+  "name": "nuxt-app",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=8"
+  },
+  "scripts": {
+    "build:development": "nuxt build --dotenv .env.development",
+    "build": "nuxt build --dotenv .env.production",
+    "dev": "nuxt dev --dotenv .env.development",
+    "dev:production": "nuxt dev --dotenv .env.production",
+    "generate": "nuxt generate --dotenv .env.development",
+    "generate:production": "nuxt generate --dotenv .env.production",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "start": "node .output/server/index.mjs",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "@element-plus/nuxt": "^1.0.10",
+    "@nuxt/eslint": "^0.6.1",
+    "@pinia/nuxt": "^0.5.5",
+    "@types/crypto-js": "^4.2.2",
+    "@vueuse/core": "^11.1.0",
+    "@vueuse/nuxt": "^11.1.0",
+    "crypto-js": "^4.2.0",
+    "dayjs-nuxt": "^2.1.11",
+    "jsencrypt": "^3.3.2",
+    "nuxt": "^3.13.2",
+    "pinia-plugin-persistedstate": "^4.1.2",
+    "sass": "1.79.0",
+    "sortablejs": "^1.15.3",
+    "vue": "latest",
+    "vue-router": "latest"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^3.8.0",
+    "@unocss/eslint-config": "^0.63.6",
+    "@unocss/nuxt": "^0.63.6",
+    "@unocss/reset": "^0.63.6",
+    "typescript": "^5.6.3",
+    "unocss": "^0.63.6"
+  }
+}
