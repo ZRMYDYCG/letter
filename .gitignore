@@ -28,3 +28,31 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+
+
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+
+# Misc
+.fleet
+
+# .vscode
+
+# Local env files
+.env.local
+.env.*.local
+!.env.example
+
+
+# Compressed package files
+*.jar
+*.zip
+*.rar
+
+# package-lock.json
+# pnpm-lock.yaml
+# yarn.lock
