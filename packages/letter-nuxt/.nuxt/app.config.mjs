@@ -13,6 +13,6 @@ if (import.meta.hot) {
   })
 }
 
+import cfg0 from "C:/Users/86151/Desktop/项目/letter/packages/letter-nuxt/app.config.ts"
 
-
-export default /*@__PURE__*/ defuFn(inlineConfig)
+export default /*@__PURE__*/ defuFn(cfg0, inlineConfig)
