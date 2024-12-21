@@ -1,0 +1,42 @@
+[
+  {
+    "label": "员工手册",
+    "icon": " i-hugeicons-license-third-party",
+    "introduce": "员工必学手册，学习会进行考试",
+    "attribute": "课程",
+    "time": 1318781876406,
+    "to": ""
+  },
+  {
+    "label": "研发部入职培训",
+    "icon": "i-hugeicons-document-attachment",
+    "introduce": "员工必学手册，学习会进行考试",
+    "attribute": "考试",
+    "time": 1318781876406,
+    "to": ""
+  },
+  {
+    "label": "公司规章制度",
+    "icon": "i-hugeicons-file-pin",
+    "introduce": "员工必学手册，学习会进行考试",
+    "attribute": "文章",
+    "time": 1318781876406,
+    "to": ""
+  },
+  {
+    "label": "研发部职级考试",
+    "icon": "i-hugeicons-document-validation",
+    "introduce": "员工必学手册，学习会进行考试",
+    "attribute": "审批",
+    "time": 1318781876406,
+    "to": ""
+  },
+  {
+    "label": "研发部年终考试",
+    "icon": "i-hugeicons-legal-document-01",
+    "introduce": "员工必学手册，学习会进行考试",
+    "attribute": "答题",
+    "time": 1318781876406,
+    "to": ""
+  }
+]
