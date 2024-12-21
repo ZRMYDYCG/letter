@@ -26,20 +26,11 @@
       "@nuxt/devtools": [
         "../../../node_modules/.pnpm/@nuxt+devtools@1.6.4_rollup@4.27.2_vite@5.4.11_@types+node@22.9.0_sass-embedded@1.82.0_sass@1_j6h3u2io5syvzqz6wquddaoubm/node_modules/@nuxt/devtools"
       ],
-      "vue": [
-        "../../../node_modules/.pnpm/vue@3.5.13_typescript@5.6.3/node_modules/vue"
-      ],
       "@vue/runtime-core": [
         "../../../node_modules/.pnpm/@vue+runtime-core@3.5.13/node_modules/@vue/runtime-core"
       ],
       "@vue/compiler-sfc": [
         "../../../node_modules/.pnpm/@vue+compiler-sfc@3.4.21/node_modules/@vue/compiler-sfc"
-      ],
-      "vue-router": [
-        "../../../node_modules/.pnpm/vue-router@4.5.0_vue@3.5.13_typescript@5.6.3_/node_modules/vue-router"
-      ],
-      "vue-router/auto-routes": [
-        "../../../node_modules/.pnpm/vue-router@4.5.0_vue@3.5.13_typescript@5.6.3_/node_modules/vue-router/vue-router-auto-routes"
       ],
       "unplugin-vue-router/client": [
         "../../../node_modules/.pnpm/unplugin-vue-router@0.10.9_rollup@4.27.2_vue-router@4.5.0_vue@3.5.13_typescript@5.6.3___vue@3.5.13_typescript@5.6.3_/node_modules/unplugin-vue-router/client"
@@ -80,8 +71,14 @@
       "assets": [
         "../assets"
       ],
+      "assets/*": [
+        "../assets/*"
+      ],
       "public": [
         "../public"
+      ],
+      "public/*": [
+        "../public/*"
       ],
       "#build": [
         "."
@@ -125,7 +122,7 @@
     "moduleDetection": "force",
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
-    "strict": true,
+    "strict": false,
     "noUncheckedIndexedAccess": false,
     "forceConsistentCasingInFileNames": true,
     "noImplicitOverride": true,
@@ -149,16 +146,24 @@
     "./nuxt.d.ts",
     "../.config/nuxt.*",
     "../**/*",
+    "../../../node_modules/.pnpm/@nuxt+eslint@0.6.2_eslint@8.57.1_magicast@0.3.5_rollup@4.27.2_typescript@5.6.3_vite@5.4.11_@t_jj37glbu2j3c475ygvzbizgqk4/node_modules/@nuxt/eslint/runtime",
+    "../../../node_modules/.pnpm/@nuxt+eslint@0.6.2_eslint@8.57.1_magicast@0.3.5_rollup@4.27.2_typescript@5.6.3_vite@5.4.11_@t_jj37glbu2j3c475ygvzbizgqk4/node_modules/@nuxt/eslint/dist/runtime",
+    "../../../node_modules/.pnpm/@unocss+nuxt@0.63.6_magicast@0.3.5_postcss@8.4.49_rollup@4.27.2_typescript@5.6.3_vite@5.4.11__g545ahrnq2eotdwxxseleao3fq/node_modules/@unocss/nuxt/runtime",
+    "../../../node_modules/.pnpm/@unocss+nuxt@0.63.6_magicast@0.3.5_postcss@8.4.49_rollup@4.27.2_typescript@5.6.3_vite@5.4.11__g545ahrnq2eotdwxxseleao3fq/node_modules/@unocss/nuxt/dist/runtime",
+    "../../../node_modules/.pnpm/@vueuse+nuxt@11.3.0_magicast@0.3.5_nuxt@3.14.1592_@parcel+watcher@2.5.0_@types+node@22.9.0_db_vlkrsnqdcf4cl5pxo7lhh5andq/node_modules/@vueuse/nuxt/runtime",
+    "../../../node_modules/.pnpm/@vueuse+nuxt@11.3.0_magicast@0.3.5_nuxt@3.14.1592_@parcel+watcher@2.5.0_@types+node@22.9.0_db_vlkrsnqdcf4cl5pxo7lhh5andq/node_modules/@vueuse/nuxt/dist/runtime",
+    "../../../node_modules/.pnpm/@element-plus+nuxt@1.1.1_@element-plus+icons-vue@2.3.1_vue@3.5.13_typescript@5.6.3___element-_bjfbbiuxtfp4scyl6xwf7b7qrm/node_modules/@element-plus/nuxt/runtime",
+    "../../../node_modules/.pnpm/@element-plus+nuxt@1.1.1_@element-plus+icons-vue@2.3.1_vue@3.5.13_typescript@5.6.3___element-_bjfbbiuxtfp4scyl6xwf7b7qrm/node_modules/@element-plus/nuxt/dist/runtime",
     "../../../node_modules/.pnpm/dayjs-nuxt@2.1.11_magicast@0.3.5_rollup@4.27.2/node_modules/dayjs-nuxt/runtime",
     "../../../node_modules/.pnpm/dayjs-nuxt@2.1.11_magicast@0.3.5_rollup@4.27.2/node_modules/dayjs-nuxt/dist/runtime",
     "../../../node_modules/.pnpm/@pinia+nuxt@0.5.5_magicast@0.3.5_rollup@4.27.2_typescript@5.6.3_vue@3.5.13_typescript@5.6.3_/node_modules/@pinia/nuxt/runtime",
     "../../../node_modules/.pnpm/@pinia+nuxt@0.5.5_magicast@0.3.5_rollup@4.27.2_typescript@5.6.3_vue@3.5.13_typescript@5.6.3_/node_modules/@pinia/nuxt/dist/runtime",
     "../../../../lette/runtime",
     "../../../../lette/dist/runtime",
-    "../../../node_modules/.pnpm/@nuxt+telemetry@2.6.2_magicast@0.3.5_rollup@4.27.2/node_modules/@nuxt/telemetry/runtime",
-    "../../../node_modules/.pnpm/@nuxt+telemetry@2.6.2_magicast@0.3.5_rollup@4.27.2/node_modules/@nuxt/telemetry/dist/runtime",
     "../../../node_modules/.pnpm/@nuxt+devtools@1.6.4_rollup@4.27.2_vite@5.4.11_@types+node@22.9.0_sass-embedded@1.82.0_sass@1_j6h3u2io5syvzqz6wquddaoubm/node_modules/@nuxt/devtools/runtime",
     "../../../node_modules/.pnpm/@nuxt+devtools@1.6.4_rollup@4.27.2_vite@5.4.11_@types+node@22.9.0_sass-embedded@1.82.0_sass@1_j6h3u2io5syvzqz6wquddaoubm/node_modules/@nuxt/devtools/dist/runtime",
+    "../../../node_modules/.pnpm/@nuxt+telemetry@2.6.2_magicast@0.3.5_rollup@4.27.2/node_modules/@nuxt/telemetry/runtime",
+    "../../../node_modules/.pnpm/@nuxt+telemetry@2.6.2_magicast@0.3.5_rollup@4.27.2/node_modules/@nuxt/telemetry/dist/runtime",
     "..",
     "../../../node_modules/.pnpm/nuxt@3.14.1592_@parcel+watcher@2.5.0_@types+node@22.9.0_db0@0.2.1_eslint@8.57.1_ioredis@5.4.2_pp7amizxngx4d3o5ki3rvnsjce/node_modules/nuxt/dist/app",
     "../../../node_modules/.pnpm/nuxt@3.14.1592_@parcel+watcher@2.5.0_@types+node@22.9.0_db0@0.2.1_eslint@8.57.1_ioredis@5.4.2_pp7amizxngx4d3o5ki3rvnsjce/node_modules/nuxt/dist/app/compat/vue-demi",
@@ -171,16 +176,24 @@
     "../node_modules",
     "../../../node_modules",
     "../../../node_modules/.pnpm/nuxt@3.14.1592_@parcel+watcher@2.5.0_@types+node@22.9.0_db0@0.2.1_eslint@8.57.1_ioredis@5.4.2_pp7amizxngx4d3o5ki3rvnsjce/node_modules/nuxt/node_modules",
+    "../../../node_modules/.pnpm/@nuxt+eslint@0.6.2_eslint@8.57.1_magicast@0.3.5_rollup@4.27.2_typescript@5.6.3_vite@5.4.11_@t_jj37glbu2j3c475ygvzbizgqk4/node_modules/@nuxt/eslint/runtime/server",
+    "../../../node_modules/.pnpm/@nuxt+eslint@0.6.2_eslint@8.57.1_magicast@0.3.5_rollup@4.27.2_typescript@5.6.3_vite@5.4.11_@t_jj37glbu2j3c475ygvzbizgqk4/node_modules/@nuxt/eslint/dist/runtime/server",
+    "../../../node_modules/.pnpm/@unocss+nuxt@0.63.6_magicast@0.3.5_postcss@8.4.49_rollup@4.27.2_typescript@5.6.3_vite@5.4.11__g545ahrnq2eotdwxxseleao3fq/node_modules/@unocss/nuxt/runtime/server",
+    "../../../node_modules/.pnpm/@unocss+nuxt@0.63.6_magicast@0.3.5_postcss@8.4.49_rollup@4.27.2_typescript@5.6.3_vite@5.4.11__g545ahrnq2eotdwxxseleao3fq/node_modules/@unocss/nuxt/dist/runtime/server",
+    "../../../node_modules/.pnpm/@vueuse+nuxt@11.3.0_magicast@0.3.5_nuxt@3.14.1592_@parcel+watcher@2.5.0_@types+node@22.9.0_db_vlkrsnqdcf4cl5pxo7lhh5andq/node_modules/@vueuse/nuxt/runtime/server",
+    "../../../node_modules/.pnpm/@vueuse+nuxt@11.3.0_magicast@0.3.5_nuxt@3.14.1592_@parcel+watcher@2.5.0_@types+node@22.9.0_db_vlkrsnqdcf4cl5pxo7lhh5andq/node_modules/@vueuse/nuxt/dist/runtime/server",
+    "../../../node_modules/.pnpm/@element-plus+nuxt@1.1.1_@element-plus+icons-vue@2.3.1_vue@3.5.13_typescript@5.6.3___element-_bjfbbiuxtfp4scyl6xwf7b7qrm/node_modules/@element-plus/nuxt/runtime/server",
+    "../../../node_modules/.pnpm/@element-plus+nuxt@1.1.1_@element-plus+icons-vue@2.3.1_vue@3.5.13_typescript@5.6.3___element-_bjfbbiuxtfp4scyl6xwf7b7qrm/node_modules/@element-plus/nuxt/dist/runtime/server",
     "../../../node_modules/.pnpm/dayjs-nuxt@2.1.11_magicast@0.3.5_rollup@4.27.2/node_modules/dayjs-nuxt/runtime/server",
     "../../../node_modules/.pnpm/dayjs-nuxt@2.1.11_magicast@0.3.5_rollup@4.27.2/node_modules/dayjs-nuxt/dist/runtime/server",
     "../../../node_modules/.pnpm/@pinia+nuxt@0.5.5_magicast@0.3.5_rollup@4.27.2_typescript@5.6.3_vue@3.5.13_typescript@5.6.3_/node_modules/@pinia/nuxt/runtime/server",
     "../../../node_modules/.pnpm/@pinia+nuxt@0.5.5_magicast@0.3.5_rollup@4.27.2_typescript@5.6.3_vue@3.5.13_typescript@5.6.3_/node_modules/@pinia/nuxt/dist/runtime/server",
     "../../../../lette/runtime/server",
     "../../../../lette/dist/runtime/server",
-    "../../../node_modules/.pnpm/@nuxt+telemetry@2.6.2_magicast@0.3.5_rollup@4.27.2/node_modules/@nuxt/telemetry/runtime/server",
-    "../../../node_modules/.pnpm/@nuxt+telemetry@2.6.2_magicast@0.3.5_rollup@4.27.2/node_modules/@nuxt/telemetry/dist/runtime/server",
     "../../../node_modules/.pnpm/@nuxt+devtools@1.6.4_rollup@4.27.2_vite@5.4.11_@types+node@22.9.0_sass-embedded@1.82.0_sass@1_j6h3u2io5syvzqz6wquddaoubm/node_modules/@nuxt/devtools/runtime/server",
     "../../../node_modules/.pnpm/@nuxt+devtools@1.6.4_rollup@4.27.2_vite@5.4.11_@types+node@22.9.0_sass-embedded@1.82.0_sass@1_j6h3u2io5syvzqz6wquddaoubm/node_modules/@nuxt/devtools/dist/runtime/server",
+    "../../../node_modules/.pnpm/@nuxt+telemetry@2.6.2_magicast@0.3.5_rollup@4.27.2/node_modules/@nuxt/telemetry/runtime/server",
+    "../../../node_modules/.pnpm/@nuxt+telemetry@2.6.2_magicast@0.3.5_rollup@4.27.2/node_modules/@nuxt/telemetry/dist/runtime/server",
     "../.output"
   ]
 }

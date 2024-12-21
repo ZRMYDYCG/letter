@@ -3,13 +3,16 @@
 import dayjs from 'dayjs'
 import updateLocale from 'dayjs/plugin/updateLocale'
 
-
+import 'dayjs/locale/en'
+import 'dayjs/locale/zh-cn'
+import duration from 'dayjs/plugin/duration'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import utc from 'dayjs/plugin/utc'
 
 
 dayjs.extend(updateLocale)
 
+dayjs.extend(duration)
 dayjs.extend(relativeTime)
 dayjs.extend(utc)
 
