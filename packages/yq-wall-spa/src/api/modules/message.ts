@@ -4,7 +4,7 @@ import axios from '../index'
  * @desc 获取留言列表 / 查看某条留言详情
  * **/
 export const getMessages = (params: any) => {
-  return axios.get<any>('/message', params)
+  return axios.get<any>('/message/list', params)
 }
 
 /*

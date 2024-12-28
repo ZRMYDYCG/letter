@@ -1,5 +1,7 @@
 import { ref, reactive } from 'vue'
+import { storeToRefs } from 'pinia'
 import { getMessages } from '@/api/modules'
+import useAuthStore from '@/stores/modules/auth.ts'
 
 export interface IGetMessageParams {
   userId: string | number
@@ -11,9 +13,12 @@ export interface IGetMessageParams {
 }
 
 export function useGetMessages(currentWall: number) {
+  const authStore = useAuthStore()
+
+  const { id } = storeToRefs(authStore)
   const isLoading = ref(false) // 加载状态
   const messageParams = reactive<IGetMessageParams>({
-    userId: JSON.parse(localStorage.getItem('userInfo') || '{}')?.user?._id || 0,
+    userId: id.value,
     page: 1,
     pageSize: 8,
     tag: null,

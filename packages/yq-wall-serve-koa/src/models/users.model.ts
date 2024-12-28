@@ -22,10 +22,17 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.Mixed,
     default: Math.floor(Math.random() * 11), // 默认为0到10的随机整数
   },
-  // 用户身份
+  /**
+   * 用户身份
+   * 0: 超级管理员
+   * 1: 管理员
+   * 2: 普通用户
+   * 3: 游客
+   * */
   identity: {
     type: Number,
     required: true,
+    default: 3,
   },
   // 账号是否冻结
   isFrozen: {

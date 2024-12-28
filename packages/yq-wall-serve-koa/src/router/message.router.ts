@@ -10,7 +10,7 @@ messageRouter.post("/", messageController.createMessage);
 // @ts-ignore
 messageRouter.delete("/:id", messageController.deleteMessage);
 // @ts-ignore
-messageRouter.get("/", messageController.getMessage);
+messageRouter.get("/list", messageController.getMessage);
 // @ts-ignore
 messageRouter.post("/like", messageController.likeMessage);
 // @ts-ignore

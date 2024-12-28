@@ -3,17 +3,21 @@ import { computed, watch, ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useCommonStore } from '@/stores/modules/common.ts'
+import useAuthStore from '@/stores/modules/auth.ts'
 import { useFilterNumberStore } from '@/stores/modules/filterNumber.ts'
-import YiButton from '@/components/yq-button/index.vue'
 import YiSwitch from '@/components/yq-switch/index.vue'
 import { useTheme, useChangeTitle } from '@/hook'
-import { register } from '@/api/modules'
+import { login } from '@/api/modules'
+import { portrait } from '@/config'
 
 useTheme()
 
 const commonStore = useCommonStore()
+const authStore = useAuthStore()
 const filterNumberStore = useFilterNumberStore()
+
 const { currentWall, themeType } = storeToRefs(commonStore)
+const { token, userInfo } = storeToRefs(authStore)
 
 const router = useRouter()
 const emits = defineEmits(['visitor-login', 'open-setting', 'change-wall'])
@@ -41,18 +45,18 @@ const changeWall = (id: number) => {
 const handleCommand = async (command: string) => {
   switch (command) {
     case 'visitor':
-      const res = await register({ identity: 0 })
-      localStorage.setItem('userInfo', JSON.stringify(res.data))
-      emits('visitor-login', res.data)
+      const res = await login({ identity: 3 })
+      await authStore.login(res.data)
       break
     case 'account':
-      console.log('处理账号登录')
+      await router.push('/login')
       break
     case 'register':
       await router.push('/register')
-      console.log('处理注册账号')
       break
     case 'logout':
+      localStorage.removeItem('userInfo')
+      authStore.logout()
       await router.push('/login')
       break
     case 'profile':
@@ -105,24 +109,33 @@ onUnmounted(() => {
       <iconpark-icon name="application-menu" class="cursor-pointer"></iconpark-icon>
     </div>
     <div class="user w-[150px] flex items-center justify-end">
+      <iconpark-icon name="github" size="21" class="mr-3" @click="window.open('https://github.com/ZRMYDYCG/letter', '_blank')"></iconpark-icon>
+      <iconpark-icon name="xiaoxi" size="21" class="mr-3"></iconpark-icon>
       <iconpark-icon
         name="setting"
         class="mr-4 cursor-pointer"
         size="18"
         @click="$emit('open-setting')"
       />
+
       <YiSwitch class="mr-4" v-model="themeType" active-value="dark" inactive-value="light" />
       <el-dropdown @command="handleCommand">
-        <div
-          class="user-head rounded-full h-[36px] w-[36px] bg-gradient-to-b from-[#7be7ff] to-[#1e85e2] float-right"
-        ></div>
+
+        <div class="rounded-full h-[36px] w-[36px] overflow-hidden shadow-md cursor-pointer outline-none">
+          <!-- 默认头像 -->
+          <iconpark-icon name="morentouxiang" size="36" v-if="!token"></iconpark-icon>
+          <!-- 游客 -->
+          <div class="w-full h-full" v-if="token && !(userInfo?.avatar && String(userInfo.avatar).includes('http'))" :style="{ background: portrait[userInfo.avatar] }"></div>
+          <!-- 真实用户 -->
+          <img v-if="token && userInfo?.avatar && String(userInfo.avatar).includes('http')" class="w-full h-full object-cover" :src="userInfo.avatar" alt="">
+        </div>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item command="visitor">游客登录</el-dropdown-item>
+            <el-dropdown-item command="visitor" v-if="!token">游客登录</el-dropdown-item>
             <el-dropdown-item command="account">账号登录</el-dropdown-item>
             <el-dropdown-item command="register">注册账号</el-dropdown-item>
-            <el-dropdown-item command="logout">退出登录</el-dropdown-item>
-            <el-dropdown-item divided command="profile">个人资料</el-dropdown-item>
+            <el-dropdown-item command="logout" v-if="token">退出登录</el-dropdown-item>
+            <el-dropdown-item divided command="profile" v-if="token && !(userInfo.identity === 3)">个人资料</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>

@@ -1,9 +1,7 @@
 import { createPinia, defineStore } from 'pinia'
 
 export const useGlobalStore = defineStore('GlobalState', {
-  state: () => ({
-    userInfo: {}
-  }),
+  state: () => ({}),
   getters: {},
   actions: {}
 })

@@ -12,6 +12,7 @@ const rePassword = ref('')
 
 const onSubmit = async () => {
   await register({
+    identity: 2,  // 普通用户
     username: params.value.username,
     password: params.value.password,
   })
@@ -26,7 +27,7 @@ const onSubmit = async () => {
       <!-- 顶部 -->
       <div class="flex items-center mb-8">
         <img class="w-12 h-12" src="@/assets/images/logo.svg" alt="" />
-        <span class="text-2xl font-semibold text-gray-800 ml-2">知语拾光</span>
+        <span class="text-2xl font-semibold text-gray-800 ml-2">通义知语</span>
       </div>
 
       <!-- main -->
