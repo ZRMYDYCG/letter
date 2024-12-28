@@ -1,17 +1,20 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
+import { storeToRefs } from "pinia"
 import { useRouter } from 'vue-router'
 import { portrait } from '@/config'
 import ImgCutter from 'vue-img-cutter'
 import YqButton from '@/components/yq-button/index.vue'
-import { getUserInfo } from '@/api/modules'
+import useAuthStore from '@/stores/modules/auth.ts'
+import { updateUserInfo } from '@/api/modules/user'
 
 const router = useRouter()
+const authStore = useAuthStore()
 
+const { userInfo } = storeToRefs(authStore)
 const loading = ref(false)
 const imgFile = ref(null)
 const params = reactive({})
-const userInfo = ref({})
 
 const onCutDownImg = (res) => {
   const file = res.file
@@ -25,14 +28,29 @@ const onCutDownImg = (res) => {
   reader.readAsDataURL(file)
 }
 
-onMounted(async () => {
-  const userId = JSON.parse(localStorage.getItem('userInfo'))._id
-  try {
-    const res = await getUserInfo(userId)
-    userInfo.value = res.data
-  } catch (e) {
-    console.error(e)
+const handleUpdateUserInfo = async () => {
+  const formData = new FormData() // 创建 FormData 对象
+  formData.append("DTO", JSON.stringify({
+    nickname: params.nickname,
+  }))
+
+  if (imgFile.value) {
+    formData.append("file", imgFile.value)
   }
+
+  try {
+    const res = await updateUserInfo(userInfo.value._id, formData)
+    localStorage.setItem('userInfo', JSON.stringify(res.data))
+  } catch (error) {
+    console.error('更新用户信息失败:', error)
+  }
+}
+
+
+onMounted(() => {
+  params.avatar = userInfo.value.avatar
+  params.nickname = userInfo.value.nickname
+  params.username = userInfo.value.username
 })
 </script>
 
@@ -48,10 +66,10 @@ onMounted(async () => {
       <div class="w-96 bg-white rounded-lg p-10 shadow-md">
         <p class="text-lg font-semibold mb-8">账号信息</p>
         <div class="mb-5">
-          <div class="mb-2">游客</div>
+          <div class="mb-2">{{ userInfo.identity === 3 ? '游客' : '账号' }}</div>
           <input
             class="input disabled w-full h-12 p-4 bg-gray-200 rounded outline-none"
-            value="223.160.219.224"
+            :value="userInfo.username"
             type="text"
             readonly
           />
@@ -60,9 +78,9 @@ onMounted(async () => {
           <div class="mb-2">昵称</div>
           <input
             class="input w-full h-12 p-4 bg-gray-200 rounded outline-none"
-            value="游客"
+            v-model="params.nickname"
             type="text"
-            placeholder="昵称"
+            placeholder="取一个有趣的昵称"
           />
         </div>
         <div class="mb-5">
@@ -72,14 +90,14 @@ onMounted(async () => {
             <img
               alt="头像"
               class="w-20 h-20 rounded-lg"
-              :src="params.avatar"
-              v-if="params.avatar?.startsWith('http') || params.avatar?.startsWith('data:')"
+              :src="params.avatar || userInfo.avatar"
+              v-if="String(userInfo.avatar)?.startsWith('http') || String(params.avatar)?.startsWith('data:')"
             />
             <!--  使用系统的默认的渐变头像  -->
             <div
               class="w-20 h-20 rounded-lg"
               v-else
-              :style="{ backgroundImage: portrait[params.avatar] }"
+              :style="{ backgroundImage: portrait[userInfo.avatar] }"
             ></div>
             <!-- 头像裁剪 -->
             <img-cutter
@@ -104,6 +122,7 @@ onMounted(async () => {
         <!-- 提交 -->
         <yq-button
           class="w-full bg-gray-800 text-white h-12 rounded transition duration-200 hover:bg-gray-700"
+          @click="handleUpdateUserInfo"
           >修改</yq-button
         >
 
@@ -120,5 +139,8 @@ onMounted(async () => {
 .disabled {
   cursor: not-allowed;
   color: #949494;
+}
+
+:deep(.vue-img-cutter) {
 }
 </style>

@@ -1,6 +1,7 @@
 import Router from "koa-router";
 import uploadMiddleware from "../middleware/upload.middleware";
 import messageModel from "../models/message.model";
+import userModel from "../models/users.model";
 
 interface CreateMessageBody {
   content: string; // 留言内容
@@ -66,6 +67,40 @@ uploadRouter.post(
       data: result,
     };
   },
+);
+
+/**
+ * 更新用户个人资料
+ */
+uploadRouter.post(
+    "/img-user-profile/:id",
+    uploadMiddleware.fields([
+      { name: "file", maxCount: 1 }, // 上传的文件字段
+      { name: "DTO", maxCount: 1 },
+    ]),
+    async (ctx: any) => {
+      const { id } = ctx.params;
+      const { file } = ctx.req.files;
+      const DTO = JSON.parse(ctx.req.body.DTO); // 解析 JSON 字符串
+
+      // 创建用户更新数据的对象
+      const profileData = {
+        nickname: DTO.nickname,
+        avatar: "http://localhost:5174/" + file[0].filename, // 存储图片的链接
+      };
+
+      // 使用 _id 更新用户信息
+      await userModel.updateOne({ _id: id }, profileData);
+
+      // 查询更新后的用户信息
+      const updatedUser = await userModel.findById(id);
+
+      ctx.body = {
+        code: 200,
+        message: "修改用户信息成功",
+        data: updatedUser, // 返回更新后的用户信息
+      };
+    },
 );
 
 export default uploadRouter;

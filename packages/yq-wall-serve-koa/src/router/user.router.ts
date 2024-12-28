@@ -21,7 +21,7 @@ userRouter.post("/", UserController.createUser);
  * @desc 更新用户
  * */
 // @ts-ignore
-userRouter.put("/:id", UserController.updateUser);
+userRouter.put("/:id",UserController.updateUser);
 
 /**
  * @desc 删除用户
