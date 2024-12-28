@@ -2,7 +2,7 @@
  * TODO: fix 获取组件内定义的 ref 数组
  * */
 
-import { getCurrentInstance, nextTick, ref } from 'vue'
+ import { getCurrentInstance, nextTick, ref } from 'vue'
 
 export function useRefs() {
   const instance = getCurrentInstance()
