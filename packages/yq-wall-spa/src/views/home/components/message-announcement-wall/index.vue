@@ -16,13 +16,13 @@
     </div>
 
     <!-- 内嵌 GitHub Issues 页面 -->
-    <iframe
-      src="https://yq-message-wall.vercel.app/"
-      class="mt-6 w-full h-[800px] border border-gray-300 md:w-1/2 md:mt-0"
-      frameborder="0"
-      allowfullscreen
-      title="GitHub Issues"
-    ></iframe>
+<!--    <iframe-->
+<!--      src="https://yq-message-wall.vercel.app/"-->
+<!--      class="mt-6 w-full h-[800px] border border-gray-300 md:w-1/2 md:mt-0"-->
+<!--      frameborder="0"-->
+<!--      allowfullscreen-->
+<!--      title="GitHub Issues"-->
+<!--    ></iframe>-->
   </div>
 </template>
 

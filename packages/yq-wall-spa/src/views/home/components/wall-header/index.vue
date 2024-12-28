@@ -22,12 +22,12 @@ const { changeTitle } = useChangeTitle('通义小助')
 const currentViewId = computed(() => currentWall.value)
 
 const walls = [
-  { id: -1, name: '通义小助' },
-  { id: 0, name: '留言墙' },
-  { id: 1, name: '照片墙' },
-  { id: 2, name: '视频墙' },
-  { id: 3, name: '问答墙' },
-  { id: 4, name: '公告墙' }
+  { id: -1, name: '通义小助', icon: 'ai' },
+  { id: 0, name: '留言墙', icon: 'letter' },
+  { id: 1, name: '照片墙', icon: 'photo' },
+  { id: 2, name: '视频墙', icon: 'video' },
+  { id: 3, name: '问答墙', icon: 'question' },
+  { id: 4, name: '公告墙', icon: 'laba' }
 ]
 
 const changeWall = (id: number) => {
@@ -131,30 +131,44 @@ onUnmounted(() => {
 
   <transition name="slide">
     <aside
-      ref="sidebarRef"
-      v-if="sidebarVisible"
-      class="sidebar fixed left-0 top-[52px] w-[200px] h-full bg-gray-200 shadow-md"
+        ref="sidebarRef"
+        v-if="sidebarVisible"
+        class="sidebar fixed left-0 top-[52px] w-[150px] h-full bg-white bg-opacity-30 shadow-md flex-col flex justify-between overflow-y-auto"
     >
-      <nav class="menu mt-[15px] flex flex-wrap px-1 gap-2 justify-center">
-        <YiButton
-          v-for="(wall, index) in walls"
-          :key="index"
-          class="menu-message mb-2"
-          @click="changeWall(wall.id)"
-          :type="currentViewId === wall.id ? 'c-primary' : 'c-secondary'"
+      <el-menu class="menu mt-[15px]" active-text-color=" #ff6d40" text-color="#606266">
+        <el-menu-item
+            v-for="(wall, index) in walls"
+            :key="index"
+            :index="String(index)"
+            @click="changeWall(wall.id)"
+            class="text-center"
+            style="background-color: transparent; width: 100%; text-align: center;"
         >
-          {{ wall.name }}
-        </YiButton>
-      </nav>
+          <div class="w-full flex items-center justify-center">
+            <div class="w-[80%] h-[30px] flex justify-center items-center rounded-full px-2 dark:text-white" :class="currentViewId === wall.id ? 'bg-green-200': ''">
+              <iconpark-icon :name="wall.icon"></iconpark-icon>
+              <span class="flex-1">{{ wall.name }}</span>
+            </div>
+          </div>
+        </el-menu-item>
+      </el-menu>
+      <img src="https://raw.githubusercontent.com/mayhemantt/mayhemantt/Update/svg/Bottom.svg" class="mb-[45px]" alt="#" />
     </aside>
   </transition>
 </template>
 
-<style>
+<style scoped>
 .sidebar {
   transition: transform 0.3s ease;
   z-index: 9998;
 }
+
+:deep(.el-menu) {
+  --el-menu-bg-color: transparent;
+  --el-menu-item-height: 40px;
+  border-right: none !important;
+}
+
 .slide-enter-active,
 .slide-leave-active {
   transition: transform 0.3s ease;
