@@ -11,7 +11,7 @@ import { updateUserInfo } from '@/api/modules/user'
 const router = useRouter()
 const authStore = useAuthStore()
 
-const { userInfo } = storeToRefs(authStore)
+const { userInfo,token } = storeToRefs(authStore)
 const loading = ref(false)
 const imgFile = ref(null)
 const params = reactive({})
@@ -40,7 +40,12 @@ const handleUpdateUserInfo = async () => {
 
   try {
     const res = await updateUserInfo(userInfo.value._id, formData)
-    localStorage.setItem('userInfo', JSON.stringify(res.data))
+    const params = {
+      token: token.value,
+      user: res.data
+    }
+    authStore.setUserInfo(params)
+    await router.push('/')
   } catch (error) {
     console.error('更新用户信息失败:', error)
   }

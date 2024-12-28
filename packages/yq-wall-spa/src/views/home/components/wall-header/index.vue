@@ -119,6 +119,7 @@ onUnmounted(() => {
       />
 
       <YiSwitch class="mr-4" v-model="themeType" active-value="dark" inactive-value="light" />
+      <div class="mr-4 cursor-pointer text-nowrap">{{userInfo?.nickname}}</div>
       <el-dropdown @command="handleCommand">
 
         <div class="rounded-full h-[36px] w-[36px] overflow-hidden shadow-md cursor-pointer outline-none">
@@ -132,7 +133,7 @@ onUnmounted(() => {
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item command="visitor" v-if="!token">游客登录</el-dropdown-item>
-            <el-dropdown-item command="account">账号登录</el-dropdown-item>
+            <el-dropdown-item command="account" v-if="!token && userInfo?.identity === 3">账号登录</el-dropdown-item>
             <el-dropdown-item command="register">注册账号</el-dropdown-item>
             <el-dropdown-item command="logout" v-if="token">退出登录</el-dropdown-item>
             <el-dropdown-item divided command="profile" v-if="token && !(userInfo.identity === 3)">个人资料</el-dropdown-item>
