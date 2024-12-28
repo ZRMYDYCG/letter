@@ -26,47 +26,68 @@ class messageController {
     }
     /**
      * @desc 获取留言列表或单个留言详情或某用户的留言列表或某用户的某标签的留言列表
+     * page: 当前页码（可选，默认为1）
+     * pageSize: 每页显示的数量（可选，默认为10）
+     * messageId: 用于获取单个留言的ID（可选）
+     * userId: 根据用户ID过滤留言（可选）
+     * tag: 根据标签过滤留言（可选）
+     * type: 根据留言类型过滤（可选）
+     * sortBy: 排序方式，可以是 'createdAt'、'like' 或 'comment'（可选）
      * */
     async getMessage(ctx: Context) {
-        const { page = 1, pageSize = 10, messageId, userId, tag , type } = ctx.query as { page?: string; pageSize?: string; messageId?: string; userId?: string; tag?: string, type?: number }
+        const { page = 1, pageSize = 10, messageId, userId, tag, type, sortBy } = ctx.query as {
+            page?: string;
+            pageSize?: string;
+            messageId?: string;
+            userId?: string;
+            tag?: string;
+            type?: number;
+            sortBy?: 'createdAt' | 'like' | 'comment';
+        };
+
+        console.log(page, pageSize, messageId, userId, tag, type, sortBy)
 
         try {
             if (messageId) {
-                // 当查询单个留言时
-                const message = await messageModel.findById(messageId)
+                // 单个留言查询
+                const message = await messageModel.findById(messageId);
 
                 if (!message) {
                     ctx.body = {
                         code: 404,
                         message: '留言不存在',
                         data: null
-                    }
+                    };
                 } else {
                     ctx.body = {
                         code: 200,
                         message: '获取留言成功',
                         data: message // 返回单个留言
-                    }
+                    };
                 }
             } else {
-                // 当查询留言列表时
-                const skip = (Number(page) - 1) * Number(pageSize)
-                const query: any = {}
+                // 留言列表查询
+                const skip = (Number(page) - 1) * Number(pageSize);
+                const query: any = {};
 
-                if(type) {
-                    query.type = type // 根据留言类型过滤
+                if (type) {
+                    query.type = type; // 根据留言类型过滤
                 }
 
                 if (userId) {
-                    query.userId = userId // 根据用户ID过滤
+                    query.userId = userId; // 根据用户ID过滤
                 }
 
                 if (tag) {
-                    query.tag = tag // 根据标签过滤
+                    query.tag = tag; // 根据标签过滤
                 }
 
-                const messages = await messageModel.find(query).sort({ createdAt: -1 }).skip(skip).limit(Number(pageSize))
-                const total = await messageModel.countDocuments(query) // 根据条件统计总数
+                // 根据 sortBy 参数选择排序字段
+                const sortField = sortBy === 'like' ? { like: -1 } : sortBy === 'comment' ? { comment: -1 } : { createdAt: -1 };
+
+                // @ts-ignore
+                const messages = await messageModel.find(query).sort(sortField).skip(skip).limit(Number(pageSize));
+                const total = await messageModel.countDocuments(query);
 
                 ctx.body = {
                     code: 200,
@@ -77,13 +98,13 @@ class messageController {
                         page: Number(page),
                         total: total // 返回总数
                     }
-                }
+                };
             }
         } catch (err) {
             ctx.body = {
                 code: 400,
                 error: err.message
-            }
+            };
         }
     }
     /**

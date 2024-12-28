@@ -251,7 +251,7 @@ onMounted(async () => {
         <yq-loading v-if="isLoading && messageParams.page > 1"></yq-loading>
       </div>
       <div
-        class="text-center text-gray-400 mt-4"
+        class="text-center text-gray-400 my-[20px]"
         v-else-if="
           messageTotal !== 0 && messageParams.page * messageParams.pageSize >= messageTotal
         "

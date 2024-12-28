@@ -7,16 +7,18 @@ export interface IGetMessageParams {
   pageSize: number
   tag: number | null
   type: number
+  sortBy?: 'createdAt' | 'like' | 'comment'
 }
 
 export function useGetMessages(currentWall: number) {
   const isLoading = ref(false) // 加载状态
   const messageParams = reactive<IGetMessageParams>({
-    userId: JSON.parse(localStorage.getItem('userInfo') || '{}').user._id || 0,
+    userId: JSON.parse(localStorage.getItem('userInfo') || '{}')?.user?._id || 0,
     page: 1,
     pageSize: 8,
     tag: null,
-    type: currentWall
+    type: currentWall,
+    sortBy: 'createdAt'
   })
 
   const textList = ref<any>([]) // 文本留言列表
