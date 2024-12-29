@@ -81,7 +81,11 @@ app.use(
   koajwt({
     secret: "yq-yq-message-wall-server-jwt", // JWT 密钥
   }).unless({
-    path: [/^\/auth\/login/, /^\/auth\/register/], // 允许访问的路径，不需要认证
+    path: [
+      /^\/auth\/login/,
+      /^\/auth\/register/,
+      /^\/message\/list/,
+    ],
   }),
 );
 

@@ -12,7 +12,7 @@ export function useLabelFilter(
   const commonStore = useCommonStore()
   const { currentWall } = storeToRefs(commonStore)
 
-  const changeLabelItem = async (index: any) => {
+  const changeLabelItem = async (params: any) => {
     // 开启 Loading
     isLoading.value = true
 
@@ -26,7 +26,8 @@ export function useLabelFilter(
 
       messageParams.page = 1
       messageParams.pageSize = 10
-      messageParams.tag = index
+      messageParams.tag = params.label
+      messageParams.sortBy = params.sortBy
 
       // 处理副作用
       if (fn) {

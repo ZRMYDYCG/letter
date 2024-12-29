@@ -8,11 +8,14 @@ import YqButton from '@/components/yq-button/index.vue'
 import RevokeDialog from '../revoke-dialog/index.vue'
 import CardForCanvas from '../message-text-card/card-for-canvas.vue'
 import Error from '@/views/home/components/empty/index.vue'
-import { HOSTIP } from '@/IPV4/ipv4.ts'
+import { HOSTIP } from '@/config/ipv4.ts'
+import { useLockScroll } from '@/hook'
+
+useLockScroll()
 
 const commentList = ref<any[]>([])
 const content = ref('')
-const nickName = ref('')
+const signature = ref('')
 let revokeDialogRef = ref<InstanceType<typeof revokeDialogRef> | null>(null)
 const screenshotUrl = ref<string | null>(null)
 const messageTextCardRef = ref<InstanceType<typeof MessageTextCard> | null>(null)
@@ -29,13 +32,11 @@ function handleAddMessageComment() {
   addMessageComment({
     messageId: props.item._id,
     content: content.value,
-    nickName: nickName.value,
+    signature: signature.value,
     userId: JSON.parse(localStorage.getItem('userInfo') || '{}').user._id
   }).then((res) => {
     if (res) {
-      commentList.value.push(res.data)
-      content.value = ''
-      nickName.value = ''
+      handleGetMessageComments()
       // 获取详情, 更新评论数量
       messageTextCardRef.value?.handleGetMessage()
     }
@@ -44,6 +45,7 @@ function handleAddMessageComment() {
 
 function handleGetMessageComments() {
   getMessageComments({ messageId: props.item._id }).then((res) => {
+    console.log('res', res)
     commentList.value = res.data
   })
 }
@@ -59,7 +61,7 @@ const handleOnConfirm = (data: any) => {
 /**
  * 分享留言
  * */
-const generateScreenshot = async () => {
+const generateScreenshot = async (itemType: number) => {
   // 创建隐藏的 DOM 容器
   const hiddenContainer = document.createElement('div')
   document.body.appendChild(hiddenContainer)
@@ -114,7 +116,7 @@ defineExpose({
           @confirm="handleOnConfirm"
         ></revoke-dialog>
       </div>
-      <div class="flex gap-1 cursor-pointer" @click="generateScreenshot">
+      <div class="flex gap-1 cursor-pointer" @click="generateScreenshot(item.type)">
         <span class="dark:text-white">{{ item.type === 0 ? '分享' : '下载' }}</span>
         <i class="iconfont text-xs" :class="item.type === 0 ? 'icon-fenxiang' : 'icon-xiazai'" />
       </div>
@@ -141,7 +143,7 @@ defineExpose({
         <input
           placeholder="签名"
           class="inp w-52 p-2 font-semibold text-lg border border-[#949494] bg-transparent"
-          v-model="nickName"
+          v-model="signature"
         />
         <yq-button @click.native="handleAddMessageComment">确定</yq-button>
       </div>
@@ -152,16 +154,16 @@ defineExpose({
     <ul class="comment" v-if="commentList.length > 0">
       <template v-for="(item, index) in commentList" :key="index">
         <li class="item flex pb-7">
-          <div
-            class="user-head w-7 h-7 rounded-full bg-cover"
-            :style="{ backgroundImage: portrait[0] }"
-          ></div>
-          <div class="detail pl-2">
+          <div class="rounded-full h-[36px] w-[36px] overflow-hidden shadow-md cursor-pointer outline-none">
+            <div v-if="!String(item.user?.avatar).includes('http')" class="w-full h-full" :style="{ background: portrait[item.user?.avatar] }"></div>
+            <img v-else :src="item.user?.avatar" alt="#" class="w-full h-full object-cover" />
+          </div>
+          <div class="detail pl-2 flex-1">
             <div class="detail-top flex items-center">
-              <span class="name font-semibold">{{ item?.nickName || '匿名' }}</span>
+              <span class="name font-semibold">{{ item?.signature || '匿名' }}</span>
               <span class="time text-sm text-[#949494] pl-1">{{ item?.createdAt }}</span>
             </div>
-            <div class="detail-main pt-1">
+            <div class="detail-main pt-1" style="overflow-wrap: break-word; word-wrap: break-word; word-break: break-all;">
               {{ item.content }}
             </div>
           </div>

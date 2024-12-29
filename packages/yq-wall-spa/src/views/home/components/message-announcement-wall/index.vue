@@ -1,6 +1,6 @@
 <template>
-  <h1 class="text-center font-bold text-2xl mt-[80px]">项目迭代记录-letter</h1>
-  <div class="container mx-auto p-4 mt-[5px] flex flex-col md:flex-row">
+  <h1 class="text-center font-bold text-2xl mt-[80px] dark:text-white">项目迭代记录-letter</h1>
+  <div class="container mx-auto p-4 mt-[5px] flex flex-col md:flex-row dark:text-white">
     <div class="timeline mt-6 md:w-1/2 md:pr-4">
       <div class="flex flex-col">
         <div
@@ -10,19 +10,19 @@
         >
           <div class="absolute left-[-6px] top-0 w-[12px] h-[12px] bg-blue-500 rounded-full"></div>
           <div class="font-bold">{{ item.label }}</div>
-          <div class="mt-1">{{ item.children }}</div>
+          <a class="mt-1 cursor-pointer" target="_blank" :href="item.html_url">{{ item.children }}</a>
         </div>
       </div>
     </div>
 
     <!-- 内嵌 GitHub Issues 页面 -->
-    <iframe
-      src="https://yq-message-wall.vercel.app/"
-      class="mt-6 w-full h-[800px] border border-gray-300 md:w-1/2 md:mt-0"
-      frameborder="0"
-      allowfullscreen
-      title="GitHub Issues"
-    ></iframe>
+<!--    <iframe-->
+<!--      src="https://yq-message-wall.vercel.app/"-->
+<!--      class="mt-6 w-full h-[800px] border border-gray-300 md:w-1/2 md:mt-0"-->
+<!--      frameborder="0"-->
+<!--      allowfullscreen-->
+<!--      title="GitHub Issues"-->
+<!--    ></iframe>-->
   </div>
 </template>
 
@@ -34,6 +34,7 @@ interface Commit {
     author: { date: string }
     message: string
   }
+  html_url: string
 }
 
 interface Year {
@@ -45,7 +46,7 @@ export default {
   setup() {
     const year = ref<number>(new Date().getFullYear())
     const yearList = ref<Year[]>([])
-    const blogIterativeRecording = ref<{ label: string; children: string }[]>([])
+    const blogIterativeRecording = ref<{ label: string; children: string, html_url?: string }[]>([])
 
     const getCommitData = async (project: string) => {
       const res = await fetch(
@@ -54,7 +55,8 @@ export default {
       const data: Commit[] = await res.json()
       const result = data.map((item) => ({
         label: new Date(item.commit.author.date).toLocaleString(),
-        children: item.commit.message
+        children: item.commit.message,
+        html_url: item.html_url,
       }))
 
       sessionStorage.setItem('blog_project_iterative', JSON.stringify(result))

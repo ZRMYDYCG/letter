@@ -1,15 +1,16 @@
-import type { Context, Next } from "koa";
+import type { Context } from "koa";
 import authService from "../service/auth.service";
 import userModel from "../models/users.model";
 import jwt from "jsonwebtoken";
 
 class authController {
   async login(ctx: Context) {
-    const { username, password } = ctx.request.body as {
+    const { username, password, identity } = ctx.request.body as {
       username: string;
       password: string;
+      identity: number;
     };
-    const { token, user } = await authService.login(username, password);
+    const { token, user } = await authService.login(username, password, identity, ctx.request.ip);
     ctx.body = {
       code: 200,
       message: "登录成功",
@@ -18,7 +19,8 @@ class authController {
   }
 
   async register(ctx: Context) {
-    const { username, password } = ctx.request.body as {
+    const { username, password, identity } = ctx.request.body as {
+      identity: number;
       username?: string;
       password?: string;
     };
@@ -44,7 +46,7 @@ class authController {
     }
 
     await userModel
-        .create({ username, password, identity: 1 }) // 默认身份为 1
+        .create({ username, password, identity })
         .then((res) => {
           if (res) {
             ctx.body = {
@@ -67,7 +69,6 @@ class authController {
           };
         });
   }
-
 
   /**
    * @desc 验证用户登录

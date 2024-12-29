@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="yi-footer bg-gray-900 py-8 mt-10">
+  <div class="yi-footer bg-gray-900 py-8">
     <div
       class="yi-footer-inner max-w-screen-xl mx-auto flex flex-col md:flex-row justify-between items-start px-4"
     >

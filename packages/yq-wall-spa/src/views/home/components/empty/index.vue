@@ -8,6 +8,7 @@ const props = defineProps<IProps>()
 </script>
 
 <template>
+<div class="mt-[80px]">
   <!-- 文本消息占位图 -->
   <div class="flex flex-col items-center" v-if="type === 0">
     <img
@@ -37,6 +38,7 @@ const props = defineProps<IProps>()
     />
     <div class="text-nowrap text-center mt-2 text-sm md:text-base">{{ text }}</div>
   </div>
+</div>
 </template>
 
 <style scoped></style>
