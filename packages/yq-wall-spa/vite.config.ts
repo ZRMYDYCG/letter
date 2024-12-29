@@ -6,7 +6,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-import { HOSTIP } from './src/IPV4/ipv4.ts'
+import { HOSTIP } from './src/config/ipv4.ts'
 
 // https://vitejs.dev/config/
 export default defineConfig({

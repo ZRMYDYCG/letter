@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import MarkdownIt from 'markdown-it'
 import hljs from 'highlight.js'
 import { useRouter } from 'vue-router'
-import { HOSTIP } from '@/IPV4/ipv4.ts'
+import { HOSTIP } from '@/config/ipv4.ts'
 
 export const useAiStore = defineStore('chat', () => {
   const md = new MarkdownIt({

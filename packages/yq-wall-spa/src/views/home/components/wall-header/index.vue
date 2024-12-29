@@ -9,8 +9,7 @@ import YiSwitch from '@/components/yq-switch/index.vue'
 import { useTheme, useChangeTitle } from '@/hook'
 import { login } from '@/api/modules'
 import { portrait } from '@/config'
-import { HOSTIP } from '@/IPV4/ipv4.ts'
-
+import { HOSTIP } from '@/config/ipv4.ts'
 
 useTheme()
 
@@ -111,8 +110,8 @@ onUnmounted(() => {
       <iconpark-icon name="application-menu" class="cursor-pointer"></iconpark-icon>
     </div>
     <div class="user w-[150px] flex items-center justify-end">
-      <iconpark-icon name="github" size="21" class="mr-3" @click="window.open('https://github.com/ZRMYDYCG/letter', '_blank')"></iconpark-icon>
-      <iconpark-icon name="xiaoxi" size="21" class="mr-3"></iconpark-icon>
+      <iconpark-icon name="github" size="21" class="mr-3 cursor-pointer" @click="window.open('https://github.com/ZRMYDYCG/letter', '_blank')"></iconpark-icon>
+      <iconpark-icon name="xiaoxi" size="21" class="mr-3 cursor-pointer"></iconpark-icon>
       <iconpark-icon
         name="setting"
         class="mr-4 cursor-pointer"
@@ -121,7 +120,8 @@ onUnmounted(() => {
       />
 
       <YiSwitch class="mr-4" v-model="themeType" active-value="dark" inactive-value="light" />
-      <div class="mr-4 cursor-pointer text-nowrap">{{userInfo?.nickname}}</div>
+      <div class="text-nowrap mr-2" v-if="userInfo.identity === 3">游客</div>
+      <div class="mr-4 text-nowrap" v-else>{{userInfo?.nickname}}</div>
       <el-dropdown @command="handleCommand">
 
         <div class="rounded-full h-[36px] w-[36px] overflow-hidden shadow-md cursor-pointer outline-none">
