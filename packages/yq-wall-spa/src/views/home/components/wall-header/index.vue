@@ -48,6 +48,8 @@ const handleCommand = async (command: string) => {
     case 'visitor':
       const res = await login({ identity: 3 })
       await authStore.login(res.data)
+      // 刷新墙体
+      emits('visitor-login')
       break
     case 'account':
       await router.push('/login')

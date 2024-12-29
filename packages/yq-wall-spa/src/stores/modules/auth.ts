@@ -20,6 +20,7 @@ const useAuthStore = defineStore('authStore', () => {
     localStorage.setItem('userInfo', JSON.stringify(response))
     userInfo.value = response.user
     token.value = response.token
+    id.value = response.user._id
     await router.push('/')
   }
 

@@ -2,6 +2,7 @@
 import { ref, onMounted, nextTick } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCommonStore } from '@/stores/modules/common'
+import useAuthStore from '@/stores/modules/auth'
 import YqDrawer from '@/components/yq-drawer/index.vue'
 import CreatMessage from './components/creat-message/index.vue'
 import MessageDetail from './components/message-detail/index.vue'
@@ -20,6 +21,7 @@ import MessageVideoWall from './components/message-video-wall/index.vue'
 import MessageAnnouncementWall from './components/message-announcement-wall/index.vue'
 import MessageIssueWall from './components/message-issue-wall/index.vue'
 import UseSetting from './components/use-setting/index.vue'
+import { getMessages } from '@/api/modules/message'
 
 import {
   useGetMessages,
@@ -38,7 +40,9 @@ const DrawerState = {
 }
 
 const commonStore = useCommonStore()
+const authStore = useAuthStore()
 const { currentWall, themeType, settings } = storeToRefs(commonStore)
+const { id } = storeToRefs(authStore)
 let isDrawerShow = ref(false) // 右侧抽屉的展示状态
 const drawerTitle = ref('每一篇文字，都能抚慰你的心灵')
 let currentDrawerState = ref(DrawerState.CREATE_MESSAGE) // 当前抽屉状态
@@ -191,6 +195,17 @@ const clickLoadMore = async () => {
   await fetchMessages()
 }
 
+const handleVisitorLogin = async () => {
+  textList.value = []
+  photoList.value = []
+  messageParams.tag = null
+  messageParams.page = 1
+  messageParams.pageSize = 10
+  messageParams.type = currentWall.value
+  await fetchMessages()
+  toWallTop()
+}
+
 /**
  * @description: 页面加载完成后，默认加载第一页数据
  * */
@@ -203,7 +218,7 @@ onMounted(async () => {
 
 <template>
   <!-- 头部 -->
-  <yq-header @open-setting="openDrawer(DrawerState.PROJECT_SETTING)" @change-wall="changeWall" />
+  <yq-header @open-setting="openDrawer(DrawerState.PROJECT_SETTING)" @change-wall="changeWall" @visitor-login="handleVisitorLogin" />
   <div class="wall-message pt-14 md:pt-16" v-if="currentWall === 0 || currentWall === 1">
     <!-- 墙标题 -->
     <wall-title></wall-title>

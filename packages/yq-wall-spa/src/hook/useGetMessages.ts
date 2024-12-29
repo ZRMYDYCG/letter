@@ -34,8 +34,6 @@ export function useGetMessages(currentWall: number) {
     try {
       isLoading.value = true
 
-      // await new Promise((resolve) => setTimeout(resolve, 1000))
-
       const res = await getMessages(messageParams)
       /**
        * 0 文本留言墙

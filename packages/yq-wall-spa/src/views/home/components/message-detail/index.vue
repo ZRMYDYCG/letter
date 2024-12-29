@@ -45,8 +45,14 @@ function handleAddMessageComment() {
 
 function handleGetMessageComments() {
   getMessageComments({ messageId: props.item._id }).then((res) => {
-    console.log('res', res)
-    commentList.value = res.data
+    commentList.value = res.data.map(comment => ({
+      ...comment,
+      showReply: false,
+      replyContent: '',
+      replies: [],
+      visibleRepliesCount: 10
+    }));
+
   })
 }
 
@@ -56,6 +62,25 @@ const handleRevokeDialog = () => {
 
 const handleOnConfirm = (data: any) => {
   console.log('data', data)
+}
+
+const toggleReply = (index: number) => {
+  commentList.value[index].showReply = !commentList.value[index].showReply
+}
+
+const submitReply = (index: number) => {
+  const replyText = commentList.value[index].replyContent
+  // 模拟处理添加回复
+  if (replyText.trim()) {
+    commentList.value[index].replies.push({
+      content: replyText,
+      signature: '你', // 这里可以改为实际用户签名
+      createdAt: new Date().toLocaleString() // 当前时间作为回复时间
+    })
+    // 清空输入框
+    commentList.value[index].replyContent = ''
+    commentList.value[index].showReply = false // 隐藏输入框
+  }
 }
 
 /**
@@ -97,6 +122,10 @@ const generateScreenshot = async (itemType: number) => {
   document.body.removeChild(hiddenContainer)
 }
 
+const loadMore = (item) => {
+  item.visibleRepliesCount += 10
+}
+
 defineExpose({
   handleGetMessageComments,
   revokeDialogRef,
@@ -111,9 +140,9 @@ defineExpose({
         <span class="revoke text-[#3b73f0] cursor-pointer pr-2">联系墙主撕掉该便签</span>
         <span class="report text-[#f67770] cursor-pointer" @click="handleRevokeDialog">举报</span>
         <revoke-dialog
-          ref="revokeDialogRef"
-          title="举报理由"
-          @confirm="handleOnConfirm"
+            ref="revokeDialogRef"
+            title="举报理由"
+            @confirm="handleOnConfirm"
         ></revoke-dialog>
       </div>
       <div class="flex gap-1 cursor-pointer" @click="generateScreenshot(item.type)">
@@ -123,27 +152,27 @@ defineExpose({
     </div>
     <!-- 小屏幕显示的图像 -->
     <div
-      v-if="item.image"
-      class="img-item md:hidden mb-2 overflow-hidden rounded-md shadow-md border border-[#949494]"
+        v-if="item.image"
+        class="img-item md:hidden mb-2 overflow-hidden rounded-md shadow-md border border-[#949494]"
     >
       <img
-        :src="item.image.replace('localhost:5174', `${HOSTIP}:5174`)"
-        alt="#"
-        class="w-full h-full object-cover"
+          :src="item.image.replace('localhost:5174', `${HOSTIP}:5174`)"
+          alt="#"
+          class="w-full h-full object-cover"
       />
     </div>
     <message-text-card ref="messageTextCardRef" class="card-item" :note="item"></message-text-card>
     <div class="form mt-5">
       <textarea
-        placeholder="请输入评论"
-        class="message border border-[#949494] w-full p-2 resize-none text-lg"
-        v-model="content"
+          placeholder="请输入评论"
+          class="message border border-[#949494] w-full p-2 text-black outline-none resize-none text-lg"
+          v-model="content"
       ></textarea>
       <div class="send flex mt-2 justify-between">
         <input
-          placeholder="签名"
-          class="inp w-52 p-2 font-semibold text-lg border border-[#949494] bg-transparent"
-          v-model="signature"
+            placeholder="签名"
+            class="inp w-52 p-2 font-semibold text-lg border text-black border-[#949494] bg-transparent outline-none"
+            v-model="signature"
         />
         <yq-button @click.native="handleAddMessageComment">确定</yq-button>
       </div>
@@ -166,10 +195,41 @@ defineExpose({
             <div class="detail-main pt-1" style="overflow-wrap: break-word; word-wrap: break-word; word-break: break-all;">
               {{ item.content }}
             </div>
+            <!-- 回复按钮 -->
+            <button @click="toggleReply(index)" class="mt-1 text-sm text-blue-500">回复</button>
+
+            <!-- 回复输入框显示 -->
+            <div v-if="item.showReply" class="reply-input flex items-center mt-1">
+              <input v-model="item.replyContent" placeholder="输入你的回复..." class="border bg-transparent border-[#949494] p-2 w-full text-black  outline-none" />
+              <yq-button @click="submitReply(index)" class="ml-2 text-white">提交回复</yq-button>
+            </div>
+            <!-- 显示回复列表 -->
+            <div class="replies mt-3">
+              <div v-for="(reply, replyIndex) in item.replies.slice(0, item.visibleRepliesCount)" :key="replyIndex" class="reply-item mt-1 flex">
+                <div class="rounded-full h-[36px] w-[36px] overflow-hidden shadow-md cursor-pointer outline-none mr-2">
+                  <div v-if="!String(item.user?.avatar).includes('http')" class="w-full h-full" :style="{ background: portrait[item.user?.avatar] }"></div>
+                </div>
+                <div class="flex-1">
+                  <div>
+                    <span class="mr-1">{{ reply.signature || '匿名' }}</span>
+                    <span class="text-sm text-[#949494]">{{ reply.createdAt }}</span>
+                  </div>
+                  <div class="reply-content" style="overflow-wrap: break-word; word-wrap: break-word; word-break: break-all;">
+                    <span v-if="!reply.isExpanded">{{ reply.content.slice(0, 100) }}<span v-if="reply.content.length > 100">...<a @click="reply.isExpanded = true" class="text-blue-500 cursor-pointer">展开</a></span></span>
+                    <span v-else>{{ reply.content }} <a @click="reply.isExpanded = false" class="text-blue-500 cursor-pointer">收起</a></span>
+                  </div>
+                </div>
+              </div>
+              <div v-if="item.replies.length > 5" class="load-more mt-2">
+                <button @click="loadMore(item)" class="text-blue-500">加载更多回复</button>
+              </div>
+            </div>
+
           </div>
         </li>
       </template>
     </ul>
+
     <div class="w-full h-full flex justify-center items-center" v-else>
       <Error :type="-1" text="暂无评论, 快来抢沙发吧~"></Error>
     </div>

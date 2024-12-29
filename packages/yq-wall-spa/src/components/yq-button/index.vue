@@ -1,6 +1,6 @@
 <template>
   <button
-    class="yi-button cursor-pointer font-XiaoKeNaiNao"
+    class="yi-button cursor-pointer font-XiaoKeNaiNao text-center text-nowrap"
     :class="[buttonSizeClass, buttonTypeClass]"
   >
     <slot></slot>
