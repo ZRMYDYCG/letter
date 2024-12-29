@@ -9,6 +9,9 @@ import RevokeDialog from '../revoke-dialog/index.vue'
 import CardForCanvas from '../message-text-card/card-for-canvas.vue'
 import Error from '@/views/home/components/empty/index.vue'
 import { HOSTIP } from '@/config/ipv4.ts'
+import { useLockScroll } from '@/hook'
+
+useLockScroll()
 
 const commentList = ref<any[]>([])
 const content = ref('')
@@ -155,12 +158,12 @@ defineExpose({
             <div v-if="!String(item.user?.avatar).includes('http')" class="w-full h-full" :style="{ background: portrait[item.user?.avatar] }"></div>
             <img v-else :src="item.user?.avatar" alt="#" class="w-full h-full object-cover" />
           </div>
-          <div class="detail pl-2">
+          <div class="detail pl-2 flex-1">
             <div class="detail-top flex items-center">
               <span class="name font-semibold">{{ item?.signature || '匿名' }}</span>
               <span class="time text-sm text-[#949494] pl-1">{{ item?.createdAt }}</span>
             </div>
-            <div class="detail-main pt-1">
+            <div class="detail-main pt-1" style="overflow-wrap: break-word; word-wrap: break-word; word-break: break-all;">
               {{ item.content }}
             </div>
           </div>
