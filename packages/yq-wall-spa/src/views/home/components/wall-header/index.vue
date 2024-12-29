@@ -9,6 +9,8 @@ import YiSwitch from '@/components/yq-switch/index.vue'
 import { useTheme, useChangeTitle } from '@/hook'
 import { login } from '@/api/modules'
 import { portrait } from '@/config'
+import { HOSTIP } from '@/IPV4/ipv4.ts'
+
 
 useTheme()
 
@@ -128,7 +130,7 @@ onUnmounted(() => {
           <!-- 游客 -->
           <div class="w-full h-full" v-if="token && !(userInfo?.avatar && String(userInfo.avatar).includes('http'))" :style="{ background: portrait[userInfo.avatar] }"></div>
           <!-- 真实用户 -->
-          <img v-if="token && userInfo?.avatar && String(userInfo.avatar).includes('http')" class="w-full h-full object-cover" :src="userInfo.avatar" alt="">
+          <img v-if="token && userInfo?.avatar && String(userInfo.avatar).includes('http')" class="w-full h-full object-cover" :src="userInfo.avatar.replace('localhost:5174', `${HOSTIP}:5174`)" alt="">
         </div>
         <template #dropdown>
           <el-dropdown-menu>

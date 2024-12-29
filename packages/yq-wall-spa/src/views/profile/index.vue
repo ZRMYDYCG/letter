@@ -7,6 +7,7 @@ import ImgCutter from 'vue-img-cutter'
 import YqButton from '@/components/yq-button/index.vue'
 import useAuthStore from '@/stores/modules/auth.ts'
 import { updateUserInfo } from '@/api/modules/user'
+import { HOSTIP } from '@/IPV4/ipv4.ts'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -97,6 +98,7 @@ onMounted(() => {
               class="w-20 h-20 rounded-lg"
               :src="params.avatar || userInfo.avatar"
               v-if="String(userInfo.avatar)?.startsWith('http') || String(params.avatar)?.startsWith('data:')"
+              :src="userInfo.avatar.replace('localhost:5174', `${HOSTIP}:5174`) || params.avatar.replace('localhost:5174', `${HOSTIP}:5174`) || portrait[userInfo.avatar]"
             />
             <!--  使用系统的默认的渐变头像  -->
             <div
