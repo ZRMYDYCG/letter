@@ -21,7 +21,6 @@ import MessageVideoWall from './components/message-video-wall/index.vue'
 import MessageAnnouncementWall from './components/message-announcement-wall/index.vue'
 import MessageIssueWall from './components/message-issue-wall/index.vue'
 import UseSetting from './components/use-setting/index.vue'
-import { getMessages } from '@/api/modules/message'
 
 import {
   useGetMessages,
@@ -202,6 +201,7 @@ const handleVisitorLogin = async () => {
   messageParams.page = 1
   messageParams.pageSize = 10
   messageParams.type = currentWall.value
+  messageParams.userId = id.value
   await fetchMessages()
   toWallTop()
 }

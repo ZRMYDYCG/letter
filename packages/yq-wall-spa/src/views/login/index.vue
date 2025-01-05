@@ -1,15 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import YqButton from '@/components/yq-button/index.vue'
 import { login } from '@/api/modules'
 import useAuthStore from '@/stores/modules/auth'
-import { storeToRefs } from "pinia"
 
 const router = useRouter()
 const authStore = useAuthStore()
-
-const { userInfo } = storeToRefs(authStore)
 
 const loading = ref(false)
 const params = ref({ username: '', password: '' })

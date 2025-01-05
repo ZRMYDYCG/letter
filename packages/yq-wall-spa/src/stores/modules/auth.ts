@@ -14,6 +14,7 @@ const useAuthStore = defineStore('authStore', () => {
   const logout = () => {
     localStorage.removeItem('userInfo')
     token.value = ''
+    id.value = '676fda5760b243521bed91ef'
   }
 
   const login = async (response: any) => {
@@ -24,7 +25,7 @@ const useAuthStore = defineStore('authStore', () => {
     await router.push('/')
   }
 
-  const setUserInfo = (params: any) => {
+  const setUserInfo = async (params: any) => {
     localStorage.setItem('userInfo', JSON.stringify(params))
     userInfo.value = params.user
     token.value = params.token

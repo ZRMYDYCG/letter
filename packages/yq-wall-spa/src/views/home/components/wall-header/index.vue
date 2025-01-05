@@ -47,7 +47,7 @@ const handleCommand = async (command: string) => {
   switch (command) {
     case 'visitor':
       const res = await login({ identity: 3 })
-      await authStore.login(res.data)
+      await authStore.setUserInfo(res.data)
       // 刷新墙体
       emits('visitor-login')
       break

@@ -1,1 +1,1 @@
-export const HOSTIP: string = '192.168.142.45'
+export const HOSTIP: string = '192.168.1.45'
