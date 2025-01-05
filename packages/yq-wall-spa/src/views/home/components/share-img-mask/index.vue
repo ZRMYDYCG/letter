@@ -24,7 +24,7 @@ const closeImgShareDialog = () => {
 
 <template>
   <div
-    class="w-screen h-screen fixed top-0 left-0 z-[9999] bg-black bg-opacity-90 flex justify-center items-center"
+    class="w-screen h-screen fixed top-0 left-0 z-[9999] bg-black bg-opacity-90 flex justify-center items-center px-2"
     v-if="DownloadImgUrl"
     @click="closeImgShareDialog"
   >
