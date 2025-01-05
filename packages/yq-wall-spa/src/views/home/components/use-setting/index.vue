@@ -15,7 +15,7 @@ const copySetting = () => {
 </script>
 
 <template>
-  <div class="p-4 w-full max-w-sm mx-auto h-full">
+  <div class="p-4 w-full max-w-sm mx-auto h-full dark:text-black">
     <!--  整体风格设置  -->
     <style-setting ref="styleSettingRef"></style-setting>
 

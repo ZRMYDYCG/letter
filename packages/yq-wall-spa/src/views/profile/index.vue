@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ref, reactive, onMounted } from 'vue'
 import { storeToRefs } from "pinia"
 import { useRouter } from 'vue-router'
@@ -7,7 +7,6 @@ import ImgCutter from 'vue-img-cutter'
 import YqButton from '@/components/yq-button/index.vue'
 import useAuthStore from '@/stores/modules/auth.ts'
 import { updateUserInfo } from '@/api/modules/user'
-import { HOSTIP } from '@/config/ipv4.ts'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -45,7 +44,7 @@ const handleUpdateUserInfo = async () => {
       token: token.value,
       user: res.data
     }
-    authStore.setUserInfo(params)
+    await authStore.setUserInfo(params)
     await router.push('/')
   } catch (error) {
     console.error('更新用户信息失败:', error)

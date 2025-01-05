@@ -15,7 +15,6 @@ useLockScroll()
 
 const commentList = ref<any[]>([])
 const content = ref('')
-const signature = ref('')
 let revokeDialogRef = ref<InstanceType<typeof revokeDialogRef> | null>(null)
 const screenshotUrl = ref<string | null>(null)
 const messageTextCardRef = ref<InstanceType<typeof MessageTextCard> | null>(null)
@@ -32,7 +31,6 @@ function handleAddMessageComment() {
   addMessageComment({
     messageId: props.item._id,
     content: content.value,
-    signature: signature.value,
     userId: JSON.parse(localStorage.getItem('userInfo') || '{}').user._id
   }).then((res) => {
     if (res) {
@@ -74,7 +72,6 @@ const submitReply = (index: number) => {
   if (replyText.trim()) {
     commentList.value[index].replies.push({
       content: replyText,
-      signature: '你', // 这里可以改为实际用户签名
       createdAt: new Date().toLocaleString() // 当前时间作为回复时间
     })
     // 清空输入框
@@ -169,11 +166,6 @@ defineExpose({
           v-model="content"
       ></textarea>
       <div class="send flex mt-2 justify-between">
-        <input
-            placeholder="签名"
-            class="inp w-52 p-2 font-semibold text-lg border text-black border-[#949494] bg-transparent outline-none"
-            v-model="signature"
-        />
         <yq-button @click.native="handleAddMessageComment">确定</yq-button>
       </div>
     </div>
@@ -189,7 +181,7 @@ defineExpose({
           </div>
           <div class="detail pl-2 flex-1">
             <div class="detail-top flex items-center">
-              <span class="name font-semibold">{{ item?.signature || '匿名' }}</span>
+              <span class="name font-semibold">{{ '匿名' }}</span>
               <span class="time text-sm text-[#949494] pl-1">{{ item?.createdAt }}</span>
             </div>
             <div class="detail-main pt-1" style="overflow-wrap: break-word; word-wrap: break-word; word-break: break-all;">
@@ -211,7 +203,7 @@ defineExpose({
                 </div>
                 <div class="flex-1">
                   <div>
-                    <span class="mr-1">{{ reply.signature || '匿名' }}</span>
+                    <span class="mr-1">{{ '匿名' }}</span>
                     <span class="text-sm text-[#949494]">{{ reply.createdAt }}</span>
                   </div>
                   <div class="reply-content" style="overflow-wrap: break-word; word-wrap: break-word; word-break: break-all;">
