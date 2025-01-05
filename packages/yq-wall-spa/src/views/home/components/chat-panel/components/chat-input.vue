@@ -18,14 +18,15 @@
           <span class="ml-2">联网搜索</span>
         </div>
         <div class="flex gap-2">
-          <div class="rounded-lg w-8 h-8 flex justify-center items-center cursor-pointer">
+          <div class="rounded-lg w-8 h-8 flex justify-center bg-gray-300 text-white items-center cursor-pointer hover:bg-blue-500">
             <iconpark-icon name="tip" size="20"></iconpark-icon>
           </div>
-          <div class="rounded-lg w-8 h-8 flex justify-center items-center cursor-pointer">
+          <div class="rounded-lg w-8 h-8 flex justify-center bg-gray-300 text-white  items-center cursor-pointer hover:bg-blue-500">
             <iconpark-icon name="link" size="20"></iconpark-icon>
           </div>
           <div
-            class="rounded-lg w-8 h-8 flex justify-center items-center bg-gray-300 text-white cursor-pointer"
+            class="rounded-lg w-8 h-8 flex justify-center items-center text-white cursor-pointer"
+            :class="{ 'bg-blue-500': aiStore.userInput.trim().length > 0, 'bg-gray-300': aiStore.userInput.trim().length === 0 }"
           >
             <iconpark-icon name="send" size="20" @click="sendMessage"></iconpark-icon>
           </div>
