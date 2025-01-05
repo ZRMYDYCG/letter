@@ -46,9 +46,20 @@ class commentController {
             parentComment.replies.push(replyComment._id);
             await parentComment.save();
 
+            // 填充 userId 对应的用户信息
+            const populatedReplyComment = await replyComment.populate({
+                path: 'userId',
+                select: 'username avatar nickname', // 选择需要返回的用户字段
+                model: 'users' // 用户模型名称
+            });
+
             ctx.body = {
                 success: true,
-                data: replyComment
+                data: {
+                    ...populatedReplyComment.toObject(), // 将填充后的评论转换为普通对象
+                    user: populatedReplyComment.userId, // 将用户信息单独提取到 user 字段
+                    userId: undefined // 删除原始的 userId 字段
+                }
             };
         } catch (err) {
             ctx.body = {

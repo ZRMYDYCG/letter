@@ -79,7 +79,6 @@ const submitReply = (index: number) => {
         // 新增的回复内容添加到本地评论列表中
         commentList.value[index].replies.push({
           content: replyText,
-          createdAt: new Date().toISOString(), // 设置创建时间
         })
 
         // 清空输入框
