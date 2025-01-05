@@ -47,11 +47,11 @@ function handleGetMessageComments() {
       ...comment,
       showReply: false,
       replyContent: '',
-      replies: [],
-      visibleRepliesCount: 10
+      replies: comment.replies,
+      visibleRepliesCount: 5,
+      hasMoreReplies: comment.replies.length > 5 // 初始化是否还有更多回复
     }))
-
-  })
+  });
 }
 
 const handleRevokeDialog = () => {
@@ -77,9 +77,7 @@ const submitReply = (index: number) => {
     }).then((res) => {
       if (res) {
         // 新增的回复内容添加到本地评论列表中
-        commentList.value[index].replies.push({
-          content: replyText,
-        })
+        commentList.value[index].replies.push(res.data)
 
         // 清空输入框
         commentList.value[index].replyContent = ''
@@ -129,7 +127,15 @@ const generateScreenshot = async (itemType: number) => {
 }
 
 const loadMore = (item) => {
-  item.visibleRepliesCount += 10
+  item.visibleRepliesCount += 5
+
+  // 检查是否还有更多的回复
+  item.hasMoreReplies = item.visibleRepliesCount < item.replies.length
+
+  // 隐藏“没有更多回复”提示的条件
+  if (item.replies.length <= 5 || item.hasMoreReplies === false) {
+    item.hasMoreReplies = false // 如果回复数量不足，设置 hasMoreReplies 为 false
+  }
 }
 
 defineExpose({
@@ -208,12 +214,13 @@ defineExpose({
             <div class="replies mt-3">
               <div v-for="(reply, replyIndex) in item.replies.slice(0, item.visibleRepliesCount)" :key="replyIndex" class="reply-item mt-1 flex">
                 <div class="rounded-full h-[36px] w-[36px] overflow-hidden shadow-md cursor-pointer outline-none mr-2">
-                  <div v-if="!String(item.user?.avatar).includes('http')" class="w-full h-full" :style="{ background: portrait[item.user?.avatar] }"></div>
+                  <div v-if="!String(reply.user?.avatar).includes('http')" class="w-full h-full" :style="{ background: portrait[reply.user?.avatar] }"></div>
+                  <img v-else :src="reply.user?.avatar" alt="#" class="w-full h-full object-cover" />
                 </div>
                 <div class="flex-1">
                   <div>
-                    <span class="mr-1">{{ '匿名' }}</span>
-                    <span class="text-sm text-[#949494]">{{ reply.createdAt }}</span>
+                    <span class="mr-1">{{ reply.user?.nickname }}</span>
+                    <span class="text-sm text-[#949494]">{{ reply?.createdAt }}</span>
                   </div>
                   <div class="reply-content" style="overflow-wrap: break-word; word-wrap: break-word; word-break: break-all;">
                     <span v-if="!reply.isExpanded">{{ reply.content.slice(0, 100) }}<span v-if="reply.content.length > 100">...<a @click="reply.isExpanded = true" class="text-blue-500 cursor-pointer">展开</a></span></span>
@@ -221,9 +228,10 @@ defineExpose({
                   </div>
                 </div>
               </div>
-              <div v-if="item.replies.length > 5" class="load-more mt-2">
+              <div v-if="item.hasMoreReplies" class="load-more mt-2">
                 <button @click="loadMore(item)" class="text-blue-500">加载更多回复</button>
               </div>
+              <div v-else-if="item.replies.length >=5" class="mt-2 text-gray-500">没有更多回复了</div>
             </div>
           </div>
         </li>
