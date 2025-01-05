@@ -48,3 +48,10 @@ export const likeMessage = (params: any) => {
 export const unlikeMessage = (params: any) => {
   return axios.post<any>('/message/unlike', params)
 }
+
+/**
+ * @desc 给某条回复追加回复
+ * */
+export const appendMessageComment = (params: any) => {
+  return axios.post<any>('/comment/reply', params)
+}

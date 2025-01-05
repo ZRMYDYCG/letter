@@ -11,4 +11,7 @@ commentRouter.post("/", commentController.createComment);
 // @ts-ignore
 commentRouter.get("/", commentController.getCommentsByMessageId);
 
+// @ts-ignore
+commentRouter.post("/reply", commentController.replyToComment);
+
 export default commentRouter;

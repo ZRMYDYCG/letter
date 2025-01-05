@@ -9,6 +9,10 @@ const commentSchema = new mongoose.Schema({
     content: { type: String, required: true },
     /* 评论时间 */
     createdAt: { type: Date, default: Date.now },
+    /* 嵌套的评论列表 */
+    replies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'comments' }],
+    // 父级评论ID
+    parentId: { type: mongoose.Schema.Types.ObjectId, ref: 'comments', default: null }
 })
 
 const commentModel = mongoose.model("comments", commentSchema)

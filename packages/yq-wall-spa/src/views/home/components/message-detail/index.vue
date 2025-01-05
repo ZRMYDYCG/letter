@@ -2,7 +2,7 @@
 import { ref, defineExpose, h, createApp } from 'vue'
 import { portrait } from '@/config'
 import html2canvas from 'html2canvas'
-import { getMessageComments, addMessageComment } from '@/api/modules/index.ts'
+import { getMessageComments, addMessageComment, appendMessageComment } from '@/api/modules/index.ts'
 import MessageTextCard from '../message-text-card/index.vue'
 import YqButton from '@/components/yq-button/index.vue'
 import RevokeDialog from '../revoke-dialog/index.vue'
@@ -49,7 +49,7 @@ function handleGetMessageComments() {
       replyContent: '',
       replies: [],
       visibleRepliesCount: 10
-    }));
+    }))
 
   })
 }
@@ -68,15 +68,25 @@ const toggleReply = (index: number) => {
 
 const submitReply = (index: number) => {
   const replyText = commentList.value[index].replyContent
-  // 模拟处理添加回复
   if (replyText.trim()) {
-    commentList.value[index].replies.push({
+    const parentCommentId = commentList.value[index]?._id
+    appendMessageComment({
+      commentId: parentCommentId,
       content: replyText,
-      createdAt: new Date().toLocaleString() // 当前时间作为回复时间
+      userId: JSON.parse(localStorage.getItem('userInfo') || '{}').user._id,
+    }).then((res) => {
+      if (res) {
+        // 新增的回复内容添加到本地评论列表中
+        commentList.value[index].replies.push({
+          content: replyText,
+          createdAt: new Date().toISOString(), // 设置创建时间
+        })
+
+        // 清空输入框
+        commentList.value[index].replyContent = ''
+        commentList.value[index].showReply = false
+      }
     })
-    // 清空输入框
-    commentList.value[index].replyContent = ''
-    commentList.value[index].showReply = false // 隐藏输入框
   }
 }
 
@@ -181,7 +191,7 @@ defineExpose({
           </div>
           <div class="detail pl-2 flex-1">
             <div class="detail-top flex items-center">
-              <span class="name font-semibold">{{ '匿名' }}</span>
+              <span class="name font-semibold">{{ item.user?.nickname }}</span>
               <span class="time text-sm text-[#949494] pl-1">{{ item?.createdAt }}</span>
             </div>
             <div class="detail-main pt-1" style="overflow-wrap: break-word; word-wrap: break-word; word-break: break-all;">
@@ -216,7 +226,6 @@ defineExpose({
                 <button @click="loadMore(item)" class="text-blue-500">加载更多回复</button>
               </div>
             </div>
-
           </div>
         </li>
       </template>
