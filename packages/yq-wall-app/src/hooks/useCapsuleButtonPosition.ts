@@ -30,7 +30,7 @@ export const useCapsuleButtonPosition = () => {
         const { height, top, bottom } = uni.getStorageSync('buttonBoundingClientPosition');
         capsuleButtonPositionData.value.button_height = `${height}px` // 胶囊按钮的高度
         capsuleButtonPositionData.value.button_top = `${top}px` // 胶囊按钮的顶部距离页面顶部的距离
-        capsuleButtonPositionData.value.button_bottom = `${bottom + 10}px` // 胶囊按钮的底部距离页面顶部的距离（增加 10px 的偏移）
+        capsuleButtonPositionData.value.button_bottom = `${bottom}px` // 胶囊按钮的底部距离页面顶部的距离
     };
 
     onMounted(() => {
