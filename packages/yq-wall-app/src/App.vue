@@ -2,8 +2,8 @@
 import { onLaunch, onShow, onHide } from '@dcloudio/uni-app'
 
 onLaunch(() => {
-  console.log('App Launch')
-})
+  console.log("App Launch 🚀");
+});
 onShow(() => {
   console.log('App Show')
 })
@@ -14,5 +14,4 @@ onHide(() => {
 <style lang="scss">
 @import 'uview-plus/index.scss';
 @import '@/static/styles/main.scss';
-@import '@/static/styles/fonts.scss';
 </style>

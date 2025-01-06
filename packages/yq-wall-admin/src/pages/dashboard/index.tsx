@@ -96,6 +96,7 @@ const data: DataType[] = [
 
 const Dashboard = () => {
   const [tableWidth, setTableWidth] = useState<number>(800); // 默认宽度
+  //@ts-ignore
   const [chartInstance, setChartInstance] = useState<echarts.ECharts | null>(null);
 
   useEffect(() => {
@@ -217,4 +218,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
