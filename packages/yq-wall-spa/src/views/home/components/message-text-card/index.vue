@@ -55,7 +55,7 @@ const handleUnlikeMessage = (messageId: string) => {
         props.note.likedBy.splice(index, 1)
         props.note.like -= 1 // 减少点赞数量
       }
-      emits('item-like', res.data)
+      emits('item-unlike', res.data)
     }
   })
 }
