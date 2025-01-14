@@ -1,4 +1,36 @@
-## 前言
+<div align="center">
+   <h1>Hi there, I'm <a href="#">一勺</a> <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="25px"> </h1>
+</div>
+
+<p align='center'>
+  <a href="#"><img height="30" src="https://raw.githubusercontent.com/8bithemant/8bithemant/master/linkedin.png?raw=true"></a>&nbsp;&nbsp;
+  <a href="#"><img height="30" src="https://raw.githubusercontent.com/8bithemant/8bithemant/master/twitter.png?raw=true"></a>&nbsp;&nbsp;
+  <a href="#"><img height="30" src="https://raw.githubusercontent.com/8bithemant/8bithemant/master/devto.png?raw=true"></a>&nbsp;&nbsp;
+  <a href="#"><img height="30" src="https://raw.githubusercontent.com/8bithemant/8bithemant/master/spotify.png?raw=true"></a>&nbsp;&nbsp;
+  <a href="#"><img height="30" src="https://raw.githubusercontent.com/8bithemant/8bithemant/master/coffee.jpg?raw=true"></a>&nbsp;&nbsp;
+</p>
+
+<div align="center">
+  <h3><img src="https://media.giphy.com/media/WUlplcMpOCEmTGBtBW/giphy.gif" width="30" style="border-radius: 15px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);"> 🙎 一勺 | 💻 开发爱好者 | 🛸 Jiang Su , China <img src="https://media.giphy.com/media/WUlplcMpOCEmTGBtBW/giphy.gif" width="30"></h3>
+</div>
+
+### 项目简介 🌿
+
+- UI 部分采用了 YiKe UP 主提供的主题, 十分感谢设计出这么好看的样式, 隔空投送鸡腿 🍗
+
+- 前端使用 Vite + Vue3 + TypeScript 进行开发
+
+- 微信小程序使用vite+vue3+ts开发
+
+- 服务端渲染使用 nuxt 开发
+
+- 后台管理端使用 React + Ant + ts + tailwindcss 开发
+
+- 后端使用 Koa + MongoDB 进行开发
+
+- docs 文档及前端使用 vercel 进行部署
+
+### 部分截图 🌿
 
 ![image](https://github.com/user-attachments/assets/fbea2327-fb75-40b7-a71f-fb21daa1dc0e)
 
@@ -20,21 +52,3 @@
 
 ![image](https://github.com/user-attachments/assets/f7d3bbdf-42c0-4375-b0a2-ddf9be0297a0)
 
-
-UI 部分采用了 YiKe UP 主提供的主题, 十分感谢设计出这么好看的样式, 隔空投送鸡腿 🍗
-
-前端使用 Vite + Vue3 + TypeScript 进行开发
-
-微信小程序使用vite+vue3+ts开发
-
-服务端渲染使用 nuxt 开发
-
-后台管理端使用 React + Ant + ts + tailwindcss 开发
-
-后端使用 Koa + MongoDB 进行开发
-
-docs 文档使用 vercel 进行部署
-
-## 结语
-
-Coming soon...
