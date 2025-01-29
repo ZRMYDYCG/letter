@@ -26,9 +26,11 @@
 
 - 后台管理端使用 React + Ant + ts + tailwindcss 开发
 
-- 后端使用 Koa + MongoDB 进行开发
+- 后端使用 Koa + MongoDB 进行开发，基于vercel进行部署
 
 - docs 文档及前端使用 vercel 进行部署
+
+- 数据库部署在云端，只有 500MB 的限制，且速度比较慢
 
 ### 部分截图 🌿
 
